@@ -58,6 +58,6 @@ hugo serve
 
 The site auto deploys the main branch via [Netlify](https://app.netlify.com/sites/krustlet-docs). Once pull requests are merged the changes will appear at docs.krustlet.dev after a couple of minutes. Check the [logs](https://app.netlify.com/sites/krustlet-docs/deploys) for details.
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/8c8b7b52-b87f-42e0-949a-a784c3ca6d9a/deploy-status)](https://app.netlify.com/sites/krustlet-docs/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/51ec134b-5691-434b-b6d7-f749c07f914d/deploy-status)](https://app.netlify.com/sites/krustlet-docs/deploys)
 
 `hugo serve` will run the site locally at [localhost:1313](http://localhost:1313/)
