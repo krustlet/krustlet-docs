@@ -40,10 +40,12 @@
     .navbar-brand {
         text-transform: none;
         text-align: middle;
+        color: white;
 
         .nav-link {
             display: inline-block;
             margin-right: -30px;
+            color: white;
         }
 
         svg {
@@ -56,6 +58,7 @@
     .nav-link {
         text-transform: none;
         font-weight: $font-weight-bold;
+        color: white;
     }
 
     .td-search-input {

@@ -1,0 +1,626 @@
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="generator" content="Hugo 0.81.0" />
+
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+
+
+
+<link rel="shortcut icon" href="/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
+
+<title>Running Krustlet on Amazon Elastic Kubernetes Service (EKS) | Krustlet</title><meta property="og:title" content="Running Krustlet on Amazon Elastic Kubernetes Service (EKS)" />
+<meta property="og:description" content="Currently, EKS does not support running managed node groups with custom Amazon Machine Images (AMI).
+However, it does appear the feature might be coming soon.
+Until that time, we can use eksctl to create and manage a node group with a custom Krustlet-based AMI.
+Prerequisites The following tools are needed to complete this walkthrough:
+ Amazon CLI - use aws configure to set your access keys and default region Packer eksctl  Building the Krustlet-based AMI We will be using Packer to spin up an EC2 instance to build the AMI." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://docs.krustlet.dev/howto/krustlet-on-eks/" /><meta property="article:section" content="howto" />
+
+<meta property="og:site_name" content="Krustlet" />
+
+<meta itemprop="name" content="Running Krustlet on Amazon Elastic Kubernetes Service (EKS)">
+<meta itemprop="description" content="Currently, EKS does not support running managed node groups with custom Amazon Machine Images (AMI).
+However, it does appear the feature might be coming soon.
+Until that time, we can use eksctl to create and manage a node group with a custom Krustlet-based AMI.
+Prerequisites The following tools are needed to complete this walkthrough:
+ Amazon CLI - use aws configure to set your access keys and default region Packer eksctl  Building the Krustlet-based AMI We will be using Packer to spin up an EC2 instance to build the AMI.">
+
+<meta itemprop="wordCount" content="621">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Running Krustlet on Amazon Elastic Kubernetes Service (EKS)"/>
+<meta name="twitter:description" content="Currently, EKS does not support running managed node groups with custom Amazon Machine Images (AMI).
+However, it does appear the feature might be coming soon.
+Until that time, we can use eksctl to create and manage a node group with a custom Krustlet-based AMI.
+Prerequisites The following tools are needed to complete this walkthrough:
+ Amazon CLI - use aws configure to set your access keys and default region Packer eksctl  Building the Krustlet-based AMI We will be using Packer to spin up an EC2 instance to build the AMI."/>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/style.2b86b6bda5c37fc229d39310629953b762fc7fdaab9a50a78ece383ebeb01174.css" integrity="sha256-K4a2vaXDf8Ip05MQYplTt2L8f9qrmlCnjs44Pr6wEXQ=">
+
+
+<script
+  src="https://code.jquery.com/jquery-3.5.1.min.js"
+  integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+  crossorigin="anonymous"></script>
+
+<script
+  src="https://unpkg.com/lunr@2.3.8/lunr.min.js"
+  integrity="sha384-vRQ9bDyE0Wnu+lMfm57BlYLO0/XauFuKpVsZPs7KEDwYKktWi5+Kz3MP8++DFlRY"
+  crossorigin="anonymous"></script>
+
+
+
+<link rel="stylesheet" href="/css/prism.css" />
+
+
+
+  </head>
+  <body class="td-page">
+    <header>
+      
+<nav class="js-navbar-scroll navbar navbar-expand flex-column flex-md-row td-navbar">
+        <a class="navbar-brand" href="/">
+		
+		<span class="text-uppercase font-weight-bold">Krustlet</span>
+	</a>
+	<div class="td-navbar-nav-scroll ml-md-auto" id="main_navbar">
+		<ul class="navbar-nav mt-2 mt-lg-0">
+			
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				<a class="nav-link" href="https://krustlet.dev" target="_blank" ><span>Home</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				<a class="nav-link" href="https://docs.krustlet.dev" target="_blank" ><span>Docs</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				<a class="nav-link" href="https://github.com/deislabs/krustlet/" target="_blank" ><span>Github</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				<a class="nav-link" href="https://kubernetes.slack.com/messages/krustlet" target="_blank" ><span>Slack</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				<a class="nav-link" href="https://twitter.com/krustlet" target="_blank" ><span>Twitter</span></a>
+			</li>
+			
+			
+			<li class="nav-item dropdown d-none d-lg-block">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	Releases 
+</a>
+<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+	
+	<a class="dropdown-item" href="https://docs.krustlet.dev">v0.7.0</a>
+	
+</div>
+
+			</li>
+			
+			
+		</ul>
+	</div>
+	
+</nav>
+
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <div class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+            
+
+
+
+
+<div id="td-sidebar-menu" class="td-sidebar__inner">
+  
+  <form class="td-sidebar__search d-flex align-items-center">
+    
+
+
+<input
+  type="search"
+  class="form-control td-search-input"
+  placeholder="&#xf002; Search this site…"
+  aria-label="Search this site…"
+  autocomplete="off"
+  
+  data-offline-search-index-json-src="/offline-search-index.4f9dcfcc0b6a6b7c294ff236e81460faf06aecfdb7559c70065ea62dd9118a92b855401ddaec2a3629084b0bb938f406e5ce410958fc0726354bea99353e56f0.json"
+  data-offline-search-base-href="/"
+  data-offline-search-max-results="10"
+>
+
+
+    <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ml-3 fas fa-bars" type="button" data-toggle="collapse" data-target="#td-section-nav" aria-controls="td-docs-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    </button>
+  </form>
+  
+  <nav class="collapse td-sidebar-nav" id="td-section-nav">
+    
+    
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/howto/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">How-To Guides</a>
+  </li>
+  <ul>
+    <li class="collapse show" id="howto">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtobootstrapping" href="/howto/bootstrapping/">Bootstrapping Krustlet</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokubernetes-on-do" href="/howto/kubernetes-on-do/">Managed Kubernetes on DigitalOcean</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtocsi" href="/howto/csi/">Registering a CSI Driver</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-howtokrustlet-on-eks" href="/howto/krustlet-on-eks/">Running Krustlet on Amazon Elastic Kubernetes Service (EKS)</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokrustlet-on-azure" href="/howto/krustlet-on-azure/">Running Krustlet on Azure</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokrustlet-on-gke" href="/howto/krustlet-on-gke/">Running Krustlet on Google Kubernetes Engine (GKE)</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokrustlet-on-kind" href="/howto/krustlet-on-kind/">Running Krustlet on Kubernetes in Docker (KinD)</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokrustlet-with-inlets" href="/howto/krustlet-with-inlets/">Running Krustlet on Kubernetes with inlets</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokrustlet-on-do" href="/howto/krustlet-on-do/">Running Krustlet on Managed Kubernetes on DigitalOcean</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokrustlet-on-microk8s" href="/howto/krustlet-on-microk8s/">Running Krustlet on MicroK8s</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokrustlet-on-minikube" href="/howto/krustlet-on-minikube/">Running Krustlet on Minikube</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokrustlet-on-wsl2" href="/howto/krustlet-on-wsl2/">Running Krustlet on WSL2 with Docker Desktop</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokubernetes-on-gke" href="/howto/kubernetes-on-gke/">Running Kubernetes on Google Kubernetes Engine (GKE)</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokubernetes-on-kind" href="/howto/kubernetes-on-kind/">Running Kubernetes on Kubernetes in Docker (KinD)</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokubernetes-on-minikube" href="/howto/kubernetes-on-minikube/">Running Kubernetes on Minikube</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtowasm" href="/howto/wasm/">Running Web Assembly (WASM) workloads in Kubernetes</a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+  </nav>
+</div>
+
+
+
+
+          </div>
+          <div class="d-none d-xl-block col-xl-2 td-toc d-print-none">
+            
+
+
+
+
+
+
+
+
+
+
+
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#prerequisites">Prerequisites</a></li>
+    <li><a href="#building-the-krustlet-based-ami">Building the Krustlet-based AMI</a></li>
+    <li><a href="#creating-the-eks-cluster">Creating the EKS cluster</a></li>
+    <li><a href="#running-a-webassembly-application">Running a WebAssembly application</a></li>
+    <li><a href="#deleting-the-cluster">Deleting the cluster</a></li>
+    <li><a href="#deleting-the-krustlet-ami">Deleting the Krustlet AMI</a></li>
+  </ul>
+</nav>
+
+
+
+          </div>
+          <main class="col-12 col-md-9 col-xl-8 pl-md-5" role="main">
+            
+  
+
+            <nav aria-label="breadcrumb" class="d-none d-md-block d-print-none">
+	<ol class="breadcrumb spb-1">
+		
+
+
+
+
+
+
+
+<li class="breadcrumb-item" >
+	<a href="https://docs.krustlet.dev/howto/">How-To Guides</a>
+</li>
+
+
+
+
+<li class="breadcrumb-item active" aria-current="page">
+	<a href="https://docs.krustlet.dev/howto/krustlet-on-eks/">Running Krustlet on Amazon Elastic Kubernetes Service (EKS)</a>
+</li>
+
+	</ol>
+</nav	>
+
+            
+<div class="td-content">
+	<p>Currently, <a href="https://github.com/aws/containers-roadmap/issues/741">EKS does not
+support</a> running managed
+node groups with custom Amazon Machine Images (AMI).</p>
+<p>However, it does appear the feature might be coming soon.</p>
+<p>Until that time, we can use <a href="https://eksctl.io/">eksctl</a> to create and manage a
+node group with a custom Krustlet-based AMI.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>The following tools are needed to complete this walkthrough:</p>
+<ul>
+<li><a href="https://aws.amazon.com/cli/">Amazon CLI</a> - <em>use <code>aws configure</code> to set your
+access keys and default region</em></li>
+<li><a href="https://packer.io/">Packer</a></li>
+<li><a href="https://eksctl.io/">eksctl</a></li>
+</ul>
+<h2 id="building-the-krustlet-based-ami">Building the Krustlet-based AMI</h2>
+<p>We will be using <a href="https://packer.io/">Packer</a> to spin up an EC2 instance to
+build the AMI.</p>
+<p>There is a Makefile in <code>docs/howto/assets/eks</code> that will run <code>packer</code> for you.
+It will use a <code>c5.2xlarge</code> EC2 instance to build the AMI with.  Use the
+<code>instance_type</code> variable to <code>make</code> to change the type of the EC2 instance used.</p>
+<p>Run <code>make</code> to build the AMI:</p>
+<pre><code class="language-console" data-lang="console">$ cd docs/howto/assets/eks
+$ make
+</code></pre><p>You can also build the AMI with a different version of Krustlet from a forked
+repo. For example:</p>
+<pre><code class="language-console" data-lang="console">$ cd docs/howto/assets/eks
+$ KRUSTLET_VERSION=$(git rev-parse --short HEAD) KRUSTLET_SRC=https://github.com/jingweno/krustlet/archive/$(git rev-parse --short HEAD).tar.gz make krustlet
+</code></pre><p>This command will take a while to build Krustlet from source on the EC2
+instance. In the future, a prebuilt binary for Amazon Linux 2 might be available
+that would speed up the AMI creation process.</p>
+<p>If everything works correctly, you should see the command complete with output
+similar to:</p>
+<pre><code class="language-console" data-lang="console">...
+==&gt; Builds finished. The artifacts of successful builds are:
+--&gt; amazon-ebs: AMIs were created:
+us-west-2: ami-07adf9ce893885a3d
+
+--&gt; amazon-ebs:
+</code></pre><p>Make note of the AMI identifier (in the example output above it would be
+<code>ami-07adf9ce893885a3d</code>) as it will be used to create the EKS cluster.</p>
+<h2 id="creating-the-eks-cluster">Creating the EKS cluster</h2>
+<p>We will be using <a href="https://eksctl.io/">eksctl</a> to deploy the EKS cluster.</p>
+<p>Create a file named <code>cluster.yaml</code> with the following contents, replacing the
+<code>region</code> and <code>ami</code> fields with your values:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">eksctl.io/v1alpha5</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">ClusterConfig</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">krustlet-demo</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">region</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">&lt;YOUR_AWS_REGION_HERE&gt;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">version</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;1.15&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">nodeGroups</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">krustlet</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">ami</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">&lt;YOUR_AMI_HERE&gt;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">instanceType</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">t3.small</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">minSize</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#0000cf;font-weight:bold">1</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">maxSize</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#0000cf;font-weight:bold">3</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">desiredCapacity</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#0000cf;font-weight:bold">2</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">ssh</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">allow</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">true</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">overrideBootstrapCommand</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">/etc/eks/bootstrap.sh --krustlet-node-labels &#34;alpha.eksctl.io/cluster-name=krustlet-demo,alpha.eksctl.io/nodegroup-name=krustlet&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></code></pre></div><p>This will create a EKS cluster named <code>krustlet-demo</code> with a single unmanaged
+node group named <code>krustlet</code> with two <code>t3.small</code> nodes.</p>
+<p>Be aware that the <code>overrideBootstrapCommand</code> setting is required to properly
+boot the nodes. Without it, the Krustlet service will not be started and the
+nodes will not automatically join the cluster.</p>
+<p>Use <code>eksctl</code> to create the cluster:</p>
+<pre><code class="language-console" data-lang="console">$ eksctl create cluster -f cluster.yaml
+</code></pre><p>This command will take a long time to run as it provisions the EKS cluster and
+nodes.</p>
+<p>Eventually, the command will be stuck on the following output:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">...
+[ℹ]  waiting for at least 1 node(s) to become ready in &#34;krustlet&#34;
+</code></pre></div><p>With another shell, ensure the nodes have joined the cluster:</p>
+<pre><code class="language-console" data-lang="console">$ kubectl get nodes
+NAME                                          STATUS   ROLES   AGE   VERSION
+ip-192-168-24-34.us-west-2.compute.internal   Ready    agent   23s   v1.17.0
+ip-192-168-44-27.us-west-2.compute.internal   Ready    agent   17s   v1.17.0
+</code></pre><p>You should see two nodes with different names in the output.</p>
+<h2 id="running-a-webassembly-application">Running a WebAssembly application</h2>
+<p>Let&rsquo;s deploy a demo WebAssembly application to the cluster:</p>
+<pre><code class="language-console" data-lang="console">$ kubectl apply -f demos/wasi/hello-world-rust/k8s.yaml
+</code></pre><p>Check that the pod ran to completion:</p>
+<pre><code class="language-console" data-lang="console">$ kubectl get pod hello-world-wasi-rust
+NAME                    READY   STATUS       RESTARTS   AGE
+hello-world-wasi-rust   0/1     ExitCode:0   0          7s
+</code></pre><p>This output shows the pod completed with an exit code of 0.</p>
+<p>Take a look at the log to see the output of the application:</p>
+<pre><code class="language-console" data-lang="console">$ kubectl logs hello-world-wasi-rust
+hello from stdout!
+hello from stderr!
+POD_NAME=hello-world-wasi-rust
+FOO=bar
+CONFIG_MAP_VAL=cool stuff
+Args are: []
+</code></pre><p>Congratulations!  You&rsquo;ve run a WebAssembly program on an EKS cluster!</p>
+<h2 id="deleting-the-cluster">Deleting the cluster</h2>
+<p>Use <code>eksctl</code> to delete the cluster and the nodes:</p>
+<pre><code class="language-console" data-lang="console">$ eksctl delete cluster --name krustlet-demo
+</code></pre><h2 id="deleting-the-krustlet-ami">Deleting the Krustlet AMI</h2>
+<p>Determine the snapshot identifier of the AMI, where <code>$AMI_ID</code> is the identifier
+of your Krustlet AMI:</p>
+<pre><code class="language-console" data-lang="console">$ aws ec2 describe-images --image-ids $AMI_ID | grep SnapshotId
+</code></pre><p>Use <code>aws</code> to deregister the AMI, where <code>$AMI_ID</code> is the identifier of your
+Krustlet AMI:</p>
+<pre><code class="language-console" data-lang="console">$ aws ec2 deregister-image --image-id $AMI_ID
+</code></pre><p>Next, delete the snapshot, where <code>$SNAPSHOT_ID</code> is the previously determined
+snapshot identifier:</p>
+<pre><code class="language-console" data-lang="console">$ aws ec2 delete-snapshot --snapshot-id $SNAPSHOT_ID
+</code></pre>
+	
+		<style>
+  .feedback--answer {
+    display: inline-block;
+  }
+  .feedback--answer-no {
+    margin-left: 1em;
+  }
+  .feedback--response {
+    display: none;
+    margin-top: 1em;
+  }
+  .feedback--response__visible {
+    display: block;
+  }
+</style>
+<h2 class="feedback--title">Feedback</h2>
+<p class="feedback--question">Was this page helpful?</p>
+<button class="feedback--answer feedback--answer-yes">Yes</button>
+<button class="feedback--answer feedback--answer-no">No</button>
+<p class="feedback--response feedback--response-yes">
+  Glad to hear it! Please <a href="https://github.com/openservicemesh/osm/issues/new">tell us how we can improve</a>.
+</p>
+<p class="feedback--response feedback--response-no">
+  Sorry to hear that. Please <a href="https://github.com/openservicemesh/osm/issues/new">tell us how we can improve</a>.
+</p>
+<script>
+  const yesButton = document.querySelector('.feedback--answer-yes');
+  const noButton = document.querySelector('.feedback--answer-no');
+  const yesResponse = document.querySelector('.feedback--response-yes');
+  const noResponse = document.querySelector('.feedback--response-no');
+  const disableButtons = () => {
+    yesButton.disabled = true;
+    noButton.disabled = true;
+  };
+  const sendFeedback = (value) => {
+    if (typeof ga !== 'function') return;
+    const args = {
+      command: 'send',
+      hitType: 'event',
+      category: 'Helpful',
+      action: 'click',
+      label: window.location.pathname,
+      value: value
+    };
+    ga(args.command, args.hitType, args.category, args.action, args.label, args.value);
+  };
+  yesButton.addEventListener('click', () => {
+    yesResponse.classList.add('feedback--response__visible');
+    disableButtons();
+    sendFeedback(1);
+  });
+  noButton.addEventListener('click', () => {
+    noResponse.classList.add('feedback--response__visible');
+    disableButtons();
+    sendFeedback(0);
+  });
+</script>
+
+		<br />
+	
+	
+</div>
+
+
+          </main>
+        </div>
+      </div>
+      
+
+<footer class="py-5 row d-print-none">
+  <div class="container-fluid mx-sm-5">
+    <div class="row">
+      <div class="col-6 col-sm-6 text-xs-center order-sm-2">
+        <p class="footer-cncf">Krustlet</p>
+      </div>
+      <div class="col-6 col-sm-6 text-right text-xs-center order-sm-3">
+        <ul class="inline list-inline text-right">
+          
+          
+          <li class="nav-item list-inline-item mr-4 mb-2 mb-lg-0">
+            
+            
+            
+            
+            <a class="nav-link" href="https://krustlet.dev" target="_blank" ><span>Home</span></a>
+          </li>
+          
+          <li class="nav-item list-inline-item mr-4 mb-2 mb-lg-0">
+            
+            
+            
+            
+            <a class="nav-link" href="https://docs.krustlet.dev" target="_blank" ><span>Docs</span></a>
+          </li>
+          
+          <li class="nav-item list-inline-item mr-4 mb-2 mb-lg-0">
+            
+            
+            
+            
+            <a class="nav-link" href="https://github.com/deislabs/krustlet/" target="_blank" ><span>Github</span></a>
+          </li>
+          
+          <li class="nav-item list-inline-item mr-4 mb-2 mb-lg-0">
+            
+            
+            
+            
+            <a class="nav-link" href="https://kubernetes.slack.com/messages/krustlet" target="_blank" ><span>Slack</span></a>
+          </li>
+          
+          <li class="nav-item list-inline-item mr-4 mb-2 mb-lg-0">
+            
+            
+            
+            
+            <a class="nav-link" href="https://twitter.com/krustlet" target="_blank" ><span>Twitter</span></a>
+          </li>
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+
+    </div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.min.63db3e552bd0543be17ce4a79a18b744e9cb72256bec42b540e3ab0cd43722d0.js" integrity="sha256-Y9s&#43;VSvQVDvhfOSnmhi3ROnLciVr7EK1QOOrDNQ3ItA=" crossorigin="anonymous"></script>
+
+
+
+<script src='/js/prism.js'></script>
+
+
+
+  </body>
+</html>

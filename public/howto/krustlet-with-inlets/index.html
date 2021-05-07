@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="generator" content="Hugo 0.81.0" />
+
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+
+
+
+<link rel="shortcut icon" href="/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
+
+<title>Running Krustlet on Kubernetes with inlets | Krustlet</title><meta property="og:title" content="Running Krustlet on Kubernetes with inlets" />
+<meta property="og:description" content="These are steps for running a krustlet node on your own computer. You can run any kind of Kubernetes cluster you like, whether that&rsquo;s local on your computer or remote in a managed Kubernetes offering.
+The instructions provided in this guide were contributed by Alex Ellis. For support with the instructions, see the #inlets channel of OpenFaaS Slack or raise a GitHub issue and tag @alexellis.
+Prerequisites There are a number of ways to give the Kubernetes API server access to the krustlet&rsquo;s API." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://docs.krustlet.dev/howto/krustlet-with-inlets/" /><meta property="article:section" content="howto" />
+
+<meta property="og:site_name" content="Krustlet" />
+
+<meta itemprop="name" content="Running Krustlet on Kubernetes with inlets">
+<meta itemprop="description" content="These are steps for running a krustlet node on your own computer. You can run any kind of Kubernetes cluster you like, whether that&rsquo;s local on your computer or remote in a managed Kubernetes offering.
+The instructions provided in this guide were contributed by Alex Ellis. For support with the instructions, see the #inlets channel of OpenFaaS Slack or raise a GitHub issue and tag @alexellis.
+Prerequisites There are a number of ways to give the Kubernetes API server access to the krustlet&rsquo;s API.">
+
+<meta itemprop="wordCount" content="856">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Running Krustlet on Kubernetes with inlets"/>
+<meta name="twitter:description" content="These are steps for running a krustlet node on your own computer. You can run any kind of Kubernetes cluster you like, whether that&rsquo;s local on your computer or remote in a managed Kubernetes offering.
+The instructions provided in this guide were contributed by Alex Ellis. For support with the instructions, see the #inlets channel of OpenFaaS Slack or raise a GitHub issue and tag @alexellis.
+Prerequisites There are a number of ways to give the Kubernetes API server access to the krustlet&rsquo;s API."/>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/style.2b86b6bda5c37fc229d39310629953b762fc7fdaab9a50a78ece383ebeb01174.css" integrity="sha256-K4a2vaXDf8Ip05MQYplTt2L8f9qrmlCnjs44Pr6wEXQ=">
+
+
+<script
+  src="https://code.jquery.com/jquery-3.5.1.min.js"
+  integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+  crossorigin="anonymous"></script>
+
+<script
+  src="https://unpkg.com/lunr@2.3.8/lunr.min.js"
+  integrity="sha384-vRQ9bDyE0Wnu+lMfm57BlYLO0/XauFuKpVsZPs7KEDwYKktWi5+Kz3MP8++DFlRY"
+  crossorigin="anonymous"></script>
+
+
+
+<link rel="stylesheet" href="/css/prism.css" />
+
+
+
+  </head>
+  <body class="td-page">
+    <header>
+      
+<nav class="js-navbar-scroll navbar navbar-expand flex-column flex-md-row td-navbar">
+        <a class="navbar-brand" href="/">
+		
+		<span class="text-uppercase font-weight-bold">Krustlet</span>
+	</a>
+	<div class="td-navbar-nav-scroll ml-md-auto" id="main_navbar">
+		<ul class="navbar-nav mt-2 mt-lg-0">
+			
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				<a class="nav-link" href="https://krustlet.dev" target="_blank" ><span>Home</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				<a class="nav-link" href="https://docs.krustlet.dev" target="_blank" ><span>Docs</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				<a class="nav-link" href="https://github.com/deislabs/krustlet/" target="_blank" ><span>Github</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				<a class="nav-link" href="https://kubernetes.slack.com/messages/krustlet" target="_blank" ><span>Slack</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				<a class="nav-link" href="https://twitter.com/krustlet" target="_blank" ><span>Twitter</span></a>
+			</li>
+			
+			
+			<li class="nav-item dropdown d-none d-lg-block">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	Releases 
+</a>
+<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+	
+	<a class="dropdown-item" href="https://docs.krustlet.dev">v0.7.0</a>
+	
+</div>
+
+			</li>
+			
+			
+		</ul>
+	</div>
+	
+</nav>
+
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <div class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+            
+
+
+
+
+<div id="td-sidebar-menu" class="td-sidebar__inner">
+  
+  <form class="td-sidebar__search d-flex align-items-center">
+    
+
+
+<input
+  type="search"
+  class="form-control td-search-input"
+  placeholder="&#xf002; Search this site…"
+  aria-label="Search this site…"
+  autocomplete="off"
+  
+  data-offline-search-index-json-src="/offline-search-index.4f9dcfcc0b6a6b7c294ff236e81460faf06aecfdb7559c70065ea62dd9118a92b855401ddaec2a3629084b0bb938f406e5ce410958fc0726354bea99353e56f0.json"
+  data-offline-search-base-href="/"
+  data-offline-search-max-results="10"
+>
+
+
+    <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ml-3 fas fa-bars" type="button" data-toggle="collapse" data-target="#td-section-nav" aria-controls="td-docs-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    </button>
+  </form>
+  
+  <nav class="collapse td-sidebar-nav" id="td-section-nav">
+    
+    
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/howto/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">How-To Guides</a>
+  </li>
+  <ul>
+    <li class="collapse show" id="howto">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtobootstrapping" href="/howto/bootstrapping/">Bootstrapping Krustlet</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokubernetes-on-do" href="/howto/kubernetes-on-do/">Managed Kubernetes on DigitalOcean</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtocsi" href="/howto/csi/">Registering a CSI Driver</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokrustlet-on-eks" href="/howto/krustlet-on-eks/">Running Krustlet on Amazon Elastic Kubernetes Service (EKS)</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokrustlet-on-azure" href="/howto/krustlet-on-azure/">Running Krustlet on Azure</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokrustlet-on-gke" href="/howto/krustlet-on-gke/">Running Krustlet on Google Kubernetes Engine (GKE)</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokrustlet-on-kind" href="/howto/krustlet-on-kind/">Running Krustlet on Kubernetes in Docker (KinD)</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-howtokrustlet-with-inlets" href="/howto/krustlet-with-inlets/">Running Krustlet on Kubernetes with inlets</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokrustlet-on-do" href="/howto/krustlet-on-do/">Running Krustlet on Managed Kubernetes on DigitalOcean</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokrustlet-on-microk8s" href="/howto/krustlet-on-microk8s/">Running Krustlet on MicroK8s</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokrustlet-on-minikube" href="/howto/krustlet-on-minikube/">Running Krustlet on Minikube</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokrustlet-on-wsl2" href="/howto/krustlet-on-wsl2/">Running Krustlet on WSL2 with Docker Desktop</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokubernetes-on-gke" href="/howto/kubernetes-on-gke/">Running Kubernetes on Google Kubernetes Engine (GKE)</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokubernetes-on-kind" href="/howto/kubernetes-on-kind/">Running Kubernetes on Kubernetes in Docker (KinD)</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokubernetes-on-minikube" href="/howto/kubernetes-on-minikube/">Running Kubernetes on Minikube</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtowasm" href="/howto/wasm/">Running Web Assembly (WASM) workloads in Kubernetes</a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+  </nav>
+</div>
+
+
+
+
+          </div>
+          <div class="d-none d-xl-block col-xl-2 td-toc d-print-none">
+            
+
+
+
+
+
+
+
+
+
+
+
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#prerequisites">Prerequisites</a></li>
+    <li><a href="#step-1-get-a-bootstrap-config">Step 1: Get a bootstrap config</a></li>
+    <li><a href="#step-2-create-the-inlets-service">Step 2: Create the inlets service</a></li>
+    <li><a href="#step-3-run-krustlet">Step 3: Run <code>krustlet</code></a></li>
+    <li><a href="#step-4-setup-inlets-server">Step 4: Setup inlets server</a></li>
+    <li><a href="#step-5-run-the-inlets-client">Step 5: Run the inlets client</a></li>
+    <li><a href="#step-6-verify-the-node-is-available">Step 6: Verify the node is available</a></li>
+    <li><a href="#appendix">Appendix</a>
+      <ul>
+        <li><a href="#remove-the-port-forward-for-inlets-osshttpsdocsinletsdev">Remove the port-forward for <a href="https://docs.inlets.dev">inlets OSS</a></a></li>
+        <li><a href="#use-inlets-pro-instead">Use inlets PRO instead</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+          </div>
+          <main class="col-12 col-md-9 col-xl-8 pl-md-5" role="main">
+            
+  
+
+            <nav aria-label="breadcrumb" class="d-none d-md-block d-print-none">
+	<ol class="breadcrumb spb-1">
+		
+
+
+
+
+
+
+
+<li class="breadcrumb-item" >
+	<a href="https://docs.krustlet.dev/howto/">How-To Guides</a>
+</li>
+
+
+
+
+<li class="breadcrumb-item active" aria-current="page">
+	<a href="https://docs.krustlet.dev/howto/krustlet-with-inlets/">Running Krustlet on Kubernetes with inlets</a>
+</li>
+
+	</ol>
+</nav	>
+
+            
+<div class="td-content">
+	<p>These are steps for running a krustlet node on your own computer. You can run
+any kind of Kubernetes cluster you like, whether that&rsquo;s local on your computer
+or remote in a managed Kubernetes offering.</p>
+<p>The instructions provided in this guide were contributed by <a href="https://github.com/alexellis">Alex
+Ellis</a>. For support with the instructions, see the
+<a href="https://slack.openfaas.io/">#inlets channel of OpenFaaS Slack</a> or raise a
+GitHub issue and tag <code>@alexellis</code>.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>There are a number of ways to give the Kubernetes API server access to the
+krustlet&rsquo;s API. Various methods include using a VPN, a VM within the Kubernetes
+cluster&rsquo;s private network, or a tunnel. <a href="https://docs.inlets.dev/">Inlets</a> is a
+popular open source service tunnel and proxy. It can be used to forward the port
+of the krustlet to the Kubernetes cluster so that the Kubernetes API server can
+access it as if it were deployed within the cluster directly.</p>
+<p>The tunnel has two components: A client which runs on your local machine, and a
+server which is deployed as a Pod inside the Kubernetes cluster. The client
+connects to the server and provides a persistent link.</p>
+<p>Download the latest release of the inlets binary from the <a href="https://github.com/inlets/inlets/releases">project release
+page</a>.</p>
+<p>Move the binary to <code>/usr/local/bin</code>, or place it somewhere on your <code>$PATH</code>.</p>
+<h2 id="step-1-get-a-bootstrap-config">Step 1: Get a bootstrap config</h2>
+<p>Krustlet requires a bootstrap token and config the first time it runs. Follow
+the guide <a href="bootstrapping.md">here</a> to generate a bootstrap config and then
+return to this document. This will If you already have a kubeconfig available
+that you generated through another process, you can proceed to the next step.
+However, the credentials Krustlet uses must be part of the <code>system:nodes</code> group
+in order for things to function properly.</p>
+<h2 id="step-2-create-the-inlets-service">Step 2: Create the inlets service</h2>
+<p>In order to start Krustlet with the correct node IP address, you&rsquo;ll need to
+create the <code>inlets</code> service in Kubernetes like so:</p>
+<pre><code class="language-console" data-lang="console">cat &lt;&lt;EOF | kubectl apply -f -
+apiVersion: v1
+kind: Service
+metadata:
+  name: inlets
+  labels:
+    app: inlets
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8000
+      protocol: TCP
+      targetPort: 8000
+      name: control
+    - port: 3000
+      protocol: TCP
+      targetPort: 3000
+      name: data
+  selector:
+    app: inlets
+EOF
+</code></pre><p>Once it has been created, run the following command to have the node IP
+available for next steps. This is a stable IP and won&rsquo;t change.</p>
+<pre><code class="language-console" data-lang="console">export NODE_IP=$(kubectl get service inlets -o jsonpath=&quot;{.spec.clusterIP}&quot;)
+</code></pre><h2 id="step-3-run-krustlet">Step 3: Run <code>krustlet</code></h2>
+<p>You&rsquo;ll need the certificates generated from the bootstrap process for our next
+steps, so go ahead and start krustlet:</p>
+<pre><code class="language-console" data-lang="console"># Since you are running locally, this step is important. Otherwise krustlet will pick up on your
+# local config and not be able to update the node status properly
+export KUBECONFIG=~/.krustlet/config/kubeconfig
+krustlet-wasi --node-ip $NODE_IP --bootstrap-file=~/.krustlet/config/bootstrap.conf
+</code></pre><p>Then open another terminal for the next steps.</p>
+<h2 id="step-4-setup-inlets-server">Step 4: Setup inlets server</h2>
+<p>Create a Kubernetes secret for the inlets server:</p>
+<pre><code class="language-console" data-lang="console">export TOKEN=$(head -c 16 /dev/urandom |shasum|cut -d- -f1)
+echo $TOKEN &gt; token.txt
+
+kubectl create secret generic inlets-token --from-literal token=${TOKEN}
+</code></pre><p>Then, create a Kubernetes secret for krustlet&rsquo;s TLS certificates. These will be
+used by the inlets server so that the kubelet can access the tunnel using the
+expected TLS certificates.</p>
+<pre><code class="language-console" data-lang="console">kubectl create secret ghosttunnel-tls generic \
+  --from-file tls.crt=~/.krustlet/config/krustlet.crt \
+  --from-file tls.key=~/.krustlet/config/krustlet.key
+</code></pre><p>The inlets OSS version exposes services with HTTP within the cluster, so this
+example uses <code>ghosttunnel</code> as a tiny reverse proxy to mount the krustlet&rsquo;s TLS
+certificates so that the kubelet gets a valid HTTPS response. The service
+created before will expose it to the cluster</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#000">$ cat &lt;&lt;EOF | kubectl apply -f -</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">apps/v1</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">Deployment</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">inlets</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">replicas</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#0000cf;font-weight:bold">1</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">selector</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">matchLabels</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">app</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">inlets</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">template</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">labels</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">app</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">inlets</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">volumes</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">ghosttunnel-tls-volume</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">          </span><span style="color:#204a87;font-weight:bold">secret</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">secretName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">ghosttunnel-tls</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">inlets-token-volume</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">          </span><span style="color:#204a87;font-weight:bold">secret</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">secretName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">inlets-token</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">containers</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">      </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">inlets</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">image</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">inlets/inlets:2.7.0</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">imagePullPolicy</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">Always</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">command</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000;font-weight:bold">[</span><span style="color:#4e9a06">&#34;inlets&#34;</span><span style="color:#000;font-weight:bold">]</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">args</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span>- <span style="color:#4e9a06">&#34;server&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span>- <span style="color:#4e9a06">&#34;--token-from=/var/inlets/token&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span>- <span style="color:#4e9a06">&#34;--control-port=8000&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span>- <span style="color:#4e9a06">&#34;--port=3001&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">volumeMounts</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">          </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">inlets-token-volume</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">mountPath</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">/var/inlets/</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">      </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">ghosttunnel</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">image</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">squareup/ghostunnel:v1.5.2</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">imagePullPolicy</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">Always</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">args</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span>- <span style="color:#4e9a06">&#34;server&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span>- <span style="color:#4e9a06">&#34;--target=127.0.0.1:3001&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span>- <span style="color:#4e9a06">&#34;--listen=0.0.0.0:3000&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span>- <span style="color:#4e9a06">&#34;--cert=/etc/tls/tls.crt&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span>- <span style="color:#4e9a06">&#34;--key=/etc/tls/tls.key&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span>- <span style="color:#4e9a06">&#34;--disable-authentication&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">volumeMounts</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">          </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">ghosttunnel-tls-volume</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">mountPath</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">/etc/tls</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000">EOF</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></code></pre></div><h2 id="step-5-run-the-inlets-client">Step 5: Run the inlets client</h2>
+<p>Port-forward or expose the inlets server with:</p>
+<pre><code class="language-console" data-lang="console">kubectl port-forward svc/inlets 8000:8000 &amp;
+</code></pre><p>You can also expose inlets via Ingress using cert-manager to give its
+control-port a TLS certificate.</p>
+<p>Run the <code>inlets client</code> on your computer:</p>
+<pre><code class="language-console" data-lang="console">inlets client \
+  --upstream https://127.0.0.1:3000 \
+  --remote ws://127.0.0.1:8000 --token $(token.txt)
+</code></pre><h2 id="step-6-verify-the-node-is-available">Step 6: Verify the node is available</h2>
+<p>Show that the krustlet node has joined the cluster:</p>
+<pre><code class="language-console" data-lang="console">$ kubectl get nodes -o wide
+NAME                   STATUS   ROLES    AGE    VERSION   INTERNAL-IP      EXTERNAL-IP       OS-IMAGE                       KERNEL-VERSION         CONTAINER-RUNTIME
+pool-3xbltttyc-3no2p   Ready    &lt;none&gt;   153m   v1.16.6   10.131.25.141    206.189.19.185    Debian GNU/Linux 9 (stretch)   4.19.0-0.bpo.6-amd64   docker://18.9.2
+pool-3xbltttyc-3no2s   Ready    &lt;none&gt;   153m   v1.16.6   10.131.28.223    206.189.123.184   Debian GNU/Linux 9 (stretch)   4.19.0-0.bpo.6-amd64   docker://18.9.2
+krustlet               Ready    agent    43m    v1.17.0   10.245.157.226   &lt;none&gt;            &lt;unknown&gt;                      &lt;unknown&gt;              mvp
+</code></pre><h2 id="appendix">Appendix</h2>
+<h3 id="remove-the-port-forward-for-inlets-osshttpsdocsinletsdev">Remove the port-forward for <a href="https://docs.inlets.dev">inlets OSS</a></h3>
+<p>We are using a port-forward to make it easier to use the tutorial. For permanent
+use, you will want to expose the inlets server and its control port directly.
+The OSS version can be configured with TLS, but this is not built-in.</p>
+<p>You can set up an Ingress rule for the control-port of the inlets server (port
+8000), and obtain a TLS certificate from LetsEncrypt.</p>
+<h3 id="use-inlets-pro-instead">Use inlets PRO instead</h3>
+<p>Inlets OSS is an L7 proxy that requires additional work to configure for
+krustlet. inlets PRO is a pure L4 TCP proxy with built-in TLS for the
+control-plane.</p>
+<p>With <a href="https://github.com/inlets/inlets-pro">inlets PRO</a> you can expose the
+control port (8123) directly to the Internet as a NodePort, or LoadBalancer, or
+if you wish via an Ingress definition. The control port already has TLS
+configured, so won&rsquo;t need additional link-layer encryption.</p>
+
+	
+		<style>
+  .feedback--answer {
+    display: inline-block;
+  }
+  .feedback--answer-no {
+    margin-left: 1em;
+  }
+  .feedback--response {
+    display: none;
+    margin-top: 1em;
+  }
+  .feedback--response__visible {
+    display: block;
+  }
+</style>
+<h2 class="feedback--title">Feedback</h2>
+<p class="feedback--question">Was this page helpful?</p>
+<button class="feedback--answer feedback--answer-yes">Yes</button>
+<button class="feedback--answer feedback--answer-no">No</button>
+<p class="feedback--response feedback--response-yes">
+  Glad to hear it! Please <a href="https://github.com/openservicemesh/osm/issues/new">tell us how we can improve</a>.
+</p>
+<p class="feedback--response feedback--response-no">
+  Sorry to hear that. Please <a href="https://github.com/openservicemesh/osm/issues/new">tell us how we can improve</a>.
+</p>
+<script>
+  const yesButton = document.querySelector('.feedback--answer-yes');
+  const noButton = document.querySelector('.feedback--answer-no');
+  const yesResponse = document.querySelector('.feedback--response-yes');
+  const noResponse = document.querySelector('.feedback--response-no');
+  const disableButtons = () => {
+    yesButton.disabled = true;
+    noButton.disabled = true;
+  };
+  const sendFeedback = (value) => {
+    if (typeof ga !== 'function') return;
+    const args = {
+      command: 'send',
+      hitType: 'event',
+      category: 'Helpful',
+      action: 'click',
+      label: window.location.pathname,
+      value: value
+    };
+    ga(args.command, args.hitType, args.category, args.action, args.label, args.value);
+  };
+  yesButton.addEventListener('click', () => {
+    yesResponse.classList.add('feedback--response__visible');
+    disableButtons();
+    sendFeedback(1);
+  });
+  noButton.addEventListener('click', () => {
+    noResponse.classList.add('feedback--response__visible');
+    disableButtons();
+    sendFeedback(0);
+  });
+</script>
+
+		<br />
+	
+	
+</div>
+
+
+          </main>
+        </div>
+      </div>
+      
+
+<footer class="py-5 row d-print-none">
+  <div class="container-fluid mx-sm-5">
+    <div class="row">
+      <div class="col-6 col-sm-6 text-xs-center order-sm-2">
+        <p class="footer-cncf">Krustlet</p>
+      </div>
+      <div class="col-6 col-sm-6 text-right text-xs-center order-sm-3">
+        <ul class="inline list-inline text-right">
+          
+          
+          <li class="nav-item list-inline-item mr-4 mb-2 mb-lg-0">
+            
+            
+            
+            
+            <a class="nav-link" href="https://krustlet.dev" target="_blank" ><span>Home</span></a>
+          </li>
+          
+          <li class="nav-item list-inline-item mr-4 mb-2 mb-lg-0">
+            
+            
+            
+            
+            <a class="nav-link" href="https://docs.krustlet.dev" target="_blank" ><span>Docs</span></a>
+          </li>
+          
+          <li class="nav-item list-inline-item mr-4 mb-2 mb-lg-0">
+            
+            
+            
+            
+            <a class="nav-link" href="https://github.com/deislabs/krustlet/" target="_blank" ><span>Github</span></a>
+          </li>
+          
+          <li class="nav-item list-inline-item mr-4 mb-2 mb-lg-0">
+            
+            
+            
+            
+            <a class="nav-link" href="https://kubernetes.slack.com/messages/krustlet" target="_blank" ><span>Slack</span></a>
+          </li>
+          
+          <li class="nav-item list-inline-item mr-4 mb-2 mb-lg-0">
+            
+            
+            
+            
+            <a class="nav-link" href="https://twitter.com/krustlet" target="_blank" ><span>Twitter</span></a>
+          </li>
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+
+    </div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.min.63db3e552bd0543be17ce4a79a18b744e9cb72256bec42b540e3ab0cd43722d0.js" integrity="sha256-Y9s&#43;VSvQVDvhfOSnmhi3ROnLciVr7EK1QOOrDNQ3ItA=" crossorigin="anonymous"></script>
+
+
+
+<script src='/js/prism.js'></script>
+
+
+
+  </body>
+</html>

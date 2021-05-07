@@ -10,6 +10,7 @@ title = "Krustlet"
 description = "Documentation for Krustlet"
 languageName ="English"
 weight = 1
+navbar_logo = false
 
 [services]
 [services.googleAnalytics]
@@ -47,37 +48,29 @@ latexDashes = true
 [[menu.main]]
 	name = "Home"
 	weight = 10
-	url = "https://openservicemesh.io"
+	url = "https://krustlet.dev"
 [[menu.main]]
 	name = "Docs"
 	weight = 20
-	url = "https://docs.openservicemesh.io"
+	url = "https://docs.krustlet.dev"
 [[menu.main]]
 	name = "Github"
 	weight = 30
-	url = "https://github.com/openservicemesh/osm"
-[[menu.main]]
-	name = "Blog"
-	weight = 40
-	url = "https://openservicemesh.io/blog"
+	url = "https://github.com/deislabs/krustlet/"
 [[menu.main]]
 	name = "Slack"
 	weight = 50
-	url = "https://cloud-native.slack.com/archives/C018794NV1C"
+	url = "https://kubernetes.slack.com/messages/krustlet"
 [[menu.main]]
 	name = "Twitter"
 	weight = 60
-	url = "https://twitter.com/openservicemesh"
+	url = "https://twitter.com/krustlet"
 
 
 # Add your release versions here
 [[params.versions]]
-  version = "v0.8.0"
-  url = "https://docs.openservicemesh.io"
-
-[[params.versions]]
   version = "v0.7.0"
-  url = "https://release-v0.7--osm-docs.netlify.app"
+  url = "https://docs.krustlet.dev"
 
 
 # Theme Additional params

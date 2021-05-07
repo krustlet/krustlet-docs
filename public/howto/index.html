@@ -1,0 +1,682 @@
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="generator" content="Hugo 0.81.0" />
+
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+
+<link rel="alternate" type="application/rss&#43;xml" href="https://docs.krustlet.dev/howto/index.xml">
+
+
+<link rel="shortcut icon" href="/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
+
+<title>How-To Guides | Krustlet</title><meta property="og:title" content="How-To Guides" />
+<meta property="og:description" content="Documentation for Krustlet" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.krustlet.dev/howto/" /><meta property="og:site_name" content="Krustlet" />
+
+<meta itemprop="name" content="How-To Guides">
+<meta itemprop="description" content="Documentation for Krustlet"><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="How-To Guides"/>
+<meta name="twitter:description" content="Documentation for Krustlet"/>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/style.2b86b6bda5c37fc229d39310629953b762fc7fdaab9a50a78ece383ebeb01174.css" integrity="sha256-K4a2vaXDf8Ip05MQYplTt2L8f9qrmlCnjs44Pr6wEXQ=">
+
+
+<script
+  src="https://code.jquery.com/jquery-3.5.1.min.js"
+  integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+  crossorigin="anonymous"></script>
+
+<script
+  src="https://unpkg.com/lunr@2.3.8/lunr.min.js"
+  integrity="sha384-vRQ9bDyE0Wnu+lMfm57BlYLO0/XauFuKpVsZPs7KEDwYKktWi5+Kz3MP8++DFlRY"
+  crossorigin="anonymous"></script>
+
+
+
+<link rel="stylesheet" href="/css/prism.css" />
+
+
+
+  </head>
+  <body class="td-section">
+    <header>
+      
+<nav class="js-navbar-scroll navbar navbar-expand flex-column flex-md-row td-navbar">
+        <a class="navbar-brand" href="/">
+		
+		<span class="text-uppercase font-weight-bold">Krustlet</span>
+	</a>
+	<div class="td-navbar-nav-scroll ml-md-auto" id="main_navbar">
+		<ul class="navbar-nav mt-2 mt-lg-0">
+			
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				<a class="nav-link" href="https://krustlet.dev" target="_blank" ><span>Home</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				<a class="nav-link" href="https://docs.krustlet.dev" target="_blank" ><span>Docs</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				<a class="nav-link" href="https://github.com/deislabs/krustlet/" target="_blank" ><span>Github</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				<a class="nav-link" href="https://kubernetes.slack.com/messages/krustlet" target="_blank" ><span>Slack</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				<a class="nav-link" href="https://twitter.com/krustlet" target="_blank" ><span>Twitter</span></a>
+			</li>
+			
+			
+			<li class="nav-item dropdown d-none d-lg-block">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	Releases 
+</a>
+<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+	
+	<a class="dropdown-item" href="https://docs.krustlet.dev">v0.7.0</a>
+	
+</div>
+
+			</li>
+			
+			
+		</ul>
+	</div>
+	
+</nav>
+
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <div class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+            
+
+
+
+
+<div id="td-sidebar-menu" class="td-sidebar__inner">
+  
+  <form class="td-sidebar__search d-flex align-items-center">
+    
+
+
+<input
+  type="search"
+  class="form-control td-search-input"
+  placeholder="&#xf002; Search this site…"
+  aria-label="Search this site…"
+  autocomplete="off"
+  
+  data-offline-search-index-json-src="/offline-search-index.4f9dcfcc0b6a6b7c294ff236e81460faf06aecfdb7559c70065ea62dd9118a92b855401ddaec2a3629084b0bb938f406e5ce410958fc0726354bea99353e56f0.json"
+  data-offline-search-base-href="/"
+  data-offline-search-max-results="10"
+>
+
+
+    <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ml-3 fas fa-bars" type="button" data-toggle="collapse" data-target="#td-section-nav" aria-controls="td-docs-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    </button>
+  </form>
+  
+  <nav class="collapse td-sidebar-nav" id="td-section-nav">
+    
+    
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/howto/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">How-To Guides</a>
+  </li>
+  <ul>
+    <li class="collapse show" id="howto">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtobootstrapping" href="/howto/bootstrapping/">Bootstrapping Krustlet</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokubernetes-on-do" href="/howto/kubernetes-on-do/">Managed Kubernetes on DigitalOcean</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtocsi" href="/howto/csi/">Registering a CSI Driver</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokrustlet-on-eks" href="/howto/krustlet-on-eks/">Running Krustlet on Amazon Elastic Kubernetes Service (EKS)</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokrustlet-on-azure" href="/howto/krustlet-on-azure/">Running Krustlet on Azure</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokrustlet-on-gke" href="/howto/krustlet-on-gke/">Running Krustlet on Google Kubernetes Engine (GKE)</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokrustlet-on-kind" href="/howto/krustlet-on-kind/">Running Krustlet on Kubernetes in Docker (KinD)</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokrustlet-with-inlets" href="/howto/krustlet-with-inlets/">Running Krustlet on Kubernetes with inlets</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokrustlet-on-do" href="/howto/krustlet-on-do/">Running Krustlet on Managed Kubernetes on DigitalOcean</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokrustlet-on-microk8s" href="/howto/krustlet-on-microk8s/">Running Krustlet on MicroK8s</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokrustlet-on-minikube" href="/howto/krustlet-on-minikube/">Running Krustlet on Minikube</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokrustlet-on-wsl2" href="/howto/krustlet-on-wsl2/">Running Krustlet on WSL2 with Docker Desktop</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokubernetes-on-gke" href="/howto/kubernetes-on-gke/">Running Kubernetes on Google Kubernetes Engine (GKE)</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokubernetes-on-kind" href="/howto/kubernetes-on-kind/">Running Kubernetes on Kubernetes in Docker (KinD)</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtokubernetes-on-minikube" href="/howto/kubernetes-on-minikube/">Running Kubernetes on Minikube</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-howtowasm" href="/howto/wasm/">Running Web Assembly (WASM) workloads in Kubernetes</a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+  </nav>
+</div>
+
+
+
+
+          </div>
+          <div class="d-none d-xl-block col-xl-2 td-toc d-print-none">
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+          </div>
+          <main class="col-12 col-md-9 col-xl-8 pl-md-5" role="main">
+            
+  
+
+            <nav aria-label="breadcrumb" class="d-none d-md-block d-print-none">
+	<ol class="breadcrumb spb-1">
+		
+
+
+
+
+<li class="breadcrumb-item active" aria-current="page">
+	<a href="https://docs.krustlet.dev/howto/">How-To Guides</a>
+</li>
+
+	</ol>
+</nav	>
+
+            
+<div class="td-content">
+	<h1>How-To Guides</h1>
+        
+	
+	<p>Here you’ll find short answers to &ldquo;How do I&hellip;?&rdquo; types of questions. These
+how-to guides don’t cover topics in depth – you’ll find that material in the
+<a href="../topics/README.md">topic guides</a> section. However, these guides will help you
+quickly accomplish common tasks.</p>
+<ul>
+<li>
+<p><a href="krustlet-on-azure.md">Running Krustlet on Azure</a></p>
+</li>
+<li>
+<p><a href="krustlet-on-eks.md">Running Krustlet on Amazon Elastic Kubernetes Service
+(EKS)</a></p>
+</li>
+<li>
+<p><a href="krustlet-on-gke.md">Running Krustlet on Google Kubernetes Engine (GKE)</a></p>
+</li>
+<li>
+<p><a href="krustlet-on-kind.md">Running Krustlet on Kubernetes-in-Docker (KinD)</a></p>
+</li>
+<li>
+<p><a href="krustlet-on-minikube.md">Running Krustlet on Minikube</a></p>
+</li>
+<li>
+<p><a href="krustlet-with-inlets.md">Running Krustlet on any Kubernetes cluster with
+inlets</a></p>
+</li>
+<li>
+<p><a href="krustlet-on-microk8s.md">Running Krustlet on MicroK8s</a></p>
+</li>
+<li>
+<p><a href="kubernetes-on-eks.md">Running Kubernetes on Amazon Elastic Kubernetes Service
+(EKS)</a></p>
+</li>
+<li>
+<p><a href="kubernetes-on-kind.md">Running Kubernetes on Kubernetes-in-Docker (KinD)</a></p>
+</li>
+<li>
+<p><a href="kubernetes-on-minikube.md">Running Kubernetes on Minikube</a></p>
+</li>
+<li>
+<p><a href="wasm.md">Running Web Assembly (WASM) workloads in Kubernetes</a></p>
+</li>
+<li>
+<p><a href="csi.md">Registering a CSI driver</a></p>
+</li>
+</ul>
+
+        <div class="section-index">
+    
+    
+    
+    
+    <hr class="panel-line">
+        
+            
+                <div class="entry">
+                    <h5>
+                        <a href="/howto/bootstrapping/">Bootstrapping Krustlet</a>
+                    </h5>
+                    <p></p>
+                </div>
+            
+        
+            
+        
+            
+                <div class="entry">
+                    <h5>
+                        <a href="/howto/kubernetes-on-do/">Managed Kubernetes on DigitalOcean</a>
+                    </h5>
+                    <p></p>
+                </div>
+            
+        
+            
+                <div class="entry">
+                    <h5>
+                        <a href="/howto/csi/">Registering a CSI Driver</a>
+                    </h5>
+                    <p></p>
+                </div>
+            
+        
+            
+                <div class="entry">
+                    <h5>
+                        <a href="/howto/krustlet-on-eks/">Running Krustlet on Amazon Elastic Kubernetes Service (EKS)</a>
+                    </h5>
+                    <p></p>
+                </div>
+            
+        
+            
+                <div class="entry">
+                    <h5>
+                        <a href="/howto/krustlet-on-azure/">Running Krustlet on Azure</a>
+                    </h5>
+                    <p></p>
+                </div>
+            
+        
+            
+                <div class="entry">
+                    <h5>
+                        <a href="/howto/krustlet-on-gke/">Running Krustlet on Google Kubernetes Engine (GKE)</a>
+                    </h5>
+                    <p></p>
+                </div>
+            
+        
+            
+                <div class="entry">
+                    <h5>
+                        <a href="/howto/krustlet-on-kind/">Running Krustlet on Kubernetes in Docker (KinD)</a>
+                    </h5>
+                    <p></p>
+                </div>
+            
+        
+            
+                <div class="entry">
+                    <h5>
+                        <a href="/howto/krustlet-with-inlets/">Running Krustlet on Kubernetes with inlets</a>
+                    </h5>
+                    <p></p>
+                </div>
+            
+        
+            
+                <div class="entry">
+                    <h5>
+                        <a href="/howto/krustlet-on-do/">Running Krustlet on Managed Kubernetes on DigitalOcean</a>
+                    </h5>
+                    <p></p>
+                </div>
+            
+        
+            
+                <div class="entry">
+                    <h5>
+                        <a href="/howto/krustlet-on-microk8s/">Running Krustlet on MicroK8s</a>
+                    </h5>
+                    <p></p>
+                </div>
+            
+        
+            
+                <div class="entry">
+                    <h5>
+                        <a href="/howto/krustlet-on-minikube/">Running Krustlet on Minikube</a>
+                    </h5>
+                    <p></p>
+                </div>
+            
+        
+            
+                <div class="entry">
+                    <h5>
+                        <a href="/howto/krustlet-on-wsl2/">Running Krustlet on WSL2 with Docker Desktop</a>
+                    </h5>
+                    <p></p>
+                </div>
+            
+        
+            
+                <div class="entry">
+                    <h5>
+                        <a href="/howto/kubernetes-on-gke/">Running Kubernetes on Google Kubernetes Engine (GKE)</a>
+                    </h5>
+                    <p></p>
+                </div>
+            
+        
+            
+                <div class="entry">
+                    <h5>
+                        <a href="/howto/kubernetes-on-kind/">Running Kubernetes on Kubernetes in Docker (KinD)</a>
+                    </h5>
+                    <p></p>
+                </div>
+            
+        
+            
+                <div class="entry">
+                    <h5>
+                        <a href="/howto/kubernetes-on-minikube/">Running Kubernetes on Minikube</a>
+                    </h5>
+                    <p></p>
+                </div>
+            
+        
+            
+                <div class="entry">
+                    <h5>
+                        <a href="/howto/wasm/">Running Web Assembly (WASM) workloads in Kubernetes</a>
+                    </h5>
+                    <p></p>
+                </div>
+            
+        
+    
+</div>
+
+	
+		<style>
+  .feedback--answer {
+    display: inline-block;
+  }
+  .feedback--answer-no {
+    margin-left: 1em;
+  }
+  .feedback--response {
+    display: none;
+    margin-top: 1em;
+  }
+  .feedback--response__visible {
+    display: block;
+  }
+</style>
+<h2 class="feedback--title">Feedback</h2>
+<p class="feedback--question">Was this page helpful?</p>
+<button class="feedback--answer feedback--answer-yes">Yes</button>
+<button class="feedback--answer feedback--answer-no">No</button>
+<p class="feedback--response feedback--response-yes">
+  Glad to hear it! Please <a href="https://github.com/openservicemesh/osm/issues/new">tell us how we can improve</a>.
+</p>
+<p class="feedback--response feedback--response-no">
+  Sorry to hear that. Please <a href="https://github.com/openservicemesh/osm/issues/new">tell us how we can improve</a>.
+</p>
+<script>
+  const yesButton = document.querySelector('.feedback--answer-yes');
+  const noButton = document.querySelector('.feedback--answer-no');
+  const yesResponse = document.querySelector('.feedback--response-yes');
+  const noResponse = document.querySelector('.feedback--response-no');
+  const disableButtons = () => {
+    yesButton.disabled = true;
+    noButton.disabled = true;
+  };
+  const sendFeedback = (value) => {
+    if (typeof ga !== 'function') return;
+    const args = {
+      command: 'send',
+      hitType: 'event',
+      category: 'Helpful',
+      action: 'click',
+      label: window.location.pathname,
+      value: value
+    };
+    ga(args.command, args.hitType, args.category, args.action, args.label, args.value);
+  };
+  yesButton.addEventListener('click', () => {
+    yesResponse.classList.add('feedback--response__visible');
+    disableButtons();
+    sendFeedback(1);
+  });
+  noButton.addEventListener('click', () => {
+    noResponse.classList.add('feedback--response__visible');
+    disableButtons();
+    sendFeedback(0);
+  });
+</script>
+
+		<br />
+	
+	
+</div>
+
+          </main>
+        </div>
+      </div>
+      
+
+<footer class="py-5 row d-print-none">
+  <div class="container-fluid mx-sm-5">
+    <div class="row">
+      <div class="col-6 col-sm-6 text-xs-center order-sm-2">
+        <p class="footer-cncf">Krustlet</p>
+      </div>
+      <div class="col-6 col-sm-6 text-right text-xs-center order-sm-3">
+        <ul class="inline list-inline text-right">
+          
+          
+          <li class="nav-item list-inline-item mr-4 mb-2 mb-lg-0">
+            
+            
+            
+            
+            <a class="nav-link" href="https://krustlet.dev" target="_blank" ><span>Home</span></a>
+          </li>
+          
+          <li class="nav-item list-inline-item mr-4 mb-2 mb-lg-0">
+            
+            
+            
+            
+            <a class="nav-link" href="https://docs.krustlet.dev" target="_blank" ><span>Docs</span></a>
+          </li>
+          
+          <li class="nav-item list-inline-item mr-4 mb-2 mb-lg-0">
+            
+            
+            
+            
+            <a class="nav-link" href="https://github.com/deislabs/krustlet/" target="_blank" ><span>Github</span></a>
+          </li>
+          
+          <li class="nav-item list-inline-item mr-4 mb-2 mb-lg-0">
+            
+            
+            
+            
+            <a class="nav-link" href="https://kubernetes.slack.com/messages/krustlet" target="_blank" ><span>Slack</span></a>
+          </li>
+          
+          <li class="nav-item list-inline-item mr-4 mb-2 mb-lg-0">
+            
+            
+            
+            
+            <a class="nav-link" href="https://twitter.com/krustlet" target="_blank" ><span>Twitter</span></a>
+          </li>
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+
+    </div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.min.63db3e552bd0543be17ce4a79a18b744e9cb72256bec42b540e3ab0cd43722d0.js" integrity="sha256-Y9s&#43;VSvQVDvhfOSnmhi3ROnLciVr7EK1QOOrDNQ3ItA=" crossorigin="anonymous"></script>
+
+
+
+<script src='/js/prism.js'></script>
+
+
+
+  </body>
+</html>

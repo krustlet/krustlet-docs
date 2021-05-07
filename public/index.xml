@@ -1,8 +1,8 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Krustlet – Krustlet</title>
+    <title>Krustlet – Krustlet documentation</title>
     <link>https://docs.krustlet.dev/</link>
-    <description>Recent content on Krustlet</description>
+    <description>Recent content in Krustlet documentation on Krustlet</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     
