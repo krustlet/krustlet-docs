@@ -1,0 +1,391 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Krustlet – </title>
+    <link>https://docs.krustlet.dev/en/community/</link>
+    <description>Recent content on Krustlet</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	  <atom:link href="https://docs.krustlet.dev/en/community/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>En: </title>
+      <link>https://docs.krustlet.dev/en/community/code-of-conduct/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://docs.krustlet.dev/en/community/code-of-conduct/</guid>
+      <description>
+        
+        
+        &lt;h1 id=&#34;code-of-conduct&#34;&gt;Code of Conduct&lt;/h1&gt;
+&lt;p&gt;This project has adopted the &lt;a href=&#34;https://opensource.microsoft.com/codeofconduct/&#34;&gt;Microsoft Open Source Code of
+Conduct&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;For more information see the &lt;a href=&#34;https://opensource.microsoft.com/codeofconduct/faq/&#34;&gt;Code of Conduct
+FAQ&lt;/a&gt; or contact
+&lt;a href=&#34;mailto:opencode@microsoft.com&#34;&gt;opencode@microsoft.com&lt;/a&gt; with any additional
+questions or comments.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>En: </title>
+      <link>https://docs.krustlet.dev/en/community/developers/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://docs.krustlet.dev/en/community/developers/</guid>
+      <description>
+        
+        
+        &lt;h1 id=&#34;developer-guide&#34;&gt;Developer guide&lt;/h1&gt;
+&lt;p&gt;This guide explains how to set up your environment for developing Krustlet.&lt;/p&gt;
+&lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
+&lt;p&gt;To build krustlet, you will need&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The latest stable version of Rust&lt;/li&gt;
+&lt;li&gt;The latest version of &lt;a href=&#34;https://github.com/casey/just&#34;&gt;just&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;openssl (Or use the &lt;a href=&#34;#building-without-openssl&#34;&gt;&lt;code&gt;rustls-tls&lt;/code&gt;&lt;/a&gt; feature)&lt;/li&gt;
+&lt;li&gt;git&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If you want to test krustlet, you will also require&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A Kubernetes cluster&lt;/li&gt;
+&lt;li&gt;The latest version of
+&lt;a href=&#34;https://kubernetes.io/docs/tasks/tools/install-kubectl/&#34;&gt;kubectl&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If you want to compile your own WebAssembly modules and upload them to a
+registry, you&amp;rsquo;ll need &lt;a href=&#34;https://github.com/engineerd/wasm-to-oci&#34;&gt;wasm-to-oci&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;If you want to build the Docker image, you&amp;rsquo;ll need
+&lt;a href=&#34;https://docs.docker.com/install/&#34;&gt;Docker&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;building&#34;&gt;Building&lt;/h2&gt;
+&lt;p&gt;We use &lt;code&gt;just&lt;/code&gt; to build our programs, but you can use &lt;code&gt;cargo&lt;/code&gt; if you want:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;$ just build
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;building-without-openssl&#34;&gt;Building without openssl&lt;/h3&gt;
+&lt;p&gt;If you are on a system that doesn&amp;rsquo;t have OpenSSL (or has the incorrect version),
+you have the option to build Krustlet using the Rustls project (Rust native TLS
+implementation):&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;$ just build --no-default-features --features rustls-tls
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The same flags can be passed to &lt;code&gt;just run&lt;/code&gt; if you want to just &lt;a href=&#34;#running&#34;&gt;run&lt;/a&gt;
+the project instead.&lt;/p&gt;
+&lt;h4 id=&#34;caveats&#34;&gt;Caveats&lt;/h4&gt;
+&lt;p&gt;The underlying dependencies for Rustls do not support certs with IP SANs
+(subject alternate names). Because of this, the serving certs requested during
+bootstrap will not work for local development options like minikube or KinD as
+they do not have an FQDN&lt;/p&gt;
+&lt;h3 id=&#34;building-on-wsl-windows-subsystem-for-linux&#34;&gt;Building on WSL (Windows Subsystem for Linux)&lt;/h3&gt;
+&lt;p&gt;You can build Krustlet on WSL but will need a few prerequisites that aren&amp;rsquo;t
+included in the Ubuntu distro in the Microsoft Store:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;$ sudo apt install build-essential libssl-dev pkg-config
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; We&amp;rsquo;ve had mixed success developing Krustlet on WSL.  It has been
+successfully run on WSL2 using the WSL2-enabled Docker Kubernetes or Azure
+Kubernetes.  If you&amp;rsquo;re on WSL1 you may be better off running in a full Linux VM
+under Hyper-V.&lt;/p&gt;
+&lt;h3 id=&#34;building-on-windows&#34;&gt;Building on Windows&lt;/h3&gt;
+&lt;p&gt;As of version 0.4, we have support for building on Windows. For convenience
+sake, there is a windows version of the justfile called &lt;code&gt;justfile-windows&lt;/code&gt;. This
+justfile uses PowerShell and has the proper flags set for Windows builds. To use
+it, you&amp;rsquo;ll have to specify the justfile using the &lt;code&gt;--justfile&lt;/code&gt; flag like so:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;$ just --justfile justfile-windows build
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;It has all the same targets as the normal justfile, however, the &lt;code&gt;test&lt;/code&gt; target
+runs a little differently than the normal target due to how we use feature
+flags. This means there will be some spurious warning output from &lt;code&gt;clippy&lt;/code&gt;, but
+the tests will run.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; Windows builds use the &lt;code&gt;rustls&lt;/code&gt; library, which means there are some
+things to be aware of. See the &lt;a href=&#34;#caveats&#34;&gt;caveats&lt;/a&gt; section for more details&lt;/p&gt;
+&lt;h2 id=&#34;running&#34;&gt;Running&lt;/h2&gt;
+&lt;p&gt;The default included runtime with Krustlet is &lt;code&gt;wasi&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;wasi&lt;/code&gt; runtime uses a project called
+&lt;a href=&#34;https://github.com/bytecodealliance/wasmtime&#34;&gt;&lt;code&gt;wasmtime&lt;/code&gt;&lt;/a&gt;. wasmtime is a
+standalone JIT-style host runtime for WebAssembly modules. It is focused
+primarily on standards compliance with the WASM specification as it relates to
+&lt;a href=&#34;https://wasi.dev/&#34;&gt;WASI&lt;/a&gt;. If your WebAssembly module complies with the
+&lt;a href=&#34;https://github.com/WebAssembly/spec&#34;&gt;WebAssembly specification&lt;/a&gt;, wasmtime can
+run it.&lt;/p&gt;
+&lt;p&gt;Before startup, this command will delete any nodes in your Kubernetes cluster
+named with your hostname, so make sure you&amp;rsquo;re running this in a test
+environment.&lt;/p&gt;
+&lt;p&gt;If you want to interact with the kubelet (for things like &lt;code&gt;kubectl logs&lt;/code&gt; and
+&lt;code&gt;kubectl exec&lt;/code&gt;), you&amp;rsquo;ll likely need to set a specific KRUSTLET_NODE_IP that
+krustlet will be available at. Otherwise, calls to the kubelet will result in
+errors. This may differ from machine to machine. For example, with Minikube on a
+Mac, you&amp;rsquo;ll have an interface called &lt;code&gt;bridge0&lt;/code&gt; which the cluster can talk to. So
+your node IP should be that IP address.&lt;/p&gt;
+&lt;p&gt;To set the node IP, run:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;$ export KRUSTLET_NODE_IP=&amp;lt;the ip address&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;testing&#34;&gt;Testing&lt;/h2&gt;
+&lt;p&gt;Krustlet contains both integration and unit tests. For convenience, there are
+&lt;code&gt;just&lt;/code&gt; targets for running one or the other.&lt;/p&gt;
+&lt;p&gt;For unit tests:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;$ just test
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For the integration tests, start a WASI node in a separate terminal before
+running the tests.&lt;/p&gt;
+&lt;p&gt;In terminal 1:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;$ just run-wasi
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;And in terminal 2:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;$ just test-e2e
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;You can run the integration tests without creating additional terminals or
+manually running the kubelets by running:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;$ just test-e2e-standalone
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Bootstraps and approves certificates if necessary&lt;/li&gt;
+&lt;li&gt;Runs the WASI kubelet in the background&lt;/li&gt;
+&lt;li&gt;Runs the integration tests&lt;/li&gt;
+&lt;li&gt;Terminates the kubelets when the integration tests complete&lt;/li&gt;
+&lt;li&gt;Reports test failures, and saves the kubelet logs if any tests failed&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You &lt;strong&gt;will&lt;/strong&gt; still need to set &lt;code&gt;KRUSTLET_NODE_IP&lt;/code&gt; because the tester doesn&amp;rsquo;t
+know what kind of Kubernetes cluster you&amp;rsquo;re using and so doesn&amp;rsquo;t know how to
+infer a node IP.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;WARNING:&lt;/em&gt; The standalone integration tester has not been, er, tested on
+Windows. Hashtag irony.&lt;/p&gt;
+&lt;h3 id=&#34;integration-test-debris&#34;&gt;Integration test debris&lt;/h3&gt;
+&lt;p&gt;There are some failure modes - for example image pull timeout - where the
+integration tests are not able to complete cleanup of their resources.
+Specifically you can sometimes get pods stuck in &lt;code&gt;Terminating&lt;/code&gt;, which prevents
+namespace cleanup and causes the next test run to break.&lt;/p&gt;
+&lt;p&gt;You can forcibly clean up such debris by running &lt;code&gt;cargo run --bin podsmiter&lt;/code&gt;.
+You may need to wait a couple of minutes after pod deletion for the namespaces
+to be collected.&lt;/p&gt;
+&lt;h2 id=&#34;creating-your-own-kubelets-with-krustlet&#34;&gt;Creating your own Kubelets with Krustlet&lt;/h2&gt;
+&lt;p&gt;If you want to create your own Kubelet based on Krustlet, all you need to do is
+implement a &lt;code&gt;Provider&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;See &lt;code&gt;src/krustlet-wasi.rs&lt;/code&gt; and its corresponding provider implementation in
+&lt;code&gt;crates/wasi-provider&lt;/code&gt; to get started.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>En: </title>
+      <link>https://docs.krustlet.dev/en/community/release-checklist/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://docs.krustlet.dev/en/community/release-checklist/</guid>
+      <description>
+        
+        
+        &lt;h1 id=&#34;release-checklist&#34;&gt;Release Checklist&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;If your experience deviates from this document, please document the changes to
+keep it up-to-date.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;This guide will guide you (redundancy added for purposes of punnery) on your
+journey to release a new version of Krustlet.&lt;/p&gt;
+&lt;p&gt;All releases will be of the form &lt;code&gt;vX.Y.Z&lt;/code&gt; where &lt;code&gt;X&lt;/code&gt; is the major version number,
+&lt;code&gt;Y&lt;/code&gt; is the minor version number and &lt;code&gt;Z&lt;/code&gt; is the patch release number. This
+project strictly follows &lt;a href=&#34;https://semver.org/&#34;&gt;semantic versioning&lt;/a&gt; so following
+this step is critical.&lt;/p&gt;
+&lt;p&gt;It is important to note that this document assumes that the git remote in your
+repository that corresponds to &lt;a href=&#34;https://github.com/deislabs/krustlet&#34;&gt;https://github.com/deislabs/krustlet&lt;/a&gt; is named
+&lt;code&gt;upstream&lt;/code&gt;. If yours is not (for example, if you&amp;rsquo;ve chosen to name it &lt;code&gt;origin&lt;/code&gt;
+or something similar instead), be sure to adjust the listed snippets for your
+local environment accordingly.&lt;/p&gt;
+&lt;p&gt;If you are not sure what your upstream remote is named, use a command like &lt;code&gt;git remote -v&lt;/code&gt; to find out.&lt;/p&gt;
+&lt;p&gt;If you don&amp;rsquo;t have an upstream remote, you can add one easily using the following
+command:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;git remote add upstream git@github.com:deislabs/krustlet
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;We are also going to be adding security and verification of the release process
+by providing signature files. We perform this using &lt;a href=&#34;https://help.github.com/en/github/authenticating-to-github/about-commit-signature-verification&#34;&gt;GitHub and
+GPG&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;If you do not have GPG already setup you can follow these steps:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;https://gnupg.org&#34;&gt;Install the GNU privacy Guard (GPG)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://help.github.com/en/github/authenticating-to-github/generating-a-new-gpg-key&#34;&gt;Generate a new GPG
+key&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://help.github.com/en/github/authenticating-to-github/adding-a-new-gpg-key-to-your-github-account&#34;&gt;Add your key to your GitHub
+account&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://help.github.com/en/github/authenticating-to-github/telling-git-about-your-signing-key&#34;&gt;Set your signing key in
+Git&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;step-0-determine-what-type-of-release-you-are-cutting&#34;&gt;Step 0: determine what type of release you are cutting&lt;/h2&gt;
+&lt;p&gt;Major releases are for new feature additions and behavioral changes that break
+backwards compatibility. Minor releases are for new feature additions that do
+not break backwards compatibility. Patch releases are for bug fixes that do not
+introduce any new features.&lt;/p&gt;
+&lt;p&gt;There are two versions of the checklist: one for patch releases, and one for
+major/minor releases. Follow the checklist that best applies below.&lt;/p&gt;
+&lt;h2 id=&#34;checklist-for-major-and-minor-releases&#34;&gt;Checklist for major and minor releases&lt;/h2&gt;
+&lt;p&gt;Follow this checklist if you are cutting a major release (vX.0.0) or a minor
+release (vX.Y.0):&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;set up your environment&lt;/li&gt;
+&lt;li&gt;increment the version number&lt;/li&gt;
+&lt;li&gt;finalize the release and write the release notes&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;In this checklist, we are going to reference a few environment variables which
+you will want to set for convenience.&lt;/p&gt;
+&lt;p&gt;For major and minor releases, set the following environment variables, changing
+the values of &lt;code&gt;$MAJOR_RELEASE_NUMBER&lt;/code&gt;, &lt;code&gt;$MINOR_RELEASE_NUMBER&lt;/code&gt;, and
+&lt;code&gt;$RELEASE_CANDIDATE_NUMBER&lt;/code&gt; accordingly:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;export MAJOR_RELEASE_NUMBER=&amp;quot;0&amp;quot;
+export MINOR_RELEASE_NUMBER=&amp;quot;1&amp;quot;
+export RELEASE_NAME=&amp;quot;v${MAJOR_RELEASE_NUMBER}.${MINOR_RELEASE_NUMBER}.0&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Now that we know we are going to cut a major or a minor release, we will need to
+bump the project&amp;rsquo;s Cargo.toml as well as any crates that have been updated this
+release.&lt;/p&gt;
+&lt;p&gt;Open a new pull request against krustlet, bumping the version fields in
+Cargo.toml:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/deislabs/krustlet/blob/master/Cargo.toml#L3&#34;&gt;https://github.com/deislabs/krustlet/blob/master/Cargo.toml#L3&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If applicable, in that same pull request, bump the version fields for the
+&lt;code&gt;kubelet&lt;/code&gt; and &lt;code&gt;oci-distribution&lt;/code&gt; crates:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/deislabs/krustlet/blob/master/crates/kubelet/Cargo.toml#L3&#34;&gt;https://github.com/deislabs/krustlet/blob/master/crates/kubelet/Cargo.toml#L3&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/deislabs/krustlet/blob/master/crates/oci-distribution/Cargo.toml#L3&#34;&gt;https://github.com/deislabs/krustlet/blob/master/crates/oci-distribution/Cargo.toml#L3&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Use the following commands to create the commit:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;git add .
+git commit --gpg-sign -m &amp;quot;bump version to $RELEASE_NAME&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Wait until the pull request has been merged into master before proceeding.&lt;/p&gt;
+&lt;p&gt;After the pull request has been merged, create a new tag from upstream&amp;rsquo;s
+&lt;code&gt;master&lt;/code&gt; branch.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;git fetch upstream master
+git checkout upstream/master
+git tag --sign --annotate &amp;quot;${RELEASE_NAME}&amp;quot; --message &amp;quot;Krustlet release ${RELEASE_NAME}&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Double-check one last time to make sure everything is in order, then finally
+push the release tag.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;git push upstream $RELEASE_NAME
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;It is usually more beneficial to the end-user if the release notes are
+hand-written by a human being/marketing team/dog, so we&amp;rsquo;ll go ahead and write up
+the release notes.&lt;/p&gt;
+&lt;p&gt;If you&amp;rsquo;re releasing a major/minor release, listing notable user-facing features
+is usually sufficient. For patch releases, do the same, but make note of the
+symptoms causing the original issue, who may be affected, and how the patch
+mitigates the issue.&lt;/p&gt;
+&lt;p&gt;it should look like this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-markdown&#34; data-lang=&#34;markdown&#34;&gt;&lt;span style=&#34;color:#800080;font-weight:bold&#34;&gt;## Krustlet vX.Y.Z
+&lt;/span&gt;&lt;span style=&#34;color:#800080;font-weight:bold&#34;&gt;&lt;/span&gt;
+Krustlet vX.Y.Z is a feature release. This release, we focused on &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;insert&lt;/span&gt; &lt;span style=&#34;color:#c4a000&#34;&gt;focal&lt;/span&gt; &lt;span style=&#34;color:#c4a000&#34;&gt;point&lt;/span&gt; &lt;span style=&#34;color:#c4a000&#34;&gt;here&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;. Users are encouraged to upgrade for the best experience.
+
+&lt;span style=&#34;color:#800080;font-weight:bold&#34;&gt;## Notable features/changes
+&lt;/span&gt;&lt;span style=&#34;color:#800080;font-weight:bold&#34;&gt;&lt;/span&gt;
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;-&lt;/span&gt; TLS bootstrapping support has been added
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;-&lt;/span&gt; Improved error handling for the Kubelet API
+
+&lt;span style=&#34;color:#800080;font-weight:bold&#34;&gt;## Breaking changes
+&lt;/span&gt;&lt;span style=&#34;color:#800080;font-weight:bold&#34;&gt;&lt;/span&gt;
+No known breaking changes were introduced this release.
+
+&lt;span style=&#34;color:#800080;font-weight:bold&#34;&gt;## Known issues/missing features
+&lt;/span&gt;&lt;span style=&#34;color:#800080;font-weight:bold&#34;&gt;&lt;/span&gt;
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;-&lt;/span&gt; Needs more cowbell
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;-&lt;/span&gt; I gotta have more cowbell!
+
+&lt;span style=&#34;color:#800080;font-weight:bold&#34;&gt;## Installation
+&lt;/span&gt;&lt;span style=&#34;color:#800080;font-weight:bold&#34;&gt;&lt;/span&gt;
+Download Krustlet vX.Y.Z:
+
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;-&lt;/span&gt; [&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;checksums-vX.Y.Z.txt&lt;/span&gt;](&lt;span style=&#34;color:#c4a000&#34;&gt;https://krustlet.blob.core.windows.net/releases/checksums-vX.Y.Z.txt&lt;/span&gt;)
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;-&lt;/span&gt; [&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;krustlet-vX.Y.Z-linux-amd64.tar.gz&lt;/span&gt;](&lt;span style=&#34;color:#c4a000&#34;&gt;https://krustlet.blob.core.windows.net/releases/krustlet-vX.Y.Z-linux-amd64.tar.gz&lt;/span&gt;)
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;-&lt;/span&gt; [&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;krustlet-vX.Y.Z-macos-amd64.tar.gz&lt;/span&gt;](&lt;span style=&#34;color:#c4a000&#34;&gt;https://krustlet.blob.core.windows.net/releases/krustlet-vX.Y.Z-macos-amd64.tar.gz&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Feel free to bring in your own personality into the release notes; it&amp;rsquo;s nice for
+people to think we&amp;rsquo;re not all robots. :)&lt;/p&gt;
+&lt;p&gt;Double check the URLs are correct. Once finished, go into GitHub and edit the
+release notes for the tagged release with the notes written here.&lt;/p&gt;
+&lt;p&gt;It is now worth getting other people to take a look at the release notes before
+the release is published. It is always beneficial as it can be easy to miss
+something.&lt;/p&gt;
+&lt;p&gt;For pre-v1.0 releases, make sure to check the checkbox that says &amp;ldquo;This is a
+pre-release&amp;rdquo; to notify users that this release is identified as non-production
+ready.&lt;/p&gt;
+&lt;p&gt;When you are ready to go, hit &lt;code&gt;publish&lt;/code&gt;, and you&amp;rsquo;re done.&lt;/p&gt;
+&lt;h2 id=&#34;checklist-for-patch-releases&#34;&gt;Checklist for patch releases&lt;/h2&gt;
+&lt;p&gt;Follow this checklist if you are cutting a patch release (vX.Y.Z). The process
+is largely the same as cutting a major/minor release, but with a few
+differences.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;set up your environment&lt;/li&gt;
+&lt;li&gt;increment the version number&lt;/li&gt;
+&lt;li&gt;cherry-pick fixes&lt;/li&gt;
+&lt;li&gt;finalize the release and write the release notes&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;In this checklist, we are going to reference a few environment variables which
+you will want to set for convenience.&lt;/p&gt;
+&lt;p&gt;For patch releases, set the following environment variables:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;export MAJOR_RELEASE_NUMBER=&amp;quot;0&amp;quot;
+export MINOR_RELEASE_NUMBER=&amp;quot;1&amp;quot;
+export PATCH_RELEASE_NUMBER=&amp;quot;1&amp;quot;
+export PREVIOUS_PATCH_RELEASE_NUMBER=&amp;quot;0&amp;quot;
+export RELEASE_NAME=&amp;quot;v${MAJOR_RELEASE_NUMBER}.${MINOR_RELEASE_NUMBER}.${PATCH_RELEASE_NUMBER}&amp;quot;
+export PREVIOUS_RELEASE_NAME=&amp;quot;v${MAJOR_RELEASE_NUMBER}.${MINOR_RELEASE_NUMBER}.${PREVIOUS_PATCH_RELEASE_NUMBER}&amp;quot;
+export RELEASE_BRANCH_NAME=&amp;quot;release-${MAJOR_RELEASE_NUMBER}.${MINOR_RELEASE_NUMBER}.${PATCH_RELEASE_NUMBER}&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Now that we know we are going to cut a patch release, we will need to bump the
+project&amp;rsquo;s Cargo.toml as well as any crates that have been updated this release.&lt;/p&gt;
+&lt;p&gt;Open a new pull request against krustlet, bumping the version fields in
+Cargo.toml:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/deislabs/krustlet/blob/master/Cargo.toml#L3&#34;&gt;https://github.com/deislabs/krustlet/blob/master/Cargo.toml#L3&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If applicable, in that same pull request, bump the version fields for the
+&lt;code&gt;kubelet&lt;/code&gt; and &lt;code&gt;oci-distribution&lt;/code&gt; crates:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/deislabs/krustlet/blob/master/crates/kubelet/Cargo.toml#L3&#34;&gt;https://github.com/deislabs/krustlet/blob/master/crates/kubelet/Cargo.toml#L3&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/deislabs/krustlet/blob/master/crates/oci-distribution/Cargo.toml#L3&#34;&gt;https://github.com/deislabs/krustlet/blob/master/crates/oci-distribution/Cargo.toml#L3&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Use the following commands to create the commit:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;git add .
+git commit --gpg-sign -m &amp;quot;bump version to $RELEASE_NAME&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Wait until the pull request has been merged into &lt;code&gt;master&lt;/code&gt; before proceeding.&lt;/p&gt;
+&lt;p&gt;After the pull request has been merged, checkout the previous tag from upstream
+and use it to create a new branch:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;git fetch upstream --tags
+git checkout $PREVIOUS_RELEASE_NAME
+git checkout -b $RELEASE_BRANCH_NAME
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Once that&amp;rsquo;s done, make sure to cherry-pick the fixes as well as the version bump
+from the previous step into this branch:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;git cherry-pick -x &amp;lt;commit_id&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If anyone is available, let others peer-review the branch before continuing to
+ensure that all the proper fixes have been merged into the release branch.&lt;/p&gt;
+&lt;p&gt;When you&amp;rsquo;re finally happy with the quality of the release branch, you can move
+on and create the tag. Double-check one last time to make sure everything is in
+order, then finally push the release tag.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;git tag --sign --annotate &amp;quot;${RELEASE_NAME}&amp;quot; --message &amp;quot;Krustlet release ${RELEASE_NAME}&amp;quot;
+git push upstream $RELEASE_NAME
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;It is usually more beneficial to the end-user if the release notes are
+hand-written by a human being/marketing team/dog, so we&amp;rsquo;ll go ahead and write up
+the release notes.&lt;/p&gt;
+&lt;p&gt;For patch releases, make note of the symptoms causing the original issue(s), who
+may be affected, and how the patch(es) mitigate the issue(s).&lt;/p&gt;
+&lt;p&gt;it should look like this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-markdown&#34; data-lang=&#34;markdown&#34;&gt;&lt;span style=&#34;color:#800080;font-weight:bold&#34;&gt;## Krustlet vX.Y.Z
+&lt;/span&gt;&lt;span style=&#34;color:#800080;font-weight:bold&#34;&gt;&lt;/span&gt;
+Krustlet vX.Y.Z is a patch release, fixing an issue where &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;insert&lt;/span&gt; &lt;span style=&#34;color:#c4a000&#34;&gt;disagnosis&lt;/span&gt; &lt;span style=&#34;color:#c4a000&#34;&gt;of&lt;/span&gt; &lt;span style=&#34;color:#c4a000&#34;&gt;issue&lt;/span&gt; &lt;span style=&#34;color:#c4a000&#34;&gt;here&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;.
+
+This patch fixes this issue by &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;insert&lt;/span&gt; &lt;span style=&#34;color:#c4a000&#34;&gt;remedy&lt;/span&gt; &lt;span style=&#34;color:#c4a000&#34;&gt;here&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;.
+
+Users are encouraged to upgrade for the best experience.
+
+&lt;span style=&#34;color:#800080;font-weight:bold&#34;&gt;## Breaking changes
+&lt;/span&gt;&lt;span style=&#34;color:#800080;font-weight:bold&#34;&gt;&lt;/span&gt;
+No known breaking changes were introduced this release.
+
+&lt;span style=&#34;color:#800080;font-weight:bold&#34;&gt;## Installation
+&lt;/span&gt;&lt;span style=&#34;color:#800080;font-weight:bold&#34;&gt;&lt;/span&gt;
+Download Krustlet vX.Y.Z:
+
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;-&lt;/span&gt; [&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;checksums-vX.Y.Z.txt&lt;/span&gt;](&lt;span style=&#34;color:#c4a000&#34;&gt;https://krustlet.blob.core.windows.net/releases/checksums-vX.Y.Z.txt&lt;/span&gt;)
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;-&lt;/span&gt; [&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;krustlet-vX.Y.Z-linux-amd64.tar.gz&lt;/span&gt;](&lt;span style=&#34;color:#c4a000&#34;&gt;https://krustlet.blob.core.windows.net/releases/krustlet-vX.Y.Z-linux-amd64.tar.gz&lt;/span&gt;)
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;-&lt;/span&gt; [&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;krustlet-vX.Y.Z-macos-amd64.tar.gz&lt;/span&gt;](&lt;span style=&#34;color:#c4a000&#34;&gt;https://krustlet.blob.core.windows.net/releases/krustlet-vX.Y.Z-macos-amd64.tar.gz&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Double check the URLs are correct. Once finished, go into GitHub and edit the
+release notes for the tagged release with the notes written here.&lt;/p&gt;
+&lt;p&gt;It is now worth getting other people to take a look at the release notes before
+the release is published. It is always beneficial as it can be easy to miss
+something.&lt;/p&gt;
+&lt;p&gt;For pre-v1.0 releases, make sure to check the checkbox that says &amp;ldquo;This is a
+pre-release&amp;rdquo; to notify users that this release is identified as non-production
+ready.&lt;/p&gt;
+&lt;p&gt;When you are ready to go, hit &lt;code&gt;publish&lt;/code&gt;, and you&amp;rsquo;re done.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>

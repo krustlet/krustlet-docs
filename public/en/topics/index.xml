@@ -1,0 +1,389 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Krustlet – </title>
+    <link>https://docs.krustlet.dev/en/topics/</link>
+    <description>Recent content on Krustlet</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	  <atom:link href="https://docs.krustlet.dev/en/topics/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>En: </title>
+      <link>https://docs.krustlet.dev/en/topics/architecture/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://docs.krustlet.dev/en/topics/architecture/</guid>
+      <description>
+        
+        
+        &lt;h1 id=&#34;krustlet-architecture&#34;&gt;Krustlet architecture&lt;/h1&gt;
+&lt;p&gt;This document describes the Krustlet architecture at a high level.&lt;/p&gt;
+&lt;h2 id=&#34;the-purpose-of-krustlet&#34;&gt;The purpose of Krustlet&lt;/h2&gt;
+&lt;p&gt;Krustlet acts as a Kubernetes Kubelet by listening on the Kubernetes API&amp;rsquo;s event
+stream for new Pod requests that match a particular set of node selectors,
+scheduling those workloads to run using a WASI-based runtime instead of a
+container-based runtime.&lt;/p&gt;
+&lt;h2 id=&#34;implementation&#34;&gt;Implementation&lt;/h2&gt;
+&lt;p&gt;Krustlet is written in Rust.&lt;/p&gt;
+&lt;p&gt;By acting as a Kubelet, Krustlet uses Kubernetes client libraries to communicate
+with the Kubernetes API. Currently, the client libraries use HTTP(s) as the
+communication protocol between Krustlet and the Kubernetes API, using JSON as
+the data format for serializing and de-serializing request bodies.&lt;/p&gt;
+&lt;p&gt;Krustlet sends status updates about scheduled pods to the Kubernetes API.
+Therefore, it does not require its own database.&lt;/p&gt;
+&lt;h3 id=&#34;providers&#34;&gt;Providers&lt;/h3&gt;
+&lt;p&gt;Krustlet uses &lt;a href=&#34;./providers.md&#34;&gt;providers&lt;/a&gt; to interact with a given runtime. The
+&lt;code&gt;kubelet&lt;/code&gt; crate has the common functionality for listing to a stream of pods (an
+&amp;ldquo;Informer&amp;rdquo; in Kubernetes parlance), keeping a node status updated, and handling
+requests from the Kubernetes API. The Kubelet expects to be given a provider
+(something that implements the &lt;code&gt;Provider&lt;/code&gt; interface) which knows how to create
+&amp;ldquo;containers&amp;rdquo; for the runtime it is implementing. Note that these might not
+actually be Docker containers (they definitely are not if you are using one of
+the providers implemented in this repository), but Kubernetes still thinks of
+them as a &amp;ldquo;container.&amp;rdquo; The basic workflow is like this:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;kubelet&lt;/code&gt; receives a pod event from the stream&lt;/li&gt;
+&lt;li&gt;Depending on the event type (added, modified, deleted), it calls the
+corresponding &lt;code&gt;Provider&lt;/code&gt; method and creates, updates, or stops/deletes the
+&amp;ldquo;container&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;Provider&lt;/code&gt; does work and returns an error if there is a problem&lt;/li&gt;
+&lt;/ol&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>En: </title>
+      <link>https://docs.krustlet.dev/en/topics/configuration/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://docs.krustlet.dev/en/topics/configuration/</guid>
+      <description>
+        
+        
+        &lt;h1 id=&#34;configuration&#34;&gt;Configuration&lt;/h1&gt;
+&lt;p&gt;The &lt;code&gt;kubelet&lt;/code&gt; crate supports configuration via the command line, configuration
+file or environment variables.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; Custom kubelets built using the &lt;code&gt;kubelet&lt;/code&gt; crate can choose which of
+these methods to support, or may choose to bypass &lt;code&gt;kubelet&lt;/code&gt;&amp;rsquo;s built-in
+configuration system in favour of their own. &lt;code&gt;krustlet-wasi&lt;/code&gt; uses standard
+configuration and supports all configuration methods.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; Certain flags must be handled at the provider or custom kubelet level.
+If you are building a custom kubelet using the &lt;code&gt;kubelet&lt;/code&gt; crate, please see the
+&amp;ldquo;Notes to kubelet implementers&amp;rdquo; section below.&lt;/p&gt;
+&lt;h2 id=&#34;configuration-values&#34;&gt;Configuration values&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Command line&lt;/th&gt;
+&lt;th&gt;Environment variable&lt;/th&gt;
+&lt;th&gt;Configuration file&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;-a, &amp;ndash;addr&lt;/td&gt;
+&lt;td&gt;KRUSTLET_ADDRESS&lt;/td&gt;
+&lt;td&gt;listenerAddress&lt;/td&gt;
+&lt;td&gt;The address on which the kubelet should listen&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&amp;ndash;data-dir&lt;/td&gt;
+&lt;td&gt;KRUSTLET_DATA_DIR&lt;/td&gt;
+&lt;td&gt;dataDir&lt;/td&gt;
+&lt;td&gt;The path under which the kubelet should store data (e.g. logs, container images, etc.). The default is &lt;code&gt;$HOME/.krustlet&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&amp;ndash;hostname&lt;/td&gt;
+&lt;td&gt;KRUSTLET_HOSTNAME&lt;/td&gt;
+&lt;td&gt;hostname&lt;/td&gt;
+&lt;td&gt;The name of the host where the kubelet runs. Defaults to the hostname of the machine where the kubelet is running; pass this if the name in the TLS certificate does not match the actual machine name&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&amp;ndash;max-pods&lt;/td&gt;
+&lt;td&gt;MAX_PODS&lt;/td&gt;
+&lt;td&gt;maxPods&lt;/td&gt;
+&lt;td&gt;The maximum number of pods to schedule on the kubelet at any one time. The default is 110&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-n, &amp;ndash;node-ip&lt;/td&gt;
+&lt;td&gt;KRUSTLET_NODE_IP&lt;/td&gt;
+&lt;td&gt;nodeIP&lt;/td&gt;
+&lt;td&gt;The IP address of the node registered with the Kubernetes master. Defaults to the IP address of the kubelet hostname, as obtained from DNS&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&amp;ndash;node-labels&lt;/td&gt;
+&lt;td&gt;NODE_LABELS&lt;/td&gt;
+&lt;td&gt;nodeLabels&lt;/td&gt;
+&lt;td&gt;The labels to apply to the node when it registers in the cluster. See below for format&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&amp;ndash;node-name&lt;/td&gt;
+&lt;td&gt;KRUSTLET_NODE_NAME&lt;/td&gt;
+&lt;td&gt;nodeName&lt;/td&gt;
+&lt;td&gt;The name by which to refer to the kubelet node in Kubernetes. Defaults to the hostname&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-p, &amp;ndash;port&lt;/td&gt;
+&lt;td&gt;KRUSTLET_PORT&lt;/td&gt;
+&lt;td&gt;listenerPort&lt;/td&gt;
+&lt;td&gt;The port on which the kubelet should listen. The default is 3000&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&amp;ndash;cert-file&lt;/td&gt;
+&lt;td&gt;KRUSTLET_CERT_FILE&lt;/td&gt;
+&lt;td&gt;tlsCertificateFile&lt;/td&gt;
+&lt;td&gt;The path to the TLS certificate for the kubelet. The default is &lt;code&gt;(data directory)/config/krustlet.crt&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&amp;ndash;private-key-file&lt;/td&gt;
+&lt;td&gt;KRUSTLET_PRIVATE_KEY_FILE&lt;/td&gt;
+&lt;td&gt;tlsPrivateKeyFile&lt;/td&gt;
+&lt;td&gt;The path to the private key for the TLS certificate. The default is &lt;code&gt;(data directory)/config/krustlet.key&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&amp;ndash;insecure-registries&lt;/td&gt;
+&lt;td&gt;KRUSTLET_INSECURE_REGISTRIES&lt;/td&gt;
+&lt;td&gt;insecureRegistries&lt;/td&gt;
+&lt;td&gt;A list of registries that should be accessed using HTTP instead of HTTPS. On the command line or environment variable, use commas to separate multiple registries&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&amp;ndash;x-allow-local-modules&lt;/td&gt;
+&lt;td&gt;KRUSTLET_ALLOW_LOCAL_MODULES&lt;/td&gt;
+&lt;td&gt;allowLocalModules&lt;/td&gt;
+&lt;td&gt;If true, the kubelet should recognise references prefixed with &amp;lsquo;fs&amp;rsquo; as indicating a filesystem path rather than a registry location. This is an experimental flag for use in development scenarios where you don&amp;rsquo;t want to repeatedly push your local builds to a registry; it is likely to be removed in a future version when we have a more comprehensive toolchain for local development.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;node-labels-format&#34;&gt;Node labels format&lt;/h2&gt;
+&lt;p&gt;If you specify node labels on the command line or in an environment variable,
+the format is a comma-separated list of &lt;code&gt;name=value&lt;/code&gt; pairs. For example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;--node-labels mylabel=foo,myotherlabel=bar
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;If you specify node labels in the configuration file, the format is key-value
+pairs. For example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;
+    &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;&amp;#34;node_labels&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;
+        &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;&amp;#34;mylabel&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;foo&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;
+        &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;&amp;#34;myotherlabel&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;bar&amp;#34;&lt;/span&gt;
+    &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;}&lt;/span&gt;
+&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;configuration-file-location&#34;&gt;Configuration file location&lt;/h2&gt;
+&lt;p&gt;By default, the configuration file is located at
+&lt;code&gt;$HOME/.krustlet/config/config.json&lt;/code&gt;. The &lt;code&gt;kubelet&lt;/code&gt; crate does not define a
+common way to override this.  However, custom kubelets built on &lt;code&gt;kubelet&lt;/code&gt; may
+provide such a mechanism.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;krustlet-wasi&lt;/code&gt; kubelet does not currently provide a way to override the
+default location.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;TODO: should we build in a standard way of overriding the file location?&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&#34;precedence&#34;&gt;Precedence&lt;/h2&gt;
+&lt;p&gt;If you specify the same setting in multiple places - for example, both in the
+configuration file and on the command line - then the precedence is:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Command line flags take precedence over environment variables&lt;/li&gt;
+&lt;li&gt;Environment variables take precedence over the configuration file&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This allows you to conveniently override individual settings from a
+configuration file, for example by writing &lt;code&gt;MAX_PODS=200 krustlet-wasi&lt;/code&gt; or
+&lt;code&gt;krustlet-wasi --max-pods 200&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;If you specify node labels in multiple places, the collections are &lt;em&gt;not&lt;/em&gt;
+combined: the place with the highest precedence takes effect and all others are
+ignored.&lt;/p&gt;
+&lt;h2 id=&#34;notes-to-kubelet-implementers&#34;&gt;Notes to kubelet implementers&lt;/h2&gt;
+&lt;p&gt;Some flags require you to support them in your provider or main code - they are
+not implemented automatically by the kubelet core. These flags are as follows:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;--bootstrap-file&lt;/code&gt; - should be passed to &lt;code&gt;kubelet::bootstrap&lt;/code&gt; if you use the
+bootstrapping feature&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;--data-dir&lt;/code&gt; - this should be used to construct the &lt;code&gt;FileStore&lt;/code&gt; if you use one&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;--x-allow-local-modules&lt;/code&gt; - if specified you should compose a
+&lt;code&gt;FileSystemStore&lt;/code&gt; onto your normal store&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;See the &lt;code&gt;krustlet-wasi.rs&lt;/code&gt; file for examples of how to honour these flags.&lt;/p&gt;
+&lt;p&gt;If you can&amp;rsquo;t honour a flag value in your particular scenario, then you should
+still check for it and return an error, rather than silently ignoring it.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>En: </title>
+      <link>https://docs.krustlet.dev/en/topics/csi/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://docs.krustlet.dev/en/topics/csi/</guid>
+      <description>
+        
+        
+        &lt;h1 id=&#34;the-container-storage-interface&#34;&gt;The Container Storage Interface&lt;/h1&gt;
+&lt;p&gt;The Container Storage Interface (CSI) is a standardized plugin system that
+enables many different types of storage systems to&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Automatically provision storage volumes as needed&lt;/li&gt;
+&lt;li&gt;Mount volumes to pods as needed&lt;/li&gt;
+&lt;li&gt;Unmount volumes from deleted or removed pods, and&lt;/li&gt;
+&lt;li&gt;Destroy storage volumes after they&amp;rsquo;ve been de-commissioned.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Krustlet introduced this feature in v0.6.0 and is currently in alpha status.
+Many features that Kubernetes supports such as &amp;ldquo;Block&amp;rdquo; mounting or read-only
+access modes are currently unavailable, but will become available as the feature
+stabilizes.&lt;/p&gt;
+&lt;h2 id=&#34;why-csi&#34;&gt;Why CSI?&lt;/h2&gt;
+&lt;p&gt;Without CSI support, adding a new storage system to a Provider requires checking
+code into the core Krustlet repository, and it requires each Provider to call
+this code in order to support the new volume type. Any changes to the storage
+system won&amp;rsquo;t become available until the next Krustlet release, and could be
+painful for many Providers to adopt these new changes.&lt;/p&gt;
+&lt;p&gt;CSI addresses these issues by enabling storage plugins to be developed
+out-of-tree, deployed alongside a Krustlet Provider, and consumed through
+standard Kubernetes storage primitives: PersistentVolumeClaims (PVC),
+PersistentVolumes (PV), and StorageClasses (SC).&lt;/p&gt;
+&lt;h2 id=&#34;how-do-i-deploy-a-csi-driver-alongside-a-krustlet-provider&#34;&gt;How do I deploy a CSI driver alongside a Krustlet Provider?&lt;/h2&gt;
+&lt;p&gt;Please see the &lt;a href=&#34;../howto/csi.md&#34;&gt;HOWTO guide&lt;/a&gt; for more information.&lt;/p&gt;
+&lt;h2 id=&#34;how-do-i-use-a-csi-volume&#34;&gt;How do I use a CSI Volume?&lt;/h2&gt;
+&lt;p&gt;Please see the &lt;a href=&#34;../howto/csi.md&#34;&gt;HOWTO guide&lt;/a&gt; for more information.&lt;/p&gt;
+&lt;h2 id=&#34;where-can-i-find-csi-drivers&#34;&gt;Where can I find CSI Drivers?&lt;/h2&gt;
+&lt;p&gt;CSI drivers are maintained and distributed by the community. You can find
+example CSI drivers in the &lt;a href=&#34;https://github.com/kubernetes-csi&#34;&gt;kubernetes-csi&lt;/a&gt;
+organization on GitHub. These are provided purely for illustrative purposes, and
+are not intended for use in production.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>En: </title>
+      <link>https://docs.krustlet.dev/en/topics/glossary/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://docs.krustlet.dev/en/topics/glossary/</guid>
+      <description>
+        
+        
+        &lt;h1 id=&#34;glossary&#34;&gt;Glossary&lt;/h1&gt;
+&lt;p&gt;Here is where you will find definitions for commmon terminology used across
+Krustlet.&lt;/p&gt;
+&lt;h2 id=&#34;kubelet&#34;&gt;Kubelet&lt;/h2&gt;
+&lt;p&gt;The kubelet is a key piece of the Kubernetes architecture. A kubelet is a &amp;ldquo;node
+agent&amp;rdquo; that runs on each node in a Kubernetes cluster. It registers as a node
+with the Kubernetes API, waiting for new &lt;a href=&#34;#pod&#34;&gt;pods&lt;/a&gt; provided by the API, and
+ensures the workloads in those pods are running and healthy.&lt;/p&gt;
+&lt;h2 id=&#34;pod&#34;&gt;Pod&lt;/h2&gt;
+&lt;p&gt;A pod is the simplest execution unit in Kubernetes that you can create and
+destroy using the Kubernetes API. Nearly every workload type available in
+Kubernetes (Deployments, StatfulSets, DaemonSets, Jobs, etc.) uses pods as the
+basic unit of work. In other words, a pod represents a single unit of work in
+your cluster.&lt;/p&gt;
+&lt;h2 id=&#34;provider&#34;&gt;Provider&lt;/h2&gt;
+&lt;p&gt;A provider is an abstract interface within Krustlet. Providers describe the
+verbs and actions a WebAssembly runtime (like wasmtime) must provide in order
+for that runtime to work as a kubelet.&lt;/p&gt;
+&lt;p&gt;The primary responsibility of a provider is to execute a workload (or schedule
+it on an external executor), monitor that workload, and expose important details
+back to Kubernetes using the Kubelet API.&lt;/p&gt;
+&lt;p&gt;See also the topic guide on &lt;a href=&#34;providers.md&#34;&gt;providers&lt;/a&gt;.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>En: </title>
+      <link>https://docs.krustlet.dev/en/topics/plugin_system/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://docs.krustlet.dev/en/topics/plugin_system/</guid>
+      <description>
+        
+        
+        &lt;h1 id=&#34;plugin-system-overview&#34;&gt;Plugin System Overview&lt;/h1&gt;
+&lt;p&gt;Krustlet partially implements the plugin discovery system used by the mainline
+Kubelet for purposes of supporting CSI. The CSI documentation points at the
+&lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/device-plugins/#device-plugin-registration&#34;&gt;device plugin documentation&lt;/a&gt;,
+but upon further investigation/reverse engineering, we determined that CSI
+plugins use the auto plugin discovery method implemented
+&lt;a href=&#34;https://github.com/kubernetes/kubernetes/tree/fd74333a971e2048b5fb2b692a9e043483d63fba/pkg/kubelet/pluginmanager&#34;&gt;here&lt;/a&gt;.
+You can also see other evidence of this in the
+&lt;a href=&#34;https://github.com/kubernetes-csi/drivers/blob/master/pkg/csi-common/nodeserver-default.go&#34;&gt;csi-common code&lt;/a&gt;
+and the &lt;a href=&#34;https://github.com/kubernetes-csi/node-driver-registrar/blob/be7678e75e23b5419624ae3983b66957c0991073/README.md&#34;&gt;Node Driver Registrar
+documentation&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;what-is-not-supported&#34;&gt;What is not supported?&lt;/h2&gt;
+&lt;p&gt;Currently we do not support the &lt;code&gt;DevicePlugin&lt;/code&gt; type or the aforementioned newer
+device plugin system. Currently we do not have plans to implement it, but that
+could change in the future as needs/uses evolve&lt;/p&gt;
+&lt;h2 id=&#34;how-does-it-work&#34;&gt;How does it work?&lt;/h2&gt;
+&lt;p&gt;The plugin registration system has an event driven loop for discovering and
+registering plugins:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Kubelet using a file system watcher to watch the given directory&lt;/li&gt;
+&lt;li&gt;Plugins wishing to register themselves with Kubelet must open a Unix domain
+socket (henceforth referred to as just &amp;ldquo;socket&amp;rdquo;) in the watched directory&lt;/li&gt;
+&lt;li&gt;When Kubelet detects a new socket, it connects to the discovered socket and
+attempts to do a &lt;code&gt;GetInfo&lt;/code&gt; gRPC call.&lt;/li&gt;
+&lt;li&gt;Using the info returned from the &lt;code&gt;GetInfo&lt;/code&gt; call, Kubelet performs validation
+to make sure it supports the correct version of the API requested by the
+plugin and that the plugin is not already registered. If it is a &lt;code&gt;CSIPlugin&lt;/code&gt;
+type, the info will also contain another path to a socket where the CSI
+driver is listening&lt;/li&gt;
+&lt;li&gt;If validation succeeds, Kubelet makes a &lt;code&gt;NotifyRegistrationStatus&lt;/code&gt; gRPC call
+on the originally discovered socket to inform the plugin that it has
+successfully registered&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;additional-information&#34;&gt;Additional information&lt;/h3&gt;
+&lt;p&gt;In normal Kubernetes land, most CSI plugins register themselves with the Kubelet
+using the &lt;a href=&#34;https://github.com/kubernetes-csi/node-driver-registrar&#34;&gt;Node Driver
+Registrar&lt;/a&gt; sidecar
+container that runs with the actual CSI driver. It has the responsibilty for
+creating the socket that Kubelet discovers.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>En: </title>
+      <link>https://docs.krustlet.dev/en/topics/providers/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://docs.krustlet.dev/en/topics/providers/</guid>
+      <description>
+        
+        
+        &lt;h1 id=&#34;providers&#34;&gt;Providers&lt;/h1&gt;
+&lt;p&gt;The default runtime for the Krustlet project is &lt;code&gt;wasi&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;wasi&lt;/code&gt; runtime uses a project called
+&lt;a href=&#34;https://github.com/bytecodealliance/wasmtime&#34;&gt;&lt;code&gt;wasmtime&lt;/code&gt;&lt;/a&gt;. wasmtime is a
+standalone JIT-style host runtime for WebAssembly modules. It is focused
+primarily on standards compliance with the WASM specification as it relates to
+&lt;a href=&#34;https://wasi.dev/&#34;&gt;WASI&lt;/a&gt;. If your WebAssembly module complies with the
+&lt;a href=&#34;https://github.com/WebAssembly/spec&#34;&gt;WebAssembly specification&lt;/a&gt;, wasmtime can
+run it.&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s important to note that the WASI standard and &lt;code&gt;wasmtime&lt;/code&gt; are still under
+heavy development. There are some key features (like networking) that are
+currently missing, but will be made available in future updates.&lt;/p&gt;
+&lt;h2 id=&#34;additional-providers&#34;&gt;Additional Providers&lt;/h2&gt;
+&lt;p&gt;There are various other providers available as well.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/wasmCloud/krustlet-wasmcloud-provider&#34;&gt;&lt;code&gt;wasmcloud&lt;/code&gt;&lt;/a&gt;: The
+&lt;code&gt;wasmcloud&lt;/code&gt; runtime is a secure WebAssembly host runtime, connecting &amp;ldquo;actors&amp;rdquo;
+and &amp;ldquo;capability providers&amp;rdquo; together to connect your WebAssembly runtime to
+cloud-native services like message brokers, databases, or other external
+services normally unavailable to the WebAssembly runtime. This provider used
+to be available in this repo but was moved under the wasmCloud project so it
+could be maintained both by the Krustlet maintainers and the wasmCloud
+maintainers.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/kflansburg/krustlet-cri&#34;&gt;&lt;code&gt;CRI&lt;/code&gt;&lt;/a&gt;: A Container Runtime
+Interface provider implementation for Krustlet. This runtime allows you to run
+the containers you know and love within Krustlet.&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>
