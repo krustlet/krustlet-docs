@@ -334,8 +334,16 @@ nav.breadcrumb-wrapper {
   display: block;
   margin: -0.5rem 0 2rem;
 
-  ol {
+  ol.breadcrumb {
     margin: 0;
+
+    li.breadcrumb-item {
+      font-size: 1rem;
+      
+      a {
+        color: lighten($midnight, 35%);
+      }
+    }
   }
 }
 

@@ -1,5 +1,5 @@
 ---
-title: "Krustlet documentation"
+title: "Krustlet Docs"
 description: "Everything you need to know about how the documentation is organized."
 type: docs
 ---

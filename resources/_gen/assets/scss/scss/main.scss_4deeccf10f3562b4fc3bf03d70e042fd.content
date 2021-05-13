@@ -14062,8 +14062,12 @@ nav.breadcrumb-wrapper {
   border-bottom: 1px solid #ededf2;
   display: block;
   margin: -0.5rem 0 2rem; }
-  nav.breadcrumb-wrapper ol {
+  nav.breadcrumb-wrapper ol.breadcrumb {
     margin: 0; }
+    nav.breadcrumb-wrapper ol.breadcrumb li.breadcrumb-item {
+      font-size: 1rem; }
+      nav.breadcrumb-wrapper ol.breadcrumb li.breadcrumb-item a {
+        color: #9d9cba; }
 
 main > .td-content {
   margin-right: auto;
