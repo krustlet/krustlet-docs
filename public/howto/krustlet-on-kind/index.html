@@ -49,9 +49,11 @@ This specific tutorial will be running Krustlet on your host Operating System; h
 
 
 
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="//fonts.googleapis.com/css2?family=Poppins:wght@700&family=Work+Sans&display=swap" rel="stylesheet">
 
 
-<link rel="stylesheet" href="/css/style.2b86b6bda5c37fc229d39310629953b762fc7fdaab9a50a78ece383ebeb01174.css" integrity="sha256-K4a2vaXDf8Ip05MQYplTt2L8f9qrmlCnjs44Pr6wEXQ=">
+<link rel="stylesheet" href="/css/style.984d0cac551d1e618acdbae32aed044ef29a6f388b1a5c5e1193689b6445c90d.css" integrity="sha256-mE0MrFUdHmGKzbrjKu0ETvKabziLGlxeEZNom2RFyQ0=">
 
 
 <script
@@ -75,8 +77,14 @@ This specific tutorial will be running Krustlet on your host Operating System; h
     <header>
       
 <nav class="js-navbar-scroll navbar navbar-expand flex-column flex-md-row td-navbar">
-        <a class="navbar-brand" href="/">
-		
+	
+	<div class="deislabs">
+		<a href="https://deislabs.io/" title="Deis Labs">
+			<span>Deis Labs</span>
+			<div class="shapes top"><em class="dl-tr"></em><em class="dl-sq"></em><em class="dl-ci"></em></div>
+		</a>
+	</div>
+	<a class="navbar-brand" href="/">
 		<span class="text-uppercase font-weight-bold">Krustlet</span>
 	</a>
 	<div class="td-navbar-nav-scroll ml-md-auto" id="main_navbar">
@@ -146,7 +154,7 @@ This specific tutorial will be running Krustlet on your host Operating System; h
     <div class="container-fluid td-outer">
       <div class="td-main">
         <div class="row flex-xl-nowrap">
-          <div class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+          <div class="col-12 col-md-3 col-xl-3 td-sidebar d-print-none">
             
 
 
@@ -165,7 +173,7 @@ This specific tutorial will be running Krustlet on your host Operating System; h
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.4f9dcfcc0b6a6b7c294ff236e81460faf06aecfdb7559c70065ea62dd9118a92b855401ddaec2a3629084b0bb938f406e5ce410958fc0726354bea99353e56f0.json"
+  data-offline-search-index-json-src="/offline-search-index.59616654c3bfdc16be8f9dd0f8c7d4098b085d188474d154dbd361cbacd53f5dc104423f9001c90cc16edf2835d27dfb8f6ac36acfe812cbaee597f651510a1b.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -300,45 +308,12 @@ This specific tutorial will be running Krustlet on your host Operating System; h
 
 
           </div>
-          <div class="d-none d-xl-block col-xl-2 td-toc d-print-none">
-            
-
-
-
-
-
-
-
-
-
-
-
-<nav id="TableOfContents">
-  <ul>
-    <li><a href="#prerequisites">Prerequisites</a></li>
-    <li><a href="#step-1-get-a-bootstrap-config">Step 1: Get a bootstrap config</a></li>
-    <li><a href="#step-2-determine-the-default-gateway">Step 2: Determine the default gateway</a>
-      <ul>
-        <li><a href="#special-note-docker-desktop-for-mac">Special note: Docker Desktop for Mac</a></li>
-        <li><a href="#special-note-docker-on-hyper-v-linux-vms">Special note: Docker on Hyper-V Linux VMs</a></li>
-      </ul>
-    </li>
-    <li><a href="#step-3-install-and-run-krustlet">Step 3: Install and run Krustlet</a>
-      <ul>
-        <li><a href="#step-3a-approving-the-serving-csr">Step 3a: Approving the serving CSR</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-
-
-
-          </div>
-          <main class="col-12 col-md-9 col-xl-8 pl-md-5" role="main">
+          
+          <main class="col-12 col-md-9 col-xl-9 pl-md-5" role="main">
             
   
 
-            <nav aria-label="breadcrumb" class="d-none d-md-block d-print-none">
+            <nav aria-label="breadcrumb" class="d-none d-md-block d-print-none breadcrumb-wrapper">
 	<ol class="breadcrumb spb-1">
 		
 
@@ -362,8 +337,10 @@ This specific tutorial will be running Krustlet on your host Operating System; h
 	</ol>
 </nav	>
 
+
             
 <div class="td-content">
+	<h1>Running Krustlet on Kubernetes in Docker (KinD)</h1>
 	<p>This how-to guide demonstrates how to boot a Krustlet node in a KinD cluster.</p>
 <h2 id="prerequisites">Prerequisites</h2>
 <p>You will require a running KinD cluster for this how-to. <code>kubectl</code> is also
@@ -437,66 +414,6 @@ NAME                 STATUS   ROLES    AGE     VERSION   INTERNAL-IP   EXTERNAL-
 kind-control-plane   Ready    master   3m46s   v1.17.0   172.17.0.2    &lt;none&gt;        Ubuntu 19.10   5.3.0-42-generic   containerd://1.3.2
 krustlet             Ready    agent    10s     v1.17.0   172.17.0.1    &lt;none&gt;        &lt;unknown&gt;      &lt;unknown&gt;          mvp
 </code></pre>
-	
-		<style>
-  .feedback--answer {
-    display: inline-block;
-  }
-  .feedback--answer-no {
-    margin-left: 1em;
-  }
-  .feedback--response {
-    display: none;
-    margin-top: 1em;
-  }
-  .feedback--response__visible {
-    display: block;
-  }
-</style>
-<h2 class="feedback--title">Feedback</h2>
-<p class="feedback--question">Was this page helpful?</p>
-<button class="feedback--answer feedback--answer-yes">Yes</button>
-<button class="feedback--answer feedback--answer-no">No</button>
-<p class="feedback--response feedback--response-yes">
-  Glad to hear it! Please <a href="https://github.com/openservicemesh/osm/issues/new">tell us how we can improve</a>.
-</p>
-<p class="feedback--response feedback--response-no">
-  Sorry to hear that. Please <a href="https://github.com/openservicemesh/osm/issues/new">tell us how we can improve</a>.
-</p>
-<script>
-  const yesButton = document.querySelector('.feedback--answer-yes');
-  const noButton = document.querySelector('.feedback--answer-no');
-  const yesResponse = document.querySelector('.feedback--response-yes');
-  const noResponse = document.querySelector('.feedback--response-no');
-  const disableButtons = () => {
-    yesButton.disabled = true;
-    noButton.disabled = true;
-  };
-  const sendFeedback = (value) => {
-    if (typeof ga !== 'function') return;
-    const args = {
-      command: 'send',
-      hitType: 'event',
-      category: 'Helpful',
-      action: 'click',
-      label: window.location.pathname,
-      value: value
-    };
-    ga(args.command, args.hitType, args.category, args.action, args.label, args.value);
-  };
-  yesButton.addEventListener('click', () => {
-    yesResponse.classList.add('feedback--response__visible');
-    disableButtons();
-    sendFeedback(1);
-  });
-  noButton.addEventListener('click', () => {
-    noResponse.classList.add('feedback--response__visible');
-    disableButtons();
-    sendFeedback(0);
-  });
-</script>
-
-		<br />
 	
 	
 </div>

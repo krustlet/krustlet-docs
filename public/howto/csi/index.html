@@ -32,7 +32,7 @@ A Krustlet Provider with CSI support will check for new drivers registered to th
 <meta itemprop="description" content="For more information on what is the Container Storage Interface and how it relates to a CSI driver, see the topic guide for more information.
 A Krustlet Provider with CSI support will check for new drivers registered to the plugins/ directory (by default, this is $HOME/.krustlet/plugins). You will need to inform your CSI driver to bind its socket at that location in order for a Provider to recognize and register the driver.">
 
-<meta itemprop="wordCount" content="425">
+<meta itemprop="wordCount" content="517">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Registering a CSI Driver"/>
 <meta name="twitter:description" content="For more information on what is the Container Storage Interface and how it relates to a CSI driver, see the topic guide for more information.
@@ -46,9 +46,11 @@ A Krustlet Provider with CSI support will check for new drivers registered to th
 
 
 
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="//fonts.googleapis.com/css2?family=Poppins:wght@700&family=Work+Sans&display=swap" rel="stylesheet">
 
 
-<link rel="stylesheet" href="/css/style.2b86b6bda5c37fc229d39310629953b762fc7fdaab9a50a78ece383ebeb01174.css" integrity="sha256-K4a2vaXDf8Ip05MQYplTt2L8f9qrmlCnjs44Pr6wEXQ=">
+<link rel="stylesheet" href="/css/style.984d0cac551d1e618acdbae32aed044ef29a6f388b1a5c5e1193689b6445c90d.css" integrity="sha256-mE0MrFUdHmGKzbrjKu0ETvKabziLGlxeEZNom2RFyQ0=">
 
 
 <script
@@ -72,8 +74,14 @@ A Krustlet Provider with CSI support will check for new drivers registered to th
     <header>
       
 <nav class="js-navbar-scroll navbar navbar-expand flex-column flex-md-row td-navbar">
-        <a class="navbar-brand" href="/">
-		
+	
+	<div class="deislabs">
+		<a href="https://deislabs.io/" title="Deis Labs">
+			<span>Deis Labs</span>
+			<div class="shapes top"><em class="dl-tr"></em><em class="dl-sq"></em><em class="dl-ci"></em></div>
+		</a>
+	</div>
+	<a class="navbar-brand" href="/">
 		<span class="text-uppercase font-weight-bold">Krustlet</span>
 	</a>
 	<div class="td-navbar-nav-scroll ml-md-auto" id="main_navbar">
@@ -143,7 +151,7 @@ A Krustlet Provider with CSI support will check for new drivers registered to th
     <div class="container-fluid td-outer">
       <div class="td-main">
         <div class="row flex-xl-nowrap">
-          <div class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+          <div class="col-12 col-md-3 col-xl-3 td-sidebar d-print-none">
             
 
 
@@ -162,7 +170,7 @@ A Krustlet Provider with CSI support will check for new drivers registered to th
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.4f9dcfcc0b6a6b7c294ff236e81460faf06aecfdb7559c70065ea62dd9118a92b855401ddaec2a3629084b0bb938f406e5ce410958fc0726354bea99353e56f0.json"
+  data-offline-search-index-json-src="/offline-search-index.59616654c3bfdc16be8f9dd0f8c7d4098b085d188474d154dbd361cbacd53f5dc104423f9001c90cc16edf2835d27dfb8f6ac36acfe812cbaee597f651510a1b.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -297,34 +305,12 @@ A Krustlet Provider with CSI support will check for new drivers registered to th
 
 
           </div>
-          <div class="d-none d-xl-block col-xl-2 td-toc d-print-none">
-            
-
-
-
-
-
-
-
-
-
-
-
-<nav id="TableOfContents">
-  <ul>
-    <li><a href="#how-do-i-use-a-csi-volume">How do I use a CSI Volume?</a></li>
-    <li><a href="#addendum-role-based-access-control">Addendum: Role-based Access Control</a></li>
-  </ul>
-</nav>
-
-
-
-          </div>
-          <main class="col-12 col-md-9 col-xl-8 pl-md-5" role="main">
+          
+          <main class="col-12 col-md-9 col-xl-9 pl-md-5" role="main">
             
   
 
-            <nav aria-label="breadcrumb" class="d-none d-md-block d-print-none">
+            <nav aria-label="breadcrumb" class="d-none d-md-block d-print-none breadcrumb-wrapper">
 	<ol class="breadcrumb spb-1">
 		
 
@@ -348,8 +334,10 @@ A Krustlet Provider with CSI support will check for new drivers registered to th
 	</ol>
 </nav	>
 
+
             
 <div class="td-content">
+	<h1>Registering a CSI Driver</h1>
 	<p>For more information on what is the Container Storage Interface and how it
 relates to a CSI driver, see the <a href="../topics/csi.md">topic guide</a> for more
 information.</p>
@@ -385,46 +373,46 @@ is unopinionated about what classes represent. This concept is sometimes called
 by a CSI volume plugin called &ldquo;hostpath.csi.k8s.io&rdquo;. This storage class will
 also allow for <a href="https://github.com/kubernetes-csi/external-resizer">volume
 expansion</a>.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">storage.k8s.io/v1</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">StorageClass</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">csi-hostpath-sc</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">provisioner</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">hostpath.csi.k8s.io</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">reclaimPolicy</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">Delete</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">volumeBindingMode</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">Immediate</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">allowVolumeExpansion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">true</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></code></pre></div><p>After installing a StorageClass, we can start creating PersistentVolumeClaims to
+<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="font-weight:bold">apiVersion</span>: storage.k8s.io/v1
+<span style="font-weight:bold">kind</span>: StorageClass
+<span style="font-weight:bold">metadata</span>:
+  <span style="font-weight:bold">name</span>: csi-hostpath-sc
+<span style="font-weight:bold">provisioner</span>: hostpath.csi.k8s.io
+<span style="font-weight:bold">reclaimPolicy</span>: Delete
+<span style="font-weight:bold">volumeBindingMode</span>: Immediate
+<span style="font-weight:bold">allowVolumeExpansion</span>: <span style="color:#fff;font-weight:bold">true</span>
+</code></pre></div><p>After installing a StorageClass, we can start creating PersistentVolumeClaims to
 provision and prepare volumes. These will be mounted to Kubernetes Pods that
 request it as a volume. Note how the PVC requests the same StorageClass we
 created earlier.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">v1</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">PersistentVolumeClaim</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">csi-pvc</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">accessModes</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span>- <span style="color:#000">ReadWriteOnce</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">resources</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">requests</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">storage</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">1Gi</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">storageClassName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">csi-hostpath-sc</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></code></pre></div><p>A Pod can then request that volume to be mounted by using the <code>volumes</code> API.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">Pod</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">v1</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">my-frontend</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">containers</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">my-frontend</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">image</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">example.com/my-frontend:v1.0.0</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">volumeMounts</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">      </span>- <span style="color:#204a87;font-weight:bold">mountPath</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;/data&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">my-csi-volume</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">volumes</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">my-csi-volume</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">persistentVolumeClaim</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">claimName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">csi-pvc</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></code></pre></div><p>When the pod referencing a CSI volume is scheduled, Krustlet will trigger the
+<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="font-weight:bold">apiVersion</span>: v1
+<span style="font-weight:bold">kind</span>: PersistentVolumeClaim
+<span style="font-weight:bold">metadata</span>:
+  <span style="font-weight:bold">name</span>: csi-pvc
+<span style="font-weight:bold">spec</span>:
+  <span style="font-weight:bold">accessModes</span>:
+  - ReadWriteOnce
+  <span style="font-weight:bold">resources</span>:
+    <span style="font-weight:bold">requests</span>:
+      <span style="font-weight:bold">storage</span>: 1Gi
+  <span style="font-weight:bold">storageClassName</span>: csi-hostpath-sc
+</code></pre></div><p>A Pod can then request that volume to be mounted by using the <code>volumes</code> API.</p>
+<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="font-weight:bold">kind</span>: Pod
+<span style="font-weight:bold">apiVersion</span>: v1
+<span style="font-weight:bold">metadata</span>:
+  <span style="font-weight:bold">name</span>: my-frontend
+<span style="font-weight:bold">spec</span>:
+  <span style="font-weight:bold">containers</span>:
+    - <span style="font-weight:bold">name</span>: my-frontend
+      <span style="font-weight:bold">image</span>: example.com/my-frontend:v1.0.0
+      <span style="font-weight:bold">volumeMounts</span>:
+      - <span style="font-weight:bold">mountPath</span>: <span style="color:#0ff;font-weight:bold">&#34;/data&#34;</span>
+        <span style="font-weight:bold">name</span>: my-csi-volume
+  <span style="font-weight:bold">volumes</span>:
+    - <span style="font-weight:bold">name</span>: my-csi-volume
+      <span style="font-weight:bold">persistentVolumeClaim</span>:
+        <span style="font-weight:bold">claimName</span>: csi-pvc
+</code></pre></div><p>When the pod referencing a CSI volume is scheduled, Krustlet will trigger the
 appropriate operations against the external CSI plugin (ControllerPublishVolume,
 NodePublishVolume, etc.) to ensure the specified volume is attached, mounted,
 and ready to use by the containers in the pod.</p>
@@ -433,88 +421,28 @@ and ready to use by the containers in the pod.</p>
 correct admission controls to access storage classes, you&rsquo;ll have to create the
 following cluster role and role binding to allow the <code>system:nodes</code> group to
 access them:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">rbac.authorization.k8s.io/v1</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">ClusterRole</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">storageclass-reader</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">rules</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span>- <span style="color:#204a87;font-weight:bold">apiGroups</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000;font-weight:bold">[</span><span style="color:#4e9a06">&#34;storage.k8s.io&#34;</span><span style="color:#000;font-weight:bold">]</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">resources</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000;font-weight:bold">[</span><span style="color:#4e9a06">&#34;storageclasses&#34;</span><span style="color:#000;font-weight:bold">]</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">verbs</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000;font-weight:bold">[</span><span style="color:#4e9a06">&#34;get&#34;</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;watch&#34;</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;list&#34;</span><span style="color:#000;font-weight:bold">]</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000">---</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">rbac.authorization.k8s.io/v1</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">ClusterRoleBinding</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">node-storageclass-reader</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">subjects</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span>- <span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">Group</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">system:nodes</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">apiGroup</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">rbac.authorization.k8s.io</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">roleRef</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">apiGroup</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">rbac.authorization.k8s.io</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">ClusterRole</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">storageclass-reader</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></code></pre></div>
-	
-		<style>
-  .feedback--answer {
-    display: inline-block;
-  }
-  .feedback--answer-no {
-    margin-left: 1em;
-  }
-  .feedback--response {
-    display: none;
-    margin-top: 1em;
-  }
-  .feedback--response__visible {
-    display: block;
-  }
-</style>
-<h2 class="feedback--title">Feedback</h2>
-<p class="feedback--question">Was this page helpful?</p>
-<button class="feedback--answer feedback--answer-yes">Yes</button>
-<button class="feedback--answer feedback--answer-no">No</button>
-<p class="feedback--response feedback--response-yes">
-  Glad to hear it! Please <a href="https://github.com/openservicemesh/osm/issues/new">tell us how we can improve</a>.
-</p>
-<p class="feedback--response feedback--response-no">
-  Sorry to hear that. Please <a href="https://github.com/openservicemesh/osm/issues/new">tell us how we can improve</a>.
-</p>
-<script>
-  const yesButton = document.querySelector('.feedback--answer-yes');
-  const noButton = document.querySelector('.feedback--answer-no');
-  const yesResponse = document.querySelector('.feedback--response-yes');
-  const noResponse = document.querySelector('.feedback--response-no');
-  const disableButtons = () => {
-    yesButton.disabled = true;
-    noButton.disabled = true;
-  };
-  const sendFeedback = (value) => {
-    if (typeof ga !== 'function') return;
-    const args = {
-      command: 'send',
-      hitType: 'event',
-      category: 'Helpful',
-      action: 'click',
-      label: window.location.pathname,
-      value: value
-    };
-    ga(args.command, args.hitType, args.category, args.action, args.label, args.value);
-  };
-  yesButton.addEventListener('click', () => {
-    yesResponse.classList.add('feedback--response__visible');
-    disableButtons();
-    sendFeedback(1);
-  });
-  noButton.addEventListener('click', () => {
-    noResponse.classList.add('feedback--response__visible');
-    disableButtons();
-    sendFeedback(0);
-  });
-</script>
-
-		<br />
+<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="font-weight:bold">apiVersion</span>: rbac.authorization.k8s.io/v1
+<span style="font-weight:bold">kind</span>: ClusterRole
+<span style="font-weight:bold">metadata</span>:
+  <span style="font-weight:bold">name</span>: storageclass-reader
+<span style="font-weight:bold">rules</span>:
+  - <span style="font-weight:bold">apiGroups</span>: [<span style="color:#0ff;font-weight:bold">&#34;storage.k8s.io&#34;</span>]
+    <span style="font-weight:bold">resources</span>: [<span style="color:#0ff;font-weight:bold">&#34;storageclasses&#34;</span>]
+    <span style="font-weight:bold">verbs</span>: [<span style="color:#0ff;font-weight:bold">&#34;get&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;watch&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;list&#34;</span>]
+---
+<span style="font-weight:bold">apiVersion</span>: rbac.authorization.k8s.io/v1
+<span style="font-weight:bold">kind</span>: ClusterRoleBinding
+<span style="font-weight:bold">metadata</span>:
+  <span style="font-weight:bold">name</span>: node-storageclass-reader
+<span style="font-weight:bold">subjects</span>:
+  - <span style="font-weight:bold">kind</span>: Group
+    <span style="font-weight:bold">name</span>: system:nodes
+    <span style="font-weight:bold">apiGroup</span>: rbac.authorization.k8s.io
+<span style="font-weight:bold">roleRef</span>:
+  <span style="font-weight:bold">apiGroup</span>: rbac.authorization.k8s.io
+  <span style="font-weight:bold">kind</span>: ClusterRole
+  <span style="font-weight:bold">name</span>: storageclass-reader
+</code></pre></div>
 	
 	
 </div>

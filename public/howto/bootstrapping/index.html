@@ -34,7 +34,7 @@ Instructions In order to join a cluster with the proper permissions, Krustlet re
 Initialization Krustlet follows the same initialization flow as Kubelet (with the exception of automatic renewal of certs that are close to expiry).
 Instructions In order to join a cluster with the proper permissions, Krustlet requires a valid bootstrap config with a valid bootstrap token. This token can be generated with kubeadm or may already exist depending on your provider.">
 
-<meta itemprop="wordCount" content="765">
+<meta itemprop="wordCount" content="821">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Bootstrapping Krustlet"/>
 <meta name="twitter:description" content="As of version 0.3.0, Krustlet supports automatic bootstrapping of its authorization and serving certificates. This document describes how the functionality works.
@@ -49,9 +49,11 @@ Instructions In order to join a cluster with the proper permissions, Krustlet re
 
 
 
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="//fonts.googleapis.com/css2?family=Poppins:wght@700&family=Work+Sans&display=swap" rel="stylesheet">
 
 
-<link rel="stylesheet" href="/css/style.2b86b6bda5c37fc229d39310629953b762fc7fdaab9a50a78ece383ebeb01174.css" integrity="sha256-K4a2vaXDf8Ip05MQYplTt2L8f9qrmlCnjs44Pr6wEXQ=">
+<link rel="stylesheet" href="/css/style.984d0cac551d1e618acdbae32aed044ef29a6f388b1a5c5e1193689b6445c90d.css" integrity="sha256-mE0MrFUdHmGKzbrjKu0ETvKabziLGlxeEZNom2RFyQ0=">
 
 
 <script
@@ -75,8 +77,14 @@ Instructions In order to join a cluster with the proper permissions, Krustlet re
     <header>
       
 <nav class="js-navbar-scroll navbar navbar-expand flex-column flex-md-row td-navbar">
-        <a class="navbar-brand" href="/">
-		
+	
+	<div class="deislabs">
+		<a href="https://deislabs.io/" title="Deis Labs">
+			<span>Deis Labs</span>
+			<div class="shapes top"><em class="dl-tr"></em><em class="dl-sq"></em><em class="dl-ci"></em></div>
+		</a>
+	</div>
+	<a class="navbar-brand" href="/">
 		<span class="text-uppercase font-weight-bold">Krustlet</span>
 	</a>
 	<div class="td-navbar-nav-scroll ml-md-auto" id="main_navbar">
@@ -146,7 +154,7 @@ Instructions In order to join a cluster with the proper permissions, Krustlet re
     <div class="container-fluid td-outer">
       <div class="td-main">
         <div class="row flex-xl-nowrap">
-          <div class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+          <div class="col-12 col-md-3 col-xl-3 td-sidebar d-print-none">
             
 
 
@@ -165,7 +173,7 @@ Instructions In order to join a cluster with the proper permissions, Krustlet re
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.4f9dcfcc0b6a6b7c294ff236e81460faf06aecfdb7559c70065ea62dd9118a92b855401ddaec2a3629084b0bb938f406e5ce410958fc0726354bea99353e56f0.json"
+  data-offline-search-index-json-src="/offline-search-index.59616654c3bfdc16be8f9dd0f8c7d4098b085d188474d154dbd361cbacd53f5dc104423f9001c90cc16edf2835d27dfb8f6ac36acfe812cbaee597f651510a1b.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -300,41 +308,12 @@ Instructions In order to join a cluster with the proper permissions, Krustlet re
 
 
           </div>
-          <div class="d-none d-xl-block col-xl-2 td-toc d-print-none">
-            
-
-
-
-
-
-
-
-
-
-
-
-<nav id="TableOfContents">
-  <ul>
-    <li><a href="#initialization">Initialization</a></li>
-    <li><a href="#instructions">Instructions</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#generating-a-token-and-kubeconfig">Generating a token and kubeconfig</a></li>
-        <li><a href="#running-krustlet">Running Krustlet</a></li>
-        <li><a href="#approving-the-serving-csr">Approving the serving CSR</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-
-
-
-          </div>
-          <main class="col-12 col-md-9 col-xl-8 pl-md-5" role="main">
+          
+          <main class="col-12 col-md-9 col-xl-9 pl-md-5" role="main">
             
   
 
-            <nav aria-label="breadcrumb" class="d-none d-md-block d-print-none">
+            <nav aria-label="breadcrumb" class="d-none d-md-block d-print-none breadcrumb-wrapper">
 	<ol class="breadcrumb spb-1">
 		
 
@@ -358,8 +337,10 @@ Instructions In order to join a cluster with the proper permissions, Krustlet re
 	</ol>
 </nav	>
 
+
             
 <div class="td-content">
+	<h1>Bootstrapping Krustlet</h1>
 	<p>As of version 0.3.0, Krustlet supports automatic bootstrapping of its
 authorization and serving certificates. This document describes how the
 functionality works.</p>
@@ -393,7 +374,7 @@ can run:</p>
 </code></pre><p>If you are the trusting sort, you can pipe it in from the internet:</p>
 <pre><code class="language-console" data-lang="console">$ bash &lt;(curl https://raw.githubusercontent.com/deislabs/krustlet/master/docs/howto/assets/bootstrap.sh)
 </code></pre><p>OR</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87">Invoke-WebRequest</span> <span style="color:#000">-UseBasicParsing</span> <span style="color:#000">https</span><span style="color:#a40000">:</span><span style="color:#000;font-weight:bold">//</span><span style="color:#000">raw</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">githubusercontent</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">com</span><span style="color:#000;font-weight:bold">/</span><span style="color:#000">deislabs</span><span style="color:#000;font-weight:bold">/</span><span style="color:#000">krustlet</span><span style="color:#000;font-weight:bold">/</span><span style="color:#000">master</span><span style="color:#000;font-weight:bold">/</span><span style="color:#000">docs</span><span style="color:#000;font-weight:bold">/</span><span style="color:#000">howto</span><span style="color:#000;font-weight:bold">/</span><span style="color:#000">assets</span><span style="color:#000;font-weight:bold">/</span><span style="color:#000">bootstrap</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">ps1</span><span style="color:#000;font-weight:bold">).</span><span style="color:#000">Content</span> <span style="color:#000;font-weight:bold">|</span> <span style="color:#204a87">Invoke-Expression</span>
+<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">(<span style="color:#fff;font-weight:bold">Invoke-WebRequest</span> -UseBasicParsing https<span style="color:#f00">:</span>//raw.githubusercontent.com/deislabs/krustlet/master/docs/howto/assets/bootstrap.ps1).Content | <span style="color:#fff;font-weight:bold">Invoke-Expression</span>
 </code></pre></div><p>This will output a ready-to-use bootstrap config to
 <code>$HOME/.krustlet/config/bootstrap.conf</code></p>
 <h4 id="script-configuration">Script configuration</h4>
@@ -436,20 +417,20 @@ simple bash command like so:</p>
 the <code>kube-system</code> namespace. The name of the secret should be
 <code>bootstrap-token-&lt;token_id&gt;</code>. Specifically, the secret should look something
 like this when you send it to the API:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">v1</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">Secret</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">bootstrap-token-&lt;token_id&gt;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">namespace</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">kube-system</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">type</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">bootstrap.kubernetes.io/token</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">stringData</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">auth-extra-groups</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">system:bootstrappers:kubeadm:default-node-token</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">expiration</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">2020-06-04T20:07:24Z</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">token-id</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">&lt;token_id&gt;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">token-secret</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">&lt;token_secret&gt;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">usage-bootstrap-authentication</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;true&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">usage-bootstrap-signing</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;true&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></code></pre></div><p>The main fields you need to set are <code>token-id</code>, <code>token-secret</code>, and
+<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="font-weight:bold">apiVersion</span>: v1
+<span style="font-weight:bold">kind</span>: Secret
+<span style="font-weight:bold">metadata</span>:
+  <span style="font-weight:bold">name</span>: bootstrap-token-&lt;token_id&gt;
+  <span style="font-weight:bold">namespace</span>: kube-system
+<span style="font-weight:bold">type</span>: bootstrap.kubernetes.io/token
+<span style="font-weight:bold">stringData</span>:
+  <span style="font-weight:bold">auth-extra-groups</span>: system:bootstrappers:kubeadm:default-node-token
+  <span style="font-weight:bold">expiration</span>: <span style="color:#ff0;font-weight:bold">2020-06-04T20:07:24Z</span>
+  <span style="font-weight:bold">token-id</span>: &lt;token_id&gt;
+  <span style="font-weight:bold">token-secret</span>: &lt;token_secret&gt;
+  <span style="font-weight:bold">usage-bootstrap-authentication</span>: <span style="color:#0ff;font-weight:bold">&#34;true&#34;</span>
+  <span style="font-weight:bold">usage-bootstrap-signing</span>: <span style="color:#0ff;font-weight:bold">&#34;true&#34;</span>
+</code></pre></div><p>The main fields you need to set are <code>token-id</code>, <code>token-secret</code>, and
 <code>expiration</code>.</p>
 <h5 id="generating-the-kubeconfig">Generating the Kubeconfig</h5>
 <p>Once you have a <code>Secret</code> created, you then have to generate the Kubeconfig. To
@@ -465,26 +446,26 @@ found in the <a href="./assets/bootstrap.sh">bootstrap script</a></p>
 <h5 id="an-example-bootstrap-config">An example bootstrap config</h5>
 <p>This is an example of a bootstrap config file for reference if creating your own
 workflow</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">v1</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">clusters</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span>- <span style="color:#204a87;font-weight:bold">cluster</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">certificate-authority-data</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUM1ekNDQWMrZ0F3SUJBZ0lCQVRBTkJna3Foa2lHOXcwQkFRc0ZBREFWTVJNd0VRWURWUVFERXdwdGFXNXAKYTNWaVpVTkJNQjRYRFRFNE1EUXlOREF3TVRVME9Wb1hEVEk0TURReU1UQXdNVFUwT1Zvd0ZURVRNQkVHQTFVRQpBeE1LYldsdWFXdDFZbVZEUVRDQ0FTSXdEUVlKS29aSWh2Y05BUUVCQlFBRGdnRVBBRENDQVFvQ2dnRUJBS1lxCnhzMllBNzRETlFQTVZkbFJ3aXZFWnIwd0lTUHlQZjkzR3ZsUVNKMDQrbFgxSEF3Yi9GM3dqcDVEckVOSDAraTUKbjhZUy9QK3JlNUpqVU9tV1VmMXNtMmVLNHNRNHpNS01kMHc5by9ERlozTHc3K1h6RzMveTdvMkF4SWVlYjBPdgpzbzhwWUVOMklzRUcrRFhpa0l0MjhPZ1RtZGRhTVg1OWJQTXhGL0l6T1FPVmFEYmtnMk5ScWtjYW9CR0FTT2JkCkVId2hrVGdMYXZCNzVnVmRTVVlWUFU1M2dXc3hDQWVBYzNCaW9NekNLNmFFUXIrMDB4V3dEWkR4amxLYU02V3gKTWFQN0JmY0Y5K2U3OUt0Tkc3TXZMWG9xdFJ3cCtPdWREaTlKWHRLS1NNbVo3TFNubEY4UDdHUlhKL2IzNS9NVQpvQklkK1ZKNHpoak5zT2xKM3g4Q0F3RUFBYU5DTUVBd0RnWURWUjBQQVFIL0JBUURBZ0trTUIwR0ExVWRKUVFXCk1CUUdDQ3NHQVFVRkJ3TUNCZ2dyQmdFRkJRY0RBVEFQQmdOVkhSTUJBZjhFQlRBREFRSC9NQTBHQ1NxR1NJYjMKRFFFQkN3VUFBNElCQVFDWmM0SVpST3pnNS91eDdNa0Y3NmVja3dZekY4OUJiejRhRENVS3ByWUMxTDFvZVBVawpXdFc3VENWditDMDJRc2tGRnpTbGhlQUpYeXp5Q2xKMVE5VmUyUmR2bGtiZHVPTXpJeXZTS0xaZHVDT2pvVWNZCjkrMTN1UEFpaXJjNUpRZlBOTGdJcUdhbTB2ZXpqZEtROHNUK0o0WmRyNHdFOUZKQnhOeUhob0xQdjBLRENBbkcKWFlPZW5lTHdjcnJCcTVDTERRN2dIelZGbEFKVU1nSWF3ZzdtcG1HVi9KRlVlYnRpam1Cd1p1WDBNMTFpVHBqYQpNaUhDRkJOREd5a2locDBoSHdDV1ZId0ZXNHVLUWxUZjRBK2hieC9OTUkzbHhBYXozMFZKN3U1Mm1GR3pCQ0dvCmt3VjdKS2RJMEd1MGJQQmlUSDRMTmE4bWxqYmZkRnhsc2k4cAotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">server</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">https://192.168.64.19:8443</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">minikube</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">contexts</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span>- <span style="color:#204a87;font-weight:bold">context</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">cluster</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">minikube</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">namespace</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">kube-system</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">user</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">tls-bootstrap-token-user</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">tls-bootstrap-token-user@kubernetes</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">current-context</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">tls-bootstrap-token-user@kubernetes</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">Config</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">preferences</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>{}<span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">users</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">tls-bootstrap-token-user</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">user</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">token</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">ke3uxh.vhxb3ttj1nquno5t</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></code></pre></div><h3 id="running-krustlet">Running Krustlet</h3>
+<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="font-weight:bold">apiVersion</span>: v1
+<span style="font-weight:bold">clusters</span>:
+- <span style="font-weight:bold">cluster</span>:
+    <span style="font-weight:bold">certificate-authority-data</span>: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUM1ekNDQWMrZ0F3SUJBZ0lCQVRBTkJna3Foa2lHOXcwQkFRc0ZBREFWTVJNd0VRWURWUVFERXdwdGFXNXAKYTNWaVpVTkJNQjRYRFRFNE1EUXlOREF3TVRVME9Wb1hEVEk0TURReU1UQXdNVFUwT1Zvd0ZURVRNQkVHQTFVRQpBeE1LYldsdWFXdDFZbVZEUVRDQ0FTSXdEUVlKS29aSWh2Y05BUUVCQlFBRGdnRVBBRENDQVFvQ2dnRUJBS1lxCnhzMllBNzRETlFQTVZkbFJ3aXZFWnIwd0lTUHlQZjkzR3ZsUVNKMDQrbFgxSEF3Yi9GM3dqcDVEckVOSDAraTUKbjhZUy9QK3JlNUpqVU9tV1VmMXNtMmVLNHNRNHpNS01kMHc5by9ERlozTHc3K1h6RzMveTdvMkF4SWVlYjBPdgpzbzhwWUVOMklzRUcrRFhpa0l0MjhPZ1RtZGRhTVg1OWJQTXhGL0l6T1FPVmFEYmtnMk5ScWtjYW9CR0FTT2JkCkVId2hrVGdMYXZCNzVnVmRTVVlWUFU1M2dXc3hDQWVBYzNCaW9NekNLNmFFUXIrMDB4V3dEWkR4amxLYU02V3gKTWFQN0JmY0Y5K2U3OUt0Tkc3TXZMWG9xdFJ3cCtPdWREaTlKWHRLS1NNbVo3TFNubEY4UDdHUlhKL2IzNS9NVQpvQklkK1ZKNHpoak5zT2xKM3g4Q0F3RUFBYU5DTUVBd0RnWURWUjBQQVFIL0JBUURBZ0trTUIwR0ExVWRKUVFXCk1CUUdDQ3NHQVFVRkJ3TUNCZ2dyQmdFRkJRY0RBVEFQQmdOVkhSTUJBZjhFQlRBREFRSC9NQTBHQ1NxR1NJYjMKRFFFQkN3VUFBNElCQVFDWmM0SVpST3pnNS91eDdNa0Y3NmVja3dZekY4OUJiejRhRENVS3ByWUMxTDFvZVBVawpXdFc3VENWditDMDJRc2tGRnpTbGhlQUpYeXp5Q2xKMVE5VmUyUmR2bGtiZHVPTXpJeXZTS0xaZHVDT2pvVWNZCjkrMTN1UEFpaXJjNUpRZlBOTGdJcUdhbTB2ZXpqZEtROHNUK0o0WmRyNHdFOUZKQnhOeUhob0xQdjBLRENBbkcKWFlPZW5lTHdjcnJCcTVDTERRN2dIelZGbEFKVU1nSWF3ZzdtcG1HVi9KRlVlYnRpam1Cd1p1WDBNMTFpVHBqYQpNaUhDRkJOREd5a2locDBoSHdDV1ZId0ZXNHVLUWxUZjRBK2hieC9OTUkzbHhBYXozMFZKN3U1Mm1GR3pCQ0dvCmt3VjdKS2RJMEd1MGJQQmlUSDRMTmE4bWxqYmZkRnhsc2k4cAotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    <span style="font-weight:bold">server</span>: https://192.168.64.19:8443
+  <span style="font-weight:bold">name</span>: minikube
+<span style="font-weight:bold">contexts</span>:
+- <span style="font-weight:bold">context</span>:
+    <span style="font-weight:bold">cluster</span>: minikube
+    <span style="font-weight:bold">namespace</span>: kube-system
+    <span style="font-weight:bold">user</span>: tls-bootstrap-token-user
+  <span style="font-weight:bold">name</span>: tls-bootstrap-token-user@kubernetes
+<span style="font-weight:bold">current-context</span>: tls-bootstrap-token-user@kubernetes
+<span style="font-weight:bold">kind</span>: Config
+<span style="font-weight:bold">preferences</span>: {}
+<span style="font-weight:bold">users</span>:
+- <span style="font-weight:bold">name</span>: tls-bootstrap-token-user
+  <span style="font-weight:bold">user</span>:
+    <span style="font-weight:bold">token</span>: ke3uxh.vhxb3ttj1nquno5t
+</code></pre></div><h3 id="running-krustlet">Running Krustlet</h3>
 <p>Once you have the bootstrap config in place, you can run Krustlet:</p>
 <pre><code class="language-console" data-lang="console">$ KUBECONFIG=~/.krustlet/config/kubeconfig krustlet-wasi --port 3000 --bootstrap-file /path/to/your/bootstrap.conf
 </code></pre><p>Krustlet will begin the bootstrapping process, and then <strong>await manual
@@ -510,66 +491,6 @@ Then run:</p>
 </code></pre><p>Once you do this, Krustlet will automatically grab the new certs and start
 running.</p>
 
-	
-		<style>
-  .feedback--answer {
-    display: inline-block;
-  }
-  .feedback--answer-no {
-    margin-left: 1em;
-  }
-  .feedback--response {
-    display: none;
-    margin-top: 1em;
-  }
-  .feedback--response__visible {
-    display: block;
-  }
-</style>
-<h2 class="feedback--title">Feedback</h2>
-<p class="feedback--question">Was this page helpful?</p>
-<button class="feedback--answer feedback--answer-yes">Yes</button>
-<button class="feedback--answer feedback--answer-no">No</button>
-<p class="feedback--response feedback--response-yes">
-  Glad to hear it! Please <a href="https://github.com/openservicemesh/osm/issues/new">tell us how we can improve</a>.
-</p>
-<p class="feedback--response feedback--response-no">
-  Sorry to hear that. Please <a href="https://github.com/openservicemesh/osm/issues/new">tell us how we can improve</a>.
-</p>
-<script>
-  const yesButton = document.querySelector('.feedback--answer-yes');
-  const noButton = document.querySelector('.feedback--answer-no');
-  const yesResponse = document.querySelector('.feedback--response-yes');
-  const noResponse = document.querySelector('.feedback--response-no');
-  const disableButtons = () => {
-    yesButton.disabled = true;
-    noButton.disabled = true;
-  };
-  const sendFeedback = (value) => {
-    if (typeof ga !== 'function') return;
-    const args = {
-      command: 'send',
-      hitType: 'event',
-      category: 'Helpful',
-      action: 'click',
-      label: window.location.pathname,
-      value: value
-    };
-    ga(args.command, args.hitType, args.category, args.action, args.label, args.value);
-  };
-  yesButton.addEventListener('click', () => {
-    yesResponse.classList.add('feedback--response__visible');
-    disableButtons();
-    sendFeedback(1);
-  });
-  noButton.addEventListener('click', () => {
-    noResponse.classList.add('feedback--response__visible');
-    disableButtons();
-    sendFeedback(0);
-  });
-</script>
-
-		<br />
 	
 	
 </div>

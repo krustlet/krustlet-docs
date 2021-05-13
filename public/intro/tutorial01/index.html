@@ -36,7 +36,7 @@ Throughout this tutorial, we’ll walk you through the creation of a basic WASI 
 The tutorial will consist of three parts:
  Building the application Publishing the application to a registry Running the application with Krustlet  Prerequisites We’ll assume you have Cargo (a package management system for Rust) installed already.">
 
-<meta itemprop="wordCount" content="588">
+<meta itemprop="wordCount" content="600">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Writing your first app, part 1"/>
 <meta name="twitter:description" content="Let’s learn by example.
@@ -52,9 +52,11 @@ The tutorial will consist of three parts:
 
 
 
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="//fonts.googleapis.com/css2?family=Poppins:wght@700&family=Work+Sans&display=swap" rel="stylesheet">
 
 
-<link rel="stylesheet" href="/css/style.2b86b6bda5c37fc229d39310629953b762fc7fdaab9a50a78ece383ebeb01174.css" integrity="sha256-K4a2vaXDf8Ip05MQYplTt2L8f9qrmlCnjs44Pr6wEXQ=">
+<link rel="stylesheet" href="/css/style.984d0cac551d1e618acdbae32aed044ef29a6f388b1a5c5e1193689b6445c90d.css" integrity="sha256-mE0MrFUdHmGKzbrjKu0ETvKabziLGlxeEZNom2RFyQ0=">
 
 
 <script
@@ -78,8 +80,14 @@ The tutorial will consist of three parts:
     <header>
       
 <nav class="js-navbar-scroll navbar navbar-expand flex-column flex-md-row td-navbar">
-        <a class="navbar-brand" href="/">
-		
+	
+	<div class="deislabs">
+		<a href="https://deislabs.io/" title="Deis Labs">
+			<span>Deis Labs</span>
+			<div class="shapes top"><em class="dl-tr"></em><em class="dl-sq"></em><em class="dl-ci"></em></div>
+		</a>
+	</div>
+	<a class="navbar-brand" href="/">
 		<span class="text-uppercase font-weight-bold">Krustlet</span>
 	</a>
 	<div class="td-navbar-nav-scroll ml-md-auto" id="main_navbar">
@@ -149,7 +157,7 @@ The tutorial will consist of three parts:
     <div class="container-fluid td-outer">
       <div class="td-main">
         <div class="row flex-xl-nowrap">
-          <div class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+          <div class="col-12 col-md-3 col-xl-3 td-sidebar d-print-none">
             
 
 
@@ -168,7 +176,7 @@ The tutorial will consist of three parts:
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.4f9dcfcc0b6a6b7c294ff236e81460faf06aecfdb7559c70065ea62dd9118a92b855401ddaec2a3629084b0bb938f406e5ce410958fc0726354bea99353e56f0.json"
+  data-offline-search-index-json-src="/offline-search-index.59616654c3bfdc16be8f9dd0f8c7d4098b085d188474d154dbd361cbacd53f5dc104423f9001c90cc16edf2835d27dfb8f6ac36acfe812cbaee597f651510a1b.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -249,40 +257,12 @@ The tutorial will consist of three parts:
 
 
           </div>
-          <div class="d-none d-xl-block col-xl-2 td-toc d-print-none">
-            
-
-
-
-
-
-
-
-
-
-
-
-<nav id="TableOfContents">
-  <ul>
-    <li><a href="#prerequisites">Prerequisites</a></li>
-    <li><a href="#creating-your-first-application">Creating your first application</a>
-      <ul>
-        <li><a href="#option-1-from-c">Option 1: From C</a></li>
-        <li><a href="#option-2-from-rust">Option 2: From Rust</a></li>
-      </ul>
-    </li>
-    <li><a href="#optional-executing-with-wasmtime">Optional: executing with wasmtime</a></li>
-  </ul>
-</nav>
-
-
-
-          </div>
-          <main class="col-12 col-md-9 col-xl-8 pl-md-5" role="main">
+          
+          <main class="col-12 col-md-9 col-xl-9 pl-md-5" role="main">
             
   
 
-            <nav aria-label="breadcrumb" class="d-none d-md-block d-print-none">
+            <nav aria-label="breadcrumb" class="d-none d-md-block d-print-none breadcrumb-wrapper">
 	<ol class="breadcrumb spb-1">
 		
 
@@ -306,8 +286,10 @@ The tutorial will consist of three parts:
 	</ol>
 </nav	>
 
+
             
 <div class="td-content">
+	<h1>Writing your first app, part 1</h1>
 	<p>Let’s learn by example.</p>
 <p>Throughout this tutorial, we’ll walk you through the creation of a basic WASI
 application. Once ready, we will package that application and install it onto
@@ -350,16 +332,16 @@ $ cd demo
 $ touch main.c
 </code></pre><p>The C code here uses standard POSIX APIs, and doesn&rsquo;t have any knowledge of WASI
 internals.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#8f5902;font-style:italic">#include</span> <span style="color:#8f5902;font-style:italic">&lt;stdio.h&gt;</span><span style="color:#8f5902;font-style:italic">
-</span><span style="color:#8f5902;font-style:italic">#include</span> <span style="color:#8f5902;font-style:italic">&lt;unistd.h&gt;</span><span style="color:#8f5902;font-style:italic">
-</span><span style="color:#8f5902;font-style:italic"></span>
-<span style="color:#204a87;font-weight:bold">int</span> <span style="color:#000">main</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{</span>
-    <span style="color:#204a87;font-weight:bold">while</span><span style="color:#000;font-weight:bold">(</span><span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
-        <span style="color:#000">printf</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;Hello, World!</span><span style="color:#4e9a06">\n</span><span style="color:#4e9a06">&#34;</span><span style="color:#000;font-weight:bold">);</span>
-        <span style="color:#000">sleep</span><span style="color:#000;font-weight:bold">(</span><span style="color:#0000cf;font-weight:bold">5</span><span style="color:#000;font-weight:bold">);</span>
-    <span style="color:#000;font-weight:bold">}</span>
-    <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">;</span>
-<span style="color:#000;font-weight:bold">}</span>
+<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#0f0;font-weight:bold">#include</span> <span style="color:#0f0;font-weight:bold">&lt;stdio.h&gt;</span><span style="color:#0f0;font-weight:bold">
+</span><span style="color:#0f0;font-weight:bold">#include</span> <span style="color:#0f0;font-weight:bold">&lt;unistd.h&gt;</span><span style="color:#0f0;font-weight:bold">
+</span><span style="color:#0f0;font-weight:bold"></span>
+<span style="color:#fff;font-weight:bold">int</span> main() {
+    <span style="color:#fff;font-weight:bold">while</span>(<span style="color:#ff0;font-weight:bold">1</span>) {
+        printf(<span style="color:#0ff;font-weight:bold">&#34;Hello, World!</span><span style="color:#0ff;font-weight:bold">\n</span><span style="color:#0ff;font-weight:bold">&#34;</span>);
+        sleep(<span style="color:#ff0;font-weight:bold">5</span>);
+    }
+    <span style="color:#fff;font-weight:bold">return</span> <span style="color:#ff0;font-weight:bold">0</span>;
+}
 </code></pre></div><p>The wasi-sdk provides a clang which is configured to target WASI. We can compile
 our program like so:</p>
 <pre><code class="language-console" data-lang="console">$ clang main.c -o demo.wasm
@@ -372,16 +354,16 @@ demo.wasm: WebAssembly (wasm) binary module version 0x1 (MVP)
 project:</p>
 <pre><code class="language-console" data-lang="console">$ cargo new --bin demo
 </code></pre><p>Now, let&rsquo;s port the C program defined earlier to Rust. In <code>src/main.rs</code>:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#204a87;font-weight:bold">use</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">std</span>::<span style="color:#000">time</span>::<span style="color:#000">Duration</span><span style="color:#000;font-weight:bold">;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">use</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">std</span>::<span style="color:#000">thread</span>::<span style="color:#000">sleep</span><span style="color:#000;font-weight:bold">;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">fn</span> <span style="color:#000">main</span><span style="color:#000;font-weight:bold">()</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000;font-weight:bold">{</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">loop</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000;font-weight:bold">{</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#000">println</span><span style="color:#ce5c00;font-weight:bold">!</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;Hello, World!&#34;</span><span style="color:#000;font-weight:bold">);</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#000">sleep</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">Duration</span>::<span style="color:#000">from_secs</span><span style="color:#000;font-weight:bold">(</span><span style="color:#0000cf;font-weight:bold">5</span><span style="color:#000;font-weight:bold">));</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#000;font-weight:bold">}</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000;font-weight:bold">}</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></code></pre></div><p>In order to build it, we first need to install a WASI-enabled Rust toolchain:</p>
+<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#fff;font-weight:bold">use</span> std::time::Duration;
+<span style="color:#fff;font-weight:bold">use</span> std::thread::sleep;
+
+<span style="color:#fff;font-weight:bold">fn</span> main() {
+    <span style="color:#fff;font-weight:bold">loop</span> {
+        println!(<span style="color:#0ff;font-weight:bold">&#34;Hello, World!&#34;</span>);
+        sleep(Duration::from_secs(<span style="color:#ff0;font-weight:bold">5</span>));
+    }
+}
+</code></pre></div><p>In order to build it, we first need to install a WASI-enabled Rust toolchain:</p>
 <pre><code class="language-console" data-lang="console">$ rustup target add wasm32-wasi
 $ cargo build --release --target wasm32-wasi
 </code></pre><p>We should now have the WebAssembly module created in <code>target/wasm32-wasi/release</code>:</p>
@@ -405,66 +387,6 @@ Hello, World!
 this tutorial to learn about publishing our application to a registry, where
 Krustlet will be able to find it and run it.</p>
 
-	
-		<style>
-  .feedback--answer {
-    display: inline-block;
-  }
-  .feedback--answer-no {
-    margin-left: 1em;
-  }
-  .feedback--response {
-    display: none;
-    margin-top: 1em;
-  }
-  .feedback--response__visible {
-    display: block;
-  }
-</style>
-<h2 class="feedback--title">Feedback</h2>
-<p class="feedback--question">Was this page helpful?</p>
-<button class="feedback--answer feedback--answer-yes">Yes</button>
-<button class="feedback--answer feedback--answer-no">No</button>
-<p class="feedback--response feedback--response-yes">
-  Glad to hear it! Please <a href="https://github.com/openservicemesh/osm/issues/new">tell us how we can improve</a>.
-</p>
-<p class="feedback--response feedback--response-no">
-  Sorry to hear that. Please <a href="https://github.com/openservicemesh/osm/issues/new">tell us how we can improve</a>.
-</p>
-<script>
-  const yesButton = document.querySelector('.feedback--answer-yes');
-  const noButton = document.querySelector('.feedback--answer-no');
-  const yesResponse = document.querySelector('.feedback--response-yes');
-  const noResponse = document.querySelector('.feedback--response-no');
-  const disableButtons = () => {
-    yesButton.disabled = true;
-    noButton.disabled = true;
-  };
-  const sendFeedback = (value) => {
-    if (typeof ga !== 'function') return;
-    const args = {
-      command: 'send',
-      hitType: 'event',
-      category: 'Helpful',
-      action: 'click',
-      label: window.location.pathname,
-      value: value
-    };
-    ga(args.command, args.hitType, args.category, args.action, args.label, args.value);
-  };
-  yesButton.addEventListener('click', () => {
-    yesResponse.classList.add('feedback--response__visible');
-    disableButtons();
-    sendFeedback(1);
-  });
-  noButton.addEventListener('click', () => {
-    noResponse.classList.add('feedback--response__visible');
-    disableButtons();
-    sendFeedback(0);
-  });
-</script>
-
-		<br />
 	
 	
 </div>

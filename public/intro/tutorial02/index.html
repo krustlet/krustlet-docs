@@ -49,9 +49,11 @@ What is a registry, and what is wasm-to-oci? A registry allows you to store your
 
 
 
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="//fonts.googleapis.com/css2?family=Poppins:wght@700&family=Work+Sans&display=swap" rel="stylesheet">
 
 
-<link rel="stylesheet" href="/css/style.2b86b6bda5c37fc229d39310629953b762fc7fdaab9a50a78ece383ebeb01174.css" integrity="sha256-K4a2vaXDf8Ip05MQYplTt2L8f9qrmlCnjs44Pr6wEXQ=">
+<link rel="stylesheet" href="/css/style.984d0cac551d1e618acdbae32aed044ef29a6f388b1a5c5e1193689b6445c90d.css" integrity="sha256-mE0MrFUdHmGKzbrjKu0ETvKabziLGlxeEZNom2RFyQ0=">
 
 
 <script
@@ -75,8 +77,14 @@ What is a registry, and what is wasm-to-oci? A registry allows you to store your
     <header>
       
 <nav class="js-navbar-scroll navbar navbar-expand flex-column flex-md-row td-navbar">
-        <a class="navbar-brand" href="/">
-		
+	
+	<div class="deislabs">
+		<a href="https://deislabs.io/" title="Deis Labs">
+			<span>Deis Labs</span>
+			<div class="shapes top"><em class="dl-tr"></em><em class="dl-sq"></em><em class="dl-ci"></em></div>
+		</a>
+	</div>
+	<a class="navbar-brand" href="/">
 		<span class="text-uppercase font-weight-bold">Krustlet</span>
 	</a>
 	<div class="td-navbar-nav-scroll ml-md-auto" id="main_navbar">
@@ -146,7 +154,7 @@ What is a registry, and what is wasm-to-oci? A registry allows you to store your
     <div class="container-fluid td-outer">
       <div class="td-main">
         <div class="row flex-xl-nowrap">
-          <div class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+          <div class="col-12 col-md-3 col-xl-3 td-sidebar d-print-none">
             
 
 
@@ -165,7 +173,7 @@ What is a registry, and what is wasm-to-oci? A registry allows you to store your
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.4f9dcfcc0b6a6b7c294ff236e81460faf06aecfdb7559c70065ea62dd9118a92b855401ddaec2a3629084b0bb938f406e5ce410958fc0726354bea99353e56f0.json"
+  data-offline-search-index-json-src="/offline-search-index.59616654c3bfdc16be8f9dd0f8c7d4098b085d188474d154dbd361cbacd53f5dc104423f9001c90cc16edf2835d27dfb8f6ac36acfe812cbaee597f651510a1b.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -246,48 +254,12 @@ What is a registry, and what is wasm-to-oci? A registry allows you to store your
 
 
           </div>
-          <div class="d-none d-xl-block col-xl-2 td-toc d-print-none">
-            
-
-
-
-
-
-
-
-
-
-
-
-<nav id="TableOfContents">
-  <ul>
-    <li><a href="#what-is-a-registry-and-what-is-wasm-to-oci">What is a registry, and what is wasm-to-oci?</a></li>
-    <li><a href="#create-a-registry">Create a registry</a>
-      <ul>
-        <li><a href="#create-a-resource-group">Create a resource group</a></li>
-        <li><a href="#create-a-container-registry">Create a container registry</a></li>
-        <li><a href="#log-in">Log in</a></li>
-      </ul>
-    </li>
-    <li><a href="#publish-your-app">Publish your app</a></li>
-    <li><a href="#create-a-container-registry-pull-secret">Create a container registry pull secret</a>
-      <ul>
-        <li><a href="#create-a-service-principal-and-assign-a-role-in-azure">Create a service principal and assign a role in Azure</a></li>
-        <li><a href="#use-the-service-principal">Use the service principal</a></li>
-      </ul>
-    </li>
-    <li><a href="#next-steps">Next steps</a></li>
-  </ul>
-</nav>
-
-
-
-          </div>
-          <main class="col-12 col-md-9 col-xl-8 pl-md-5" role="main">
+          
+          <main class="col-12 col-md-9 col-xl-9 pl-md-5" role="main">
             
   
 
-            <nav aria-label="breadcrumb" class="d-none d-md-block d-print-none">
+            <nav aria-label="breadcrumb" class="d-none d-md-block d-print-none breadcrumb-wrapper">
 	<ol class="breadcrumb spb-1">
 		
 
@@ -311,8 +283,10 @@ What is a registry, and what is wasm-to-oci? A registry allows you to store your
 	</ol>
 </nav	>
 
+
             
 <div class="td-content">
+	<h1>Writing your first app, part 2</h1>
 	<p>This tutorial begins where <a href="tutorial01.md">Tutorial 1</a> left off. We’ll walk
 through the process to set up your personal registry and publish your
 application to that registry.</p>
@@ -356,24 +330,24 @@ be unique within Azure, and contain 5-50 alphanumeric characters.</p>
 this to a unique value.</p>
 <pre><code class="language-console" data-lang="console">$ az acr create --sku Basic --resource-group myResourceGroup --name mycontainerregistry007
 </code></pre><p>When the registry is created, the output is similar to the following:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#000;font-weight:bold">{</span>
-  <span style="color:#204a87;font-weight:bold">&#34;adminUserEnabled&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#204a87;font-weight:bold">false</span><span style="color:#000;font-weight:bold">,</span>
-  <span style="color:#204a87;font-weight:bold">&#34;creationDate&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;2019-01-08T22:32:13.175925+00:00&#34;</span><span style="color:#000;font-weight:bold">,</span>
-  <span style="color:#204a87;font-weight:bold">&#34;id&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/mycontainerregistry007&#34;</span><span style="color:#000;font-weight:bold">,</span>
-  <span style="color:#204a87;font-weight:bold">&#34;location&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;eastus&#34;</span><span style="color:#000;font-weight:bold">,</span>
-  <span style="color:#204a87;font-weight:bold">&#34;loginServer&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;mycontainerregistry007.azurecr.io&#34;</span><span style="color:#000;font-weight:bold">,</span>
-  <span style="color:#204a87;font-weight:bold">&#34;name&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;mycontainerregistry007&#34;</span><span style="color:#000;font-weight:bold">,</span>
-  <span style="color:#204a87;font-weight:bold">&#34;provisioningState&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;Succeeded&#34;</span><span style="color:#000;font-weight:bold">,</span>
-  <span style="color:#204a87;font-weight:bold">&#34;resourceGroup&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;myResourceGroup&#34;</span><span style="color:#000;font-weight:bold">,</span>
-  <span style="color:#204a87;font-weight:bold">&#34;sku&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">{</span>
-    <span style="color:#204a87;font-weight:bold">&#34;name&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;Basic&#34;</span><span style="color:#000;font-weight:bold">,</span>
-    <span style="color:#204a87;font-weight:bold">&#34;tier&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;Basic&#34;</span>
-  <span style="color:#000;font-weight:bold">},</span>
-  <span style="color:#204a87;font-weight:bold">&#34;status&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#204a87;font-weight:bold">null</span><span style="color:#000;font-weight:bold">,</span>
-  <span style="color:#204a87;font-weight:bold">&#34;storageAccount&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#204a87;font-weight:bold">null</span><span style="color:#000;font-weight:bold">,</span>
-  <span style="color:#204a87;font-weight:bold">&#34;tags&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">{},</span>
-  <span style="color:#204a87;font-weight:bold">&#34;type&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;Microsoft.ContainerRegistry/registries&#34;</span>
-<span style="color:#000;font-weight:bold">}</span>
+<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="font-weight:bold">&#34;adminUserEnabled&#34;</span>: <span style="color:#fff;font-weight:bold">false</span>,
+  <span style="font-weight:bold">&#34;creationDate&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;2019-01-08T22:32:13.175925+00:00&#34;</span>,
+  <span style="font-weight:bold">&#34;id&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/mycontainerregistry007&#34;</span>,
+  <span style="font-weight:bold">&#34;location&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;eastus&#34;</span>,
+  <span style="font-weight:bold">&#34;loginServer&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;mycontainerregistry007.azurecr.io&#34;</span>,
+  <span style="font-weight:bold">&#34;name&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;mycontainerregistry007&#34;</span>,
+  <span style="font-weight:bold">&#34;provisioningState&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;Succeeded&#34;</span>,
+  <span style="font-weight:bold">&#34;resourceGroup&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;myResourceGroup&#34;</span>,
+  <span style="font-weight:bold">&#34;sku&#34;</span>: {
+    <span style="font-weight:bold">&#34;name&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;Basic&#34;</span>,
+    <span style="font-weight:bold">&#34;tier&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;Basic&#34;</span>
+  },
+  <span style="font-weight:bold">&#34;status&#34;</span>: <span style="color:#fff;font-weight:bold">null</span>,
+  <span style="font-weight:bold">&#34;storageAccount&#34;</span>: <span style="color:#fff;font-weight:bold">null</span>,
+  <span style="font-weight:bold">&#34;tags&#34;</span>: {},
+  <span style="font-weight:bold">&#34;type&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;Microsoft.ContainerRegistry/registries&#34;</span>
+}
 </code></pre></div><p>Take note of the <code>loginServer</code> field. That is the URL for our registry. We&rsquo;ll
 need to know that when we publish our application in a bit.</p>
 <h3 id="log-in">Log in</h3>
@@ -390,7 +364,7 @@ registry API and will fetch the module based on the URL you uploaded it to.</p>
 Our <code>loginServer</code> field from earlier was <code>mycontainerregistry007.azurecr.io</code>,
 and we want to name our application <code>krustlet-tutorial</code>, version <code>v1.0.0</code>.</p>
 <p>The pattern for a registry URL is:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">&lt;URL&gt;/&lt;NAME&gt;:&lt;VERSION&gt;
+<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">&lt;URL&gt;/&lt;NAME&gt;:&lt;VERSION&gt;
 </code></pre></div><p>In our case, our application URL will look like
 <code>mycontainerregistry007.azurecr.io/krustlet-tutorial:v1.0.0</code>. Great!</p>
 <p>Let&rsquo;s publish that now:</p>
@@ -412,30 +386,30 @@ and repeated here for convenience.</p>
 <p>Below is a bash script that will create a service principal for pulling images
 for the registry. Replace <code>&lt;container-registry-name&gt;</code> with
 <code>mycontainerregistry007</code>.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#8f5902;font-style:italic">#!/bin/bash
-</span><span style="color:#8f5902;font-style:italic"></span>
-<span style="color:#8f5902;font-style:italic"># Modify for your environment.</span>
-<span style="color:#8f5902;font-style:italic"># ACR_NAME: The name of your Azure Container Registry</span>
-<span style="color:#8f5902;font-style:italic"># SERVICE_PRINCIPAL_NAME: Must be unique within your AD tenant</span>
-<span style="color:#000">ACR_NAME</span><span style="color:#ce5c00;font-weight:bold">=</span>&lt;container-registry-name&gt;
-<span style="color:#000">SERVICE_PRINCIPAL_NAME</span><span style="color:#ce5c00;font-weight:bold">=</span>acr-service-principal
+<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#0f0;font-weight:bold">#!/bin/bash
+</span><span style="color:#0f0;font-weight:bold"></span>
+<span style="color:#007f7f"># Modify for your environment.</span>
+<span style="color:#007f7f"># ACR_NAME: The name of your Azure Container Registry</span>
+<span style="color:#007f7f"># SERVICE_PRINCIPAL_NAME: Must be unique within your AD tenant</span>
+ACR_NAME=&lt;container-registry-name&gt;
+SERVICE_PRINCIPAL_NAME=acr-service-principal
 
-<span style="color:#8f5902;font-style:italic"># Obtain the full registry ID for subsequent command args</span>
-<span style="color:#000">ACR_REGISTRY_ID</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>az acr show --name <span style="color:#000">$ACR_NAME</span> --query id --output tsv<span style="color:#204a87;font-weight:bold">)</span>
+<span style="color:#007f7f"># Obtain the full registry ID for subsequent command args</span>
+ACR_REGISTRY_ID=<span style="color:#fff;font-weight:bold">$(</span>az acr show --name $ACR_NAME --query id --output tsv<span style="color:#fff;font-weight:bold">)</span>
 
-<span style="color:#8f5902;font-style:italic"># Create the service principal with rights scoped to the registry.</span>
-<span style="color:#8f5902;font-style:italic"># Default permissions are for docker pull access. Modify the &#39;--role&#39;</span>
-<span style="color:#8f5902;font-style:italic"># argument value as desired:</span>
-<span style="color:#8f5902;font-style:italic"># acrpull:     pull only</span>
-<span style="color:#8f5902;font-style:italic"># acrpush:     push and pull</span>
-<span style="color:#8f5902;font-style:italic"># owner:       push, pull, and assign roles</span>
-<span style="color:#000">SP_PASSWD</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>az ad sp create-for-rbac --name http://<span style="color:#000">$SERVICE_PRINCIPAL_NAME</span> --scopes <span style="color:#000">$ACR_REGISTRY_ID</span> --role acrpull --query password --output tsv<span style="color:#204a87;font-weight:bold">)</span>
-<span style="color:#000">SP_APP_ID</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>az ad sp show --id http://<span style="color:#000">$SERVICE_PRINCIPAL_NAME</span> --query appId --output tsv<span style="color:#204a87;font-weight:bold">)</span>
+<span style="color:#007f7f"># Create the service principal with rights scoped to the registry.</span>
+<span style="color:#007f7f"># Default permissions are for docker pull access. Modify the &#39;--role&#39;</span>
+<span style="color:#007f7f"># argument value as desired:</span>
+<span style="color:#007f7f"># acrpull:     pull only</span>
+<span style="color:#007f7f"># acrpush:     push and pull</span>
+<span style="color:#007f7f"># owner:       push, pull, and assign roles</span>
+SP_PASSWD=<span style="color:#fff;font-weight:bold">$(</span>az ad sp create-for-rbac --name http://$SERVICE_PRINCIPAL_NAME --scopes $ACR_REGISTRY_ID --role acrpull --query password --output tsv<span style="color:#fff;font-weight:bold">)</span>
+SP_APP_ID=<span style="color:#fff;font-weight:bold">$(</span>az ad sp show --id http://$SERVICE_PRINCIPAL_NAME --query appId --output tsv<span style="color:#fff;font-weight:bold">)</span>
 
-<span style="color:#8f5902;font-style:italic"># Output the service principal&#39;s credentials; use these in your services and</span>
-<span style="color:#8f5902;font-style:italic"># applications to authenticate to the container registry.</span>
-<span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;Service principal ID: </span><span style="color:#000">$SP_APP_ID</span><span style="color:#4e9a06">&#34;</span>
-<span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;Service principal password: </span><span style="color:#000">$SP_PASSWD</span><span style="color:#4e9a06">&#34;</span>
+<span style="color:#007f7f"># Output the service principal&#39;s credentials; use these in your services and</span>
+<span style="color:#007f7f"># applications to authenticate to the container registry.</span>
+<span style="color:#fff;font-weight:bold">echo</span> <span style="color:#0ff;font-weight:bold">&#34;Service principal ID: </span>$SP_APP_ID<span style="color:#0ff;font-weight:bold">&#34;</span>
+<span style="color:#fff;font-weight:bold">echo</span> <span style="color:#0ff;font-weight:bold">&#34;Service principal password: </span>$SP_PASSWD<span style="color:#0ff;font-weight:bold">&#34;</span>
 </code></pre></div><p>If you do not want to create a service principal in Azure, you can also use the
 registry <code>Admin</code> username and password which gives full access to the registry
 and is not generally recommended. This is not enabled by default. Go to the
@@ -457,66 +431,6 @@ using the default Kubernetes namespace.</p>
 <p>When you’re comfortable with publishing your application with wasm-to-oci, read
 <a href="tutorial03.md">part 3 of this tutorial</a> to install your application.</p>
 
-	
-		<style>
-  .feedback--answer {
-    display: inline-block;
-  }
-  .feedback--answer-no {
-    margin-left: 1em;
-  }
-  .feedback--response {
-    display: none;
-    margin-top: 1em;
-  }
-  .feedback--response__visible {
-    display: block;
-  }
-</style>
-<h2 class="feedback--title">Feedback</h2>
-<p class="feedback--question">Was this page helpful?</p>
-<button class="feedback--answer feedback--answer-yes">Yes</button>
-<button class="feedback--answer feedback--answer-no">No</button>
-<p class="feedback--response feedback--response-yes">
-  Glad to hear it! Please <a href="https://github.com/openservicemesh/osm/issues/new">tell us how we can improve</a>.
-</p>
-<p class="feedback--response feedback--response-no">
-  Sorry to hear that. Please <a href="https://github.com/openservicemesh/osm/issues/new">tell us how we can improve</a>.
-</p>
-<script>
-  const yesButton = document.querySelector('.feedback--answer-yes');
-  const noButton = document.querySelector('.feedback--answer-no');
-  const yesResponse = document.querySelector('.feedback--response-yes');
-  const noResponse = document.querySelector('.feedback--response-no');
-  const disableButtons = () => {
-    yesButton.disabled = true;
-    noButton.disabled = true;
-  };
-  const sendFeedback = (value) => {
-    if (typeof ga !== 'function') return;
-    const args = {
-      command: 'send',
-      hitType: 'event',
-      category: 'Helpful',
-      action: 'click',
-      label: window.location.pathname,
-      value: value
-    };
-    ga(args.command, args.hitType, args.category, args.action, args.label, args.value);
-  };
-  yesButton.addEventListener('click', () => {
-    yesResponse.classList.add('feedback--response__visible');
-    disableButtons();
-    sendFeedback(1);
-  });
-  noButton.addEventListener('click', () => {
-    noResponse.classList.add('feedback--response__visible');
-    disableButtons();
-    sendFeedback(0);
-  });
-</script>
-
-		<br />
 	
 	
 </div>

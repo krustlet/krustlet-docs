@@ -41,7 +41,7 @@ latexDashes = true
     [markup.goldmark.renderer]
       unsafe = true
   [markup.highlight]
-      style = "tango"
+    style = "tomorrow-night"
 
 
 # OSM top menu (should match main site)
@@ -86,6 +86,4 @@ breadcrumb_disable = false
 sidebar_search_disable = false
 
 [params.ui.feedback]
-enable = true
-yes = 'Glad to hear it! Please <a href="https://github.com/openservicemesh/osm/issues/new">tell us how we can improve</a>.'
-no = 'Sorry to hear that. Please <a href="https://github.com/openservicemesh/osm/issues/new">tell us how we can improve</a>.'
+enable = false

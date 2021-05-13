@@ -1,15 +1,16 @@
-// OSM theme colors
+// Deis Labs Scheme
 
-// primary
-$blue: #1128A9;
-$green: #67CEB4;
-// secondary
-$bluem: #569CF5;
-$greenl: #58F4CC;
-$orange: #FB8143;
-$orangel: F29A51;
-$bluel: #C1D6F1;
-$green-bg: #58F4CC;
+$blue: #00B3E8;
+$red: #FF0056;
+$green: #00BE40;
+
+$charcoal: #4A4A4A;
+$midnight: #444360;
+$cream: #F6FDF7;
+$links: saturate($midnight, 33%);
+
+$displaytype: Poppins, Aharoni, sans-serif;
+$primarytype: 'Work Sans', sans-serif;
 
 
 // theme defaults
@@ -44,308 +45,388 @@ $fa-font-path: "../fonts" !default;
 @import "pageinfo";
 
 @if $td-enable-google-fonts {
-    @import url($web-font-path);
+  @import url($web-font-path);
 }
 
 footer {
-    min-height: 150px;
+  min-height: 150px;
+  background: $midnight;
 
-    @include media-breakpoint-down(md) {
-         min-height: 200px;
-    }
+  a {
+    color: white;
+  }
+
+  @include media-breakpoint-down(md) {
+    min-height: 200px;
+  }
 }
 
 // Adjust anchors vs the fixed menu.
 @include media-breakpoint-up(md) {
-    .td-offset-anchor:target {
-        display: block;
-        position: relative;
-        top: -4rem;
-        visibility: hidden;
-    }
+  .td-offset-anchor:target {
+    display: block;
+    position: relative;
+    top: -4rem;
+    visibility: hidden;
+  }
 
-    h2[id]:before, h3[id]:before, h4[id]:before, h5[id]:before {
-        display: block;
-        content: " ";
-        margin-top: -5rem;
-        height: 5rem;
-        visibility: hidden;
-    }
+  h2[id]:before, h3[id]:before, h4[id]:before, h5[id]:before {
+    display: block;
+    content: " ";
+    margin-top: -5rem;
+    height: 5rem;
+    visibility: hidden;
+  }
+}
+
+// Deis Labs Mixins
+@mixin transition($property:all, $duration:0.3s, $easing:ease-in-out) {
+  transition: $property $duration $easing;
+}
+
+@mixin border-radius($radius1:3px, $radius2:3px) {
+  -webkit-border-radius: $radius1 $radius2 $radius1 $radius2;
+  -moz-border-radius: $radius1 $radius2 $radius1 $radius2;
+  border-radius: $radius1 $radius2 $radius1 $radius2;
+}
+
+@mixin box-shadow($xlength:0, $ylength:2px, $size:0, $color:rgba(30,30,30,0.25)) {
+  -webkit-box-shadow: $xlength $ylength $size $color;
+  -moz-box-shadow: $xlength $ylength $size $color;
+  box-shadow: $xlength $ylength $size $color;
+}
+
+@mixin uppercase {
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+}
+
+@mixin keyframe ($animation_name) {
+  @-webkit-keyframes $animation_name {
+    @content;
+  }
+  @-moz-keyframes $animation_name {
+    @content;
+  }
+  @-o-keyframes $animation_name {
+    @content;
+  }
+  @keyframes $animation_name {
+    @content;
+  }
+}
+
+@mixin animation ($delay, $duration, $animation) {
+  -webkit-animation-delay: $delay;
+  -webkit-animation-duration: $duration;
+  -webkit-animation-name: $animation;
+  -webkit-animation-fill-mode: forwards;
+  -moz-animation-delay: $delay;
+  -moz-animation-duration: $duration;
+  -moz-animation-name: $animation;
+  -moz-animation-fill-mode: forwards;
+  animation-delay: $delay;
+  animation-duration: $duration;
+  animation-name: $animation;
+  animation-fill-mode: forwards;
 }
 
 
-// // OSM Typography
-// body {
-//     font-family: BlinkMacSystemFont,-apple-system,segoe ui,roboto,oxygen,ubuntu,cantarell,fira sans,droid sans,helvetica neue,helvetica,arial,sans-serif;
-//     line-height: 1.636;
-//     font-size: 1.125rem;
-//     // color: $blue;
-//     color: #4a4a4a;
-// }
+// Docs theme styles
 
-// .breadcrumb {
-//     margin-top: -0.425rem;
+html {
+  position: relative;
+  background: white;
+  background-attachment: fixed;
+}
+
+body {
+  font-family: 'Work Sans', sans-serif;
+  font-size: 21px;
+  line-height: 1.727;
+  color: $charcoal;
+  min-height: 101vh;
+}
+
+.td-outer {
+  min-height: 100vh;
+}
 
 
-//     .breadcrumb-item + .breadcrumb-item::before {
-//         color: $greenl;
-//     }
+// topbar
+.navbar {
+  &.td-navbar {
+    background-color: $cream;
+    padding: 0 1vw;
+    border-bottom: 1px solid lighten($midnight, 62%);
 
-//     a {
-//         color: $bluem;
-//     }
-// }
+    a.navbar-brand {
+      margin: 0 0 0 4rem;
+      @include uppercase;
+      font-family: $displaytype;
+      letter-spacing: 0.067em 1rem;
+      color: $midnight;
 
-// // Left side menu
-// .td-sidebar {
-//     background: linear-gradient(0deg,#fff 0%,#e6fff8 100%);
-//     border-right: none;
+      &:before {
+        display: inline-block;
+        content: " ";
+        width: 1em;
+        height: 1em;
+        border-right: 2px solid $charcoal;
+        opacity: 0.5;
+        margin: 0.125em 0 0 -1.667em;
+        position: absolute;
+        transform: rotate(30deg);
+      }
+    }
+    
+    .deislabs {
+      width: 1.83rem;
+      height: 2.43rem;
+      display: inline-block;
+      position: absolute;
+      top: -0.43rem;
 
-//     .td-sidebar-nav {
-//         margin-top: 1rem;
-
-//         a {
-//             color: desaturate($blue, 25%);
-            
-//             &.active {
-//                 color: $blue;
-//             }
-//         }
-//     }
-// }
-
-// .td-sidebar__inner {
-//     top: 7.5rem;
-// }
-
-// .td-navbar {
-//     background-color: #FEFEFE;
-//     background-image: url(../images/osm-web-top.jpg),url(../images/osm-web-tile.png);
-//     background-repeat: no-repeat,repeat-x;
-//     background-position: right bottom;
-//     background-size: cover;
-//     padding-top: 40px;
-
-//     .navbar-brand {
-//         .navbar-logo {
-//             position: absolute;
-//             left: -0.25rem;
-//             top: 0.75rem;
-//             max-width: 10vw;
-
-//             svg {
-//                 width: auto;
-//                 height: 108px;
-//             }
-//         }
-
-//         span.text-uppercase {
-//             position: absolute;
-//             left: -999em;
-//         }
-//     }
-
-//     .nav-item.dropdown {
-//         border-left: 1px solid $bluel;
-//         padding-left: 0.5rem;
+      span {
+        position: absolute;
+        left: -999em;
+      }
+      
+      em {
+        width: 1rem;
+        height: 1rem;
+        display: inline-block;
+        position: absolute;
+        background-blend-mode: multiply;
+        mix-blend-mode: multiply;
+        content: " ";
+        @include transition(all, 0.3s, ease-in-out);
         
-//         a {
-//             font-weight: normal;
-//         }
-//     }
-// }
-
-// .td-outer {
-//     padding-top: 3.5rem;
-// }
-
-// .td-search-input {
-//     background: white;
-//     border: none;
-//     border-radius: 3rem;
-//     outline: none;
-//     font-size: 0.85rem;
-//     box-shadow: none;
-//     color: $bluem;
-// }
-
-// // Main content column
-// .td-content {
-//     padding: 0 1vw;
-
-//     h1, h2, h3 {
-//         color: $blue;
-//         margin: 0.667em 0;
-//     }
-
-//     h1 {
-//         font-family: 'Spartan';
-//         font-weight: normal;
-//         line-height: 1.425;
-//         font-weight: bold;
-//         margin-top: 3.35rem;
-//     }
-
-//     h1 + p {
-//         font-size: 1.25rem;
-//         color: desaturate($blue, 35%);
-//         line-height: 1.825;
-//         margin-bottom: 4.25rem;
-//     }
-
-//     p + h3 {
-//         margin-top: 3.5rem;
-//     }
-
-//     h2 {
-//         font-size: 1.33rem;
-//     }
+        &.dl-tr {
+          background: url(../images/deislabs-tr.svg) no-repeat 50% 50%;
+          background-size: contain;
+          left: 0;
+          top: 0;
+        }
     
-//     p {
-//         line-height: 1.636;
-//         color: desaturate($blue, 75%);
-//     }
+        &.dl-sq {
+          background: url(../images/deislabs-sq.svg) no-repeat 50% 50%;
+          background-size: contain;
+          right: 0;
+          bottom: 0.6rem;
+        }
     
-//     ul, ol, li, blockquote {
-//         line-height: 2;
-//         margin-bottom: 3.25rem;
-//     }
-
-//     a {
-//         position: relative;
-//         border-bottom: 3px solid rgba(180,180,180,0.2);
-        
-//         &:after {
-//             width: 10%;
-//             height: 3px;
-//             display: inline-block;
-//             content: " ";
-//             position: absolute;
-//             background-color: $bluem;
-//             left: 50%;
-//             bottom: -3px;
-//             opacity: 0;
-//             transition: all 0.2s ease;
-//         }
-
-//         &:hover {
-//             &:after {
-//                 left: 0%;
-//                 width: 100%;
-//                 opacity: 1;
-//             }
-//         }
-//     }
-
-//     code,
-//     li code,
-//     table code,
-//     p code {
-//         background: lighten(desaturate($green-bg, 15%), 25%);
-//     }
-
+        &.dl-ci {
+          background: url(../images/deislabs-ci.svg) no-repeat 50% 50%;
+          background-size: contain;
+          left: 0;
+          bottom: 0.6rem;
+        }
+      }
     
-//     div.code-toolbar
-//     pre {
-//         background:
-//             linear-gradient(180deg, 
-//             lighten(desaturate($green-bg, 20%), 25%) 0%,
-//             lighten(desaturate($green-bg, 25%), 30%) 100%
-//         );
-//         border-radius: 1rem;
-//         margin-top: 2rem;
-//         margin-bottom: 2.5rem;
-
-//         code[class*="language-"],
-//         pre[class*="language-"] {
-//             background: transparent !important;
-//         }
-//     }
-
-//     .td-content .highlight,
-//     .highlight {
-//         border: none;
-//         margin: 0;
-//     }
-
-//     .td-content code {
-//         background: transparent;
-//     }
-// }
-
-// // Right hand side
-// .td-toc {
-//     top: 7.25rem !important;
-//     border-left: 1px solid $greenl;
+      .shapes {
+        position: fixed;
+        top: 0.67vw;
+        display: inline-block;
+        width: 1.83rem;
+        height: 2.43rem;
+        @include transition;
+      }
     
-//     li {
-//         margin: 0.5rem 0;
-//     }
-// }
+      a {
+        display: inline-block;
+        width: 1.83rem;
+        height: 2.43rem;
+    
+        &:hover {
+          em {
+            &.dl-tr {
+              left: 0.73rem;
+              top:0.83rem;
+            }
+            &.dl-sq {
+              right: 0.83rem;
+            }
+            &.dl-ci {
+              bottom: 1.4rem;
+            }
+          }
+        }
+      }
+    }
 
-// footer {
-//     width: 100%;
-//     max-width: 100%;
-//     border-top: 1px solid rgba(100,100,100,0.125);
-//     padding: 2.5rem 0 3.5rem !important;
-//     background-color: #FAFAFA;
-//     min-height: 25em;
-//     position: relative;
-//     margin-left: -5vw;
-//     margin-right: -5vw;
-    
-//     a {
-//       color: $bluem;
-//     }
-    
-//     img {
-//       max-width: 12.5vw;
-//     }
+    ul.navbar-nav {
+      margin-right: 1rem;
+
+      li.nav-item {
+        margin-right: 0;
+
+        a.nav-link {
+          color: $charcoal;
+          font-weight: 400;
+          font-size: 1rem;
+          display: inline-block;
+          line-height: 4;
+          padding: 0 1vw;
+          @include transition;
+          @include uppercase;
+          font-family: $displaytype;
+          color: lighten($midnight, 12.5%);
+
+          &:hover {
+            color: $charcoal;
+            background: white;
+          }
+        }
+      }
+    }
+  }
+}
+
+.td-sidebar {
+  background: linear-gradient(0% #F8FAF9, 100% #F2F2F2);
+  border-color: lighten($midnight, 62%);
+
+  .td-sidebar-nav {
+    padding-right: 0;
+  }
+
+  .td-sidebar-nav__section-title {
+    font-family: $displaytype;
+    color: $midnight;
+    padding: 0.25rem 0;
+  }
+
+  ul {
+    padding-right: 0 !important;
+  }
+
+  li {
+    padding-bottom: 1.5rem;
+  }
+
+  a.td-sidebar-link {
+    line-height: 1.425;
+    font-weight: 400;
+    font-size: 1.125rem;
+    padding-right: 1.5rem;
+    padding-bottom: 0.425rem;
+    color: $midnight;
+    border-right: 4px solid transparent;
+
+    &.active {
+      font-weight: 700;
+      color: $charcoal;
+      border-right: 4px solid lighten($midnight, 33.5%);
+    }
+
+    &:hover {
+      color: $links;
+      background-color: white;
+      border-right: 4px solid lighten($midnight, 45%);
+    }
+  }
+}
+
+nav.breadcrumb-wrapper {
+  border-bottom: 1px solid lighten($midnight, 62%);
+  display: block;
+  margin: -0.5rem 0 2rem;
+
+  ol {
+    margin: 0;
+  }
+}
+
+main > .td-content {
   
-//     nav {
-//       float: right;
-//       margin: 1rem 0 0;
-//     }
-  
-//     h4 {
-//       line-height: 1.667;
-//     }
-  
-//     .footer-cncf {
-//       color: $blue;
-//       font-family: Spartan;
-//       font-weight: 600;
-//       font-size: 1.333rem;
-//       padding-right: 5vw;
-//       margin: 1em 0 1.5em;
-  
-//       a {
-//         font-size: 1.425rem;
-//         letter-spacing: 0.035em;
-//         color: $blue;
-//       }
-  
-//       img {
-//         max-width: 20vw;
-//       }
-//     }
-  
-//     .footer-legal {
-//       margin: 0;
-//       font-size: 1rem;
-//     }
-  
-//     .navbar-menu {
-//       a.navbar-item {
-//         margin: 0.25rem 0.75rem 0;
-//         padding-left: 0;
-//         padding-right: 0;
-//         padding-bottom: 0.2rem;
-//         border-bottom: 3px solid lighten($bluel, 7.5%);
-  
-//         &:hover {
-//           border-bottom-color: $greenl;
-//         }
-//       }
-//     }
-//   }
+  // content column sizing and alignment
+  margin-right: auto;
+  margin-left: auto;
+  width: 62vw;
+  max-width: 1140px;
+
+  h1 {
+    font-family: $displaytype;
+    margin: 4.5rem 0 1.67rem;
+    font-size: 2.75rem;
+    letter-spacing: 0.025em;
+  }
+
+  .lead {
+    color: $midnight;
+    opacity: 0.8;
+  }
+
+  h2 {
+    font-family: $displaytype;
+    margin-top: 6.67rem !important;
+    margin-bottom: 2.125rem;
+  }
+
+  h3 {
+    font-family: $displaytype;
+    @include uppercase;
+    margin-top: 4rem !important;
+    margin-bottom: 3rem;
+  }
+
+  .td-content code {
+    background: transparent;
+  }
+
+  .appendix {
+    background: rgba(255,255,255,0.35);
+    padding: 1.5rem 2.5rem;
+    border: 2px solid white;
+    margin: 8.25rem auto 3.5rem;
+    box-shadow: 0 1px 8px 0px #e3e3e3;
+
+    h2 {
+      margin-top: 0.25rem;
+    }
+  }
+
+  p code {
+    font-size: 1em;
+    color: $charcoal;
+    background: rgba(30,30,30,0.0575);
+    border-radius: 0.5rem;
+  }
+
+  code,
+  pre {
+    color: black;
+  }
+  pre {
+    border-radius: 1.125rem;
+    border: none;
+    box-shadow: none;
+    background: $midnight;
+    background: linear-gradient(0% $midnight, 100% darken($midnight, 2.5%));
+    color: #e5e5e5;
+    margin: 1.333rem 0 2rem;
+
+    code {
+      color: #e5e5e5;
+    }
+  }
+  .table {
+    background-color: transparent !important;
+  }
+
+  .highlight {
+    box-shadow: none;
+    border: none;
+    margin-bottom: 2.5rem;
+    background: transparent;
+    color: #e5e5e5;
+
+    pre {
+      margin: 0;
+      background: black;
+      color: #e5e5e5;
+    }
+  }
+}

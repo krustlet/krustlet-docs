@@ -6,6 +6,8 @@
 {{ $cssProdOpts := (dict "includePaths" $includes "targetPath" $cssOut "outputStyle" "compressed") }}
 {{ $cssOpts     := cond $serverMode $cssDevOpts $cssProdOpts }}
 {{ $css         := resources.Get $sass | resources.ExecuteAsTemplate $sass . | toCSS $cssOpts }}
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="//fonts.googleapis.com/css2?family=Poppins:wght@700&family=Work+Sans&display=swap" rel="stylesheet">
 {{ if $serverMode }}
 <link rel="stylesheet" href="{{ $css.RelPermalink }}">
 {{ else }}

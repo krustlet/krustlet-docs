@@ -49,9 +49,11 @@ All releases will be of the form vX.Y.Z where X is the major version number, Y i
 
 
 
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="//fonts.googleapis.com/css2?family=Poppins:wght@700&family=Work+Sans&display=swap" rel="stylesheet">
 
 
-<link rel="stylesheet" href="/css/style.2b86b6bda5c37fc229d39310629953b762fc7fdaab9a50a78ece383ebeb01174.css" integrity="sha256-K4a2vaXDf8Ip05MQYplTt2L8f9qrmlCnjs44Pr6wEXQ=">
+<link rel="stylesheet" href="/css/style.984d0cac551d1e618acdbae32aed044ef29a6f388b1a5c5e1193689b6445c90d.css" integrity="sha256-mE0MrFUdHmGKzbrjKu0ETvKabziLGlxeEZNom2RFyQ0=">
 
 
 <script
@@ -75,8 +77,14 @@ All releases will be of the form vX.Y.Z where X is the major version number, Y i
     <header>
       
 <nav class="js-navbar-scroll navbar navbar-expand flex-column flex-md-row td-navbar">
-        <a class="navbar-brand" href="/">
-		
+	
+	<div class="deislabs">
+		<a href="https://deislabs.io/" title="Deis Labs">
+			<span>Deis Labs</span>
+			<div class="shapes top"><em class="dl-tr"></em><em class="dl-sq"></em><em class="dl-ci"></em></div>
+		</a>
+	</div>
+	<a class="navbar-brand" href="/">
 		<span class="text-uppercase font-weight-bold">Krustlet</span>
 	</a>
 	<div class="td-navbar-nav-scroll ml-md-auto" id="main_navbar">
@@ -146,7 +154,7 @@ All releases will be of the form vX.Y.Z where X is the major version number, Y i
     <div class="container-fluid td-outer">
       <div class="td-main">
         <div class="row flex-xl-nowrap">
-          <div class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+          <div class="col-12 col-md-3 col-xl-3 td-sidebar d-print-none">
             
 
 
@@ -165,7 +173,7 @@ All releases will be of the form vX.Y.Z where X is the major version number, Y i
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.4f9dcfcc0b6a6b7c294ff236e81460faf06aecfdb7559c70065ea62dd9118a92b855401ddaec2a3629084b0bb938f406e5ce410958fc0726354bea99353e56f0.json"
+  data-offline-search-index-json-src="/offline-search-index.59616654c3bfdc16be8f9dd0f8c7d4098b085d188474d154dbd361cbacd53f5dc104423f9001c90cc16edf2835d27dfb8f6ac36acfe812cbaee597f651510a1b.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -222,35 +230,12 @@ All releases will be of the form vX.Y.Z where X is the major version number, Y i
 
 
           </div>
-          <div class="d-none d-xl-block col-xl-2 td-toc d-print-none">
-            
-
-
-
-
-
-
-
-
-
-
-
-<nav id="TableOfContents">
-  <ul>
-    <li><a href="#step-0-determine-what-type-of-release-you-are-cutting">Step 0: determine what type of release you are cutting</a></li>
-    <li><a href="#checklist-for-major-and-minor-releases">Checklist for major and minor releases</a></li>
-    <li><a href="#checklist-for-patch-releases">Checklist for patch releases</a></li>
-  </ul>
-</nav>
-
-
-
-          </div>
-          <main class="col-12 col-md-9 col-xl-8 pl-md-5" role="main">
+          
+          <main class="col-12 col-md-9 col-xl-9 pl-md-5" role="main">
             
   
 
-            <nav aria-label="breadcrumb" class="d-none d-md-block d-print-none">
+            <nav aria-label="breadcrumb" class="d-none d-md-block d-print-none breadcrumb-wrapper">
 	<ol class="breadcrumb spb-1">
 		
 
@@ -274,8 +259,10 @@ All releases will be of the form vX.Y.Z where X is the major version number, Y i
 	</ol>
 </nav	>
 
+
             
 <div class="td-content">
+	<h1>Release Checklist</h1>
 	<h1 id="release-checklist">Release Checklist</h1>
 <blockquote>
 <p>If your experience deviates from this document, please document the changes to
@@ -366,31 +353,31 @@ is usually sufficient. For patch releases, do the same, but make note of the
 symptoms causing the original issue, who may be affected, and how the patch
 mitigates the issue.</p>
 <p>it should look like this:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-markdown" data-lang="markdown"><span style="color:#800080;font-weight:bold">## Krustlet vX.Y.Z
-</span><span style="color:#800080;font-weight:bold"></span>
-Krustlet vX.Y.Z is a feature release. This release, we focused on <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#204a87;font-weight:bold">insert</span> <span style="color:#c4a000">focal</span> <span style="color:#c4a000">point</span> <span style="color:#c4a000">here</span><span style="color:#000;font-weight:bold">&gt;</span>. Users are encouraged to upgrade for the best experience.
+<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-markdown" data-lang="markdown"><span style="font-weight:bold">## Krustlet vX.Y.Z
+</span><span style="font-weight:bold"></span>
+Krustlet vX.Y.Z is a feature release. This release, we focused on &lt;<span style="font-weight:bold">insert</span> <span style="color:#007f7f">focal</span> <span style="color:#007f7f">point</span> <span style="color:#007f7f">here</span>&gt;. Users are encouraged to upgrade for the best experience.
 
-<span style="color:#800080;font-weight:bold">## Notable features/changes
-</span><span style="color:#800080;font-weight:bold"></span>
-<span style="color:#204a87;font-weight:bold">-</span> TLS bootstrapping support has been added
-<span style="color:#204a87;font-weight:bold">-</span> Improved error handling for the Kubelet API
+<span style="font-weight:bold">## Notable features/changes
+</span><span style="font-weight:bold"></span>
+<span style="color:#fff;font-weight:bold">-</span> TLS bootstrapping support has been added
+<span style="color:#fff;font-weight:bold">-</span> Improved error handling for the Kubelet API
 
-<span style="color:#800080;font-weight:bold">## Breaking changes
-</span><span style="color:#800080;font-weight:bold"></span>
+<span style="font-weight:bold">## Breaking changes
+</span><span style="font-weight:bold"></span>
 No known breaking changes were introduced this release.
 
-<span style="color:#800080;font-weight:bold">## Known issues/missing features
-</span><span style="color:#800080;font-weight:bold"></span>
-<span style="color:#204a87;font-weight:bold">-</span> Needs more cowbell
-<span style="color:#204a87;font-weight:bold">-</span> I gotta have more cowbell!
+<span style="font-weight:bold">## Known issues/missing features
+</span><span style="font-weight:bold"></span>
+<span style="color:#fff;font-weight:bold">-</span> Needs more cowbell
+<span style="color:#fff;font-weight:bold">-</span> I gotta have more cowbell!
 
-<span style="color:#800080;font-weight:bold">## Installation
-</span><span style="color:#800080;font-weight:bold"></span>
+<span style="font-weight:bold">## Installation
+</span><span style="font-weight:bold"></span>
 Download Krustlet vX.Y.Z:
 
-<span style="color:#204a87;font-weight:bold">-</span> [<span style="color:#204a87;font-weight:bold">checksums-vX.Y.Z.txt</span>](<span style="color:#c4a000">https://krustlet.blob.core.windows.net/releases/checksums-vX.Y.Z.txt</span>)
-<span style="color:#204a87;font-weight:bold">-</span> [<span style="color:#204a87;font-weight:bold">krustlet-vX.Y.Z-linux-amd64.tar.gz</span>](<span style="color:#c4a000">https://krustlet.blob.core.windows.net/releases/krustlet-vX.Y.Z-linux-amd64.tar.gz</span>)
-<span style="color:#204a87;font-weight:bold">-</span> [<span style="color:#204a87;font-weight:bold">krustlet-vX.Y.Z-macos-amd64.tar.gz</span>](<span style="color:#c4a000">https://krustlet.blob.core.windows.net/releases/krustlet-vX.Y.Z-macos-amd64.tar.gz</span>)
+<span style="color:#fff;font-weight:bold">-</span> [<span style="font-weight:bold">checksums-vX.Y.Z.txt</span>](<span style="color:#007f7f">https://krustlet.blob.core.windows.net/releases/checksums-vX.Y.Z.txt</span>)
+<span style="color:#fff;font-weight:bold">-</span> [<span style="font-weight:bold">krustlet-vX.Y.Z-linux-amd64.tar.gz</span>](<span style="color:#007f7f">https://krustlet.blob.core.windows.net/releases/krustlet-vX.Y.Z-linux-amd64.tar.gz</span>)
+<span style="color:#fff;font-weight:bold">-</span> [<span style="font-weight:bold">krustlet-vX.Y.Z-macos-amd64.tar.gz</span>](<span style="color:#007f7f">https://krustlet.blob.core.windows.net/releases/krustlet-vX.Y.Z-macos-amd64.tar.gz</span>)
 </code></pre></div><p>Feel free to bring in your own personality into the release notes; it&rsquo;s nice for
 people to think we&rsquo;re not all robots. :)</p>
 <p>Double check the URLs are correct. Once finished, go into GitHub and edit the
@@ -460,25 +447,25 @@ the release notes.</p>
 <p>For patch releases, make note of the symptoms causing the original issue(s), who
 may be affected, and how the patch(es) mitigate the issue(s).</p>
 <p>it should look like this:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-markdown" data-lang="markdown"><span style="color:#800080;font-weight:bold">## Krustlet vX.Y.Z
-</span><span style="color:#800080;font-weight:bold"></span>
-Krustlet vX.Y.Z is a patch release, fixing an issue where <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#204a87;font-weight:bold">insert</span> <span style="color:#c4a000">disagnosis</span> <span style="color:#c4a000">of</span> <span style="color:#c4a000">issue</span> <span style="color:#c4a000">here</span><span style="color:#000;font-weight:bold">&gt;</span>.
+<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-markdown" data-lang="markdown"><span style="font-weight:bold">## Krustlet vX.Y.Z
+</span><span style="font-weight:bold"></span>
+Krustlet vX.Y.Z is a patch release, fixing an issue where &lt;<span style="font-weight:bold">insert</span> <span style="color:#007f7f">disagnosis</span> <span style="color:#007f7f">of</span> <span style="color:#007f7f">issue</span> <span style="color:#007f7f">here</span>&gt;.
 
-This patch fixes this issue by <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#204a87;font-weight:bold">insert</span> <span style="color:#c4a000">remedy</span> <span style="color:#c4a000">here</span><span style="color:#000;font-weight:bold">&gt;</span>.
+This patch fixes this issue by &lt;<span style="font-weight:bold">insert</span> <span style="color:#007f7f">remedy</span> <span style="color:#007f7f">here</span>&gt;.
 
 Users are encouraged to upgrade for the best experience.
 
-<span style="color:#800080;font-weight:bold">## Breaking changes
-</span><span style="color:#800080;font-weight:bold"></span>
+<span style="font-weight:bold">## Breaking changes
+</span><span style="font-weight:bold"></span>
 No known breaking changes were introduced this release.
 
-<span style="color:#800080;font-weight:bold">## Installation
-</span><span style="color:#800080;font-weight:bold"></span>
+<span style="font-weight:bold">## Installation
+</span><span style="font-weight:bold"></span>
 Download Krustlet vX.Y.Z:
 
-<span style="color:#204a87;font-weight:bold">-</span> [<span style="color:#204a87;font-weight:bold">checksums-vX.Y.Z.txt</span>](<span style="color:#c4a000">https://krustlet.blob.core.windows.net/releases/checksums-vX.Y.Z.txt</span>)
-<span style="color:#204a87;font-weight:bold">-</span> [<span style="color:#204a87;font-weight:bold">krustlet-vX.Y.Z-linux-amd64.tar.gz</span>](<span style="color:#c4a000">https://krustlet.blob.core.windows.net/releases/krustlet-vX.Y.Z-linux-amd64.tar.gz</span>)
-<span style="color:#204a87;font-weight:bold">-</span> [<span style="color:#204a87;font-weight:bold">krustlet-vX.Y.Z-macos-amd64.tar.gz</span>](<span style="color:#c4a000">https://krustlet.blob.core.windows.net/releases/krustlet-vX.Y.Z-macos-amd64.tar.gz</span>)
+<span style="color:#fff;font-weight:bold">-</span> [<span style="font-weight:bold">checksums-vX.Y.Z.txt</span>](<span style="color:#007f7f">https://krustlet.blob.core.windows.net/releases/checksums-vX.Y.Z.txt</span>)
+<span style="color:#fff;font-weight:bold">-</span> [<span style="font-weight:bold">krustlet-vX.Y.Z-linux-amd64.tar.gz</span>](<span style="color:#007f7f">https://krustlet.blob.core.windows.net/releases/krustlet-vX.Y.Z-linux-amd64.tar.gz</span>)
+<span style="color:#fff;font-weight:bold">-</span> [<span style="font-weight:bold">krustlet-vX.Y.Z-macos-amd64.tar.gz</span>](<span style="color:#007f7f">https://krustlet.blob.core.windows.net/releases/krustlet-vX.Y.Z-macos-amd64.tar.gz</span>)
 </code></pre></div><p>Double check the URLs are correct. Once finished, go into GitHub and edit the
 release notes for the tagged release with the notes written here.</p>
 <p>It is now worth getting other people to take a look at the release notes before
@@ -489,66 +476,6 @@ pre-release&rdquo; to notify users that this release is identified as non-produc
 ready.</p>
 <p>When you are ready to go, hit <code>publish</code>, and you&rsquo;re done.</p>
 
-	
-		<style>
-  .feedback--answer {
-    display: inline-block;
-  }
-  .feedback--answer-no {
-    margin-left: 1em;
-  }
-  .feedback--response {
-    display: none;
-    margin-top: 1em;
-  }
-  .feedback--response__visible {
-    display: block;
-  }
-</style>
-<h2 class="feedback--title">Feedback</h2>
-<p class="feedback--question">Was this page helpful?</p>
-<button class="feedback--answer feedback--answer-yes">Yes</button>
-<button class="feedback--answer feedback--answer-no">No</button>
-<p class="feedback--response feedback--response-yes">
-  Glad to hear it! Please <a href="https://github.com/openservicemesh/osm/issues/new">tell us how we can improve</a>.
-</p>
-<p class="feedback--response feedback--response-no">
-  Sorry to hear that. Please <a href="https://github.com/openservicemesh/osm/issues/new">tell us how we can improve</a>.
-</p>
-<script>
-  const yesButton = document.querySelector('.feedback--answer-yes');
-  const noButton = document.querySelector('.feedback--answer-no');
-  const yesResponse = document.querySelector('.feedback--response-yes');
-  const noResponse = document.querySelector('.feedback--response-no');
-  const disableButtons = () => {
-    yesButton.disabled = true;
-    noButton.disabled = true;
-  };
-  const sendFeedback = (value) => {
-    if (typeof ga !== 'function') return;
-    const args = {
-      command: 'send',
-      hitType: 'event',
-      category: 'Helpful',
-      action: 'click',
-      label: window.location.pathname,
-      value: value
-    };
-    ga(args.command, args.hitType, args.category, args.action, args.label, args.value);
-  };
-  yesButton.addEventListener('click', () => {
-    yesResponse.classList.add('feedback--response__visible');
-    disableButtons();
-    sendFeedback(1);
-  });
-  noButton.addEventListener('click', () => {
-    noResponse.classList.add('feedback--response__visible');
-    disableButtons();
-    sendFeedback(0);
-  });
-</script>
-
-		<br />
 	
 	
 </div>
