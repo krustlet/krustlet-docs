@@ -1,4 +1,4 @@
-baseURL = "https://docs.krustlet.dev/"
+baseURL = "https://docs.deislabs.io/krustlet/"
 languageCode = "en-us"
 title = "Documentation for Krustlet"
 theme = "docs"
