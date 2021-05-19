@@ -1,7 +1,7 @@
-name = "dosmy"
+name = "Deis Labs"
 license = "MIT"
-licenselink = "https://github.com/openservicemesh/osm/blob/main/LICENSE"
-description = "A Hugo theme for the OSM documentation website. Built atop the Docsy theme."
+licenselink = "https://github.com/deislabs/deislabs.io/blob/main/LICENSE"
+description = "A Hugo theme for Deis Labs affiliated documentation websites. Built atop the Docsy theme."
 homepage = "https://docs.openservicemesh.io"
 tags = ["documentation", "multilingual", "customizable", "responsive", "docs"]
 features = []
