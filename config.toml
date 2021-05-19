@@ -1,7 +1,7 @@
 baseURL = "https://krustlet-docs.netlify.app/"
 languageCode = "en-us"
 title = "Documentation for Krustlet"
-theme = "krustlet"
+theme = "deislabs"
 
 # Theme General Config
 [languages]
@@ -86,10 +86,10 @@ sidebar_menu_compact = false
 breadcrumb_disable = false
 sidebar_search_disable = false
 parent = "Deis Labs"
-parent_url = "https://krustlet.dev"
+parent_url = "https://deislabs.io"
 footer_logo = true
-footer_logo_img = "logos/deislabs.png"
-footer_url = "ttps://docs.deislabs.io/krustlet"
+footer_logo_img = "deislabs.svg"
+footer_url = "https://docs.deislabs.io/krustlet"
 ul_show = 0
 
 [params.ui.feedback]
