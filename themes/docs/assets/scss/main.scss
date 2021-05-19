@@ -49,11 +49,17 @@ $fa-font-path: "../fonts" !default;
 }
 
 footer {
-  min-height: 150px;
-  background: $midnight;
+  min-height: 7rem;
+  background: white;
 
-  a {
-    color: white;
+  a.nav-link {
+    color: $blue;
+    font-size: 1.25rem;
+  }
+
+  img {
+    max-height: 1.333rem;
+    margin: 0.5rem 1.25vw;
   }
 
   @include media-breakpoint-down(md) {
@@ -137,7 +143,7 @@ footer {
 
 html {
   position: relative;
-  background: white;
+  background: linear-gradient(180deg,#f6fdf7 0%,#efeff2 100%);
   background-attachment: fixed;
 }
 
@@ -147,6 +153,7 @@ body {
   line-height: 1.727;
   color: $charcoal;
   min-height: 101vh;
+  background: transparent;
 }
 
 .td-outer {
@@ -157,9 +164,9 @@ body {
 // topbar
 .navbar {
   &.td-navbar {
-    background-color: $cream;
+    background-color: white;
     padding: 0 1vw;
-    border-bottom: 1px solid lighten($midnight, 62%);
+    border-bottom: 2px solid lighten($midnight, 57%);
 
     a.navbar-brand {
       margin: 0 0 0 4rem;
@@ -227,7 +234,7 @@ body {
     
       .shapes {
         position: fixed;
-        top: 0.67vw;
+        top: 0.875vw;
         display: inline-block;
         width: 1.83rem;
         height: 2.43rem;
@@ -285,8 +292,8 @@ body {
 }
 
 .td-sidebar {
-  background: linear-gradient(0% #F8FAF9, 100% #F2F2F2);
-  border-color: lighten($midnight, 62%);
+  background: transparent;
+  border: 2px solid white;
 
   .td-sidebar-nav {
     padding-right: 0;
@@ -318,13 +325,13 @@ body {
     &.active {
       font-weight: 700;
       color: $charcoal;
-      border-right: 4px solid lighten($midnight, 33.5%);
+      border-right: 4px solid darken($blue, 12.5%);
     }
 
     &:hover {
       color: $links;
       background-color: white;
-      border-right: 4px solid lighten($midnight, 45%);
+      border-right: 4px solid saturate(lighten($midnight, 33.5%), 10%);
     }
   }
 }
@@ -339,6 +346,8 @@ nav.breadcrumb-wrapper {
 
     li.breadcrumb-item {
       font-size: 1rem;
+      padding-top: 0.5rem;
+      line-height: 1.5;
       
       a {
         color: lighten($midnight, 35%);
@@ -348,12 +357,12 @@ nav.breadcrumb-wrapper {
 }
 
 main > .td-content {
-  
   // content column sizing and alignment
   margin-right: auto;
   margin-left: auto;
   width: 62vw;
   max-width: 1140px;
+  padding-bottom: 5rem;
 
   h1 {
     font-family: $displaytype;
@@ -412,7 +421,7 @@ main > .td-content {
     border: none;
     box-shadow: none;
     background: $midnight;
-    background: linear-gradient(0% $midnight, 100% darken($midnight, 2.5%));
+    background: black;
     color: #e5e5e5;
     margin: 1.333rem 0 2rem;
 
@@ -435,6 +444,47 @@ main > .td-content {
       margin: 0;
       background: black;
       color: #e5e5e5;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .navbar.td-navbar .deislabs,
+  .navbar.td-navbar a.navbar-brand:before {
+    display: none;
+  }
+
+  .td-navbar .td-navbar-nav-scroll {
+    min-height: 5rem;
+  }
+
+  .navbar.td-navbar a.navbar-brand {
+    margin: 0 !important;
+  }
+
+  .navbar.td-navbar li.nav-item.mr-4 {
+    margin: 0 !important;
+    text-align: center;
+
+    ul.navbar-nav a.nav-link {
+      text-transform: none;
+      font-weight: 400;
+    }
+  }
+
+  main > .td-content {
+    width: 88vw;
+
+    h1 {
+      font-size: 2rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    h3 {
+      font-size: 1.25rem;
     }
   }
 }

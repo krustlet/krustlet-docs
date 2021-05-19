@@ -1,12 +1,18 @@
 {{ $year := now.Year }}
 
-<footer class="py-5 row d-print-none">
-  <div class="container-fluid mx-sm-5">
+<footer class="py-3 row d-print-none">
+  <div class="container-fluid mx-sm-12">
     <div class="row">
-      <div class="col-6 col-sm-6 text-xs-center order-sm-2">
-        <p class="footer-cncf">{{ .Site.Title }}</p>
+      <div class="col-4 col-sm-6 text-xs-center order-sm-2">
+        <a href="{{ .Site.Params.ui.parent_url }}">
+          {{ if .Site.Params.ui.footer_logo }}
+            <img src="{{ .Site.BaseURL }}/images/{{ .Site.Params.ui.footer_logo_img }}" alt="{{ .Site.Title }}" />
+          {{ else }}
+            <p>{{ .Site.Title }}</p>
+          {{ end }}
+        </a>
       </div>
-      <div class="col-6 col-sm-6 text-right text-xs-center order-sm-3">
+      <div class="col-8 col-sm-6 text-right text-xs-center order-sm-3">
         <ul class="inline list-inline text-right">
           {{ $p := . }}
           {{ range .Site.Menus.main }}
