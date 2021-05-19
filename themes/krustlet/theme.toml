@@ -1,0 +1,16 @@
+name = "Deis Labs"
+license = "MIT"
+licenselink = "https://github.com/deislabs/deislabs.io/blob/main/LICENSE"
+description = "A Hugo theme for Deis Labs affiliated documentation websites. Built atop the Docsy theme."
+homepage = "https://docs.openservicemesh.io"
+tags = ["documentation", "multilingual", "customizable", "responsive", "docs"]
+features = []
+min_version = 0.1
+
+[author]
+  name = "Ronan Flynn-Curran"
+  homepage = "https://deislabs.io"
+
+[thanks]
+  name = "The Docsy Authors"
+  homepage = "https://docsy.dev"

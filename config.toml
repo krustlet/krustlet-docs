@@ -1,7 +1,7 @@
 baseURL = "https://krustlet-docs.netlify.app/"
 languageCode = "en-us"
 title = "Documentation for Krustlet"
-theme = "deislabs"
+theme = "krustlet"
 
 # Theme General Config
 [languages]
@@ -52,7 +52,7 @@ latexDashes = true
 [[menu.main]]
 	name = "Docs"
 	weight = 20
-	url = "https://docs.krustlet.dev"
+	url = "https://docs.deislabs.io/krustlet"
 [[menu.main]]
 	name = "Github"
 	weight = 30
@@ -70,7 +70,7 @@ latexDashes = true
 # Add your release versions here
 [[params.versions]]
   version = "v0.7.0"
-  url = "https://docs.krustlet.dev"
+  url = "https://docs.deislabs.io/krustlet"
 
 
 # Theme Additional params
@@ -88,6 +88,7 @@ parent = "Deis Labs"
 parent_url = "https://deislabs.io"
 footer_logo = true
 footer_logo_img = "deislabs.svg"
+ul_show = 0
 
 [params.ui.feedback]
 enable = false
