@@ -4,12 +4,13 @@
   <div class="container-fluid mx-sm-12">
     <div class="row">
       <div class="col-4 col-sm-4 text-xs-center order-sm-2">
-        <a href="{{ .Site.Params.ui.parent_url }}">
-          {{ if .Site.Params.ui.footer_logo }}
-            <img src="{{ .Site.BaseURL }}/images/{{ .Site.Params.ui.footer_logo_img }}" alt="{{ .Site.Title }}" />
-          {{ else }}
-            <p>{{ .Site.Title }}</p>
-          {{ end }}
+        <a href="{{ .Site.Params.ui.footer_url }}">
+          <div class="deislabs">
+            <a href="https://github.com/deislabs/">
+              <span>Deis Labs</span>
+              <div class="shapes bottom"><em class="dl-tr"></em><em class="dl-sq"></em><em class="dl-ci"></em></div>
+            </a>
+          </div>
         </a>
       </div>
       <div class="col-8 col-sm-8 text-right text-xs-center order-sm-3">

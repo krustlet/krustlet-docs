@@ -13899,17 +13899,93 @@ readers do not read off random characters that represent icons */
     border-color: #403F4C; }
 
 footer {
-  min-height: 7rem;
-  background: white; }
+  min-height: 9rem;
+  background: white;
+  margin-top: 5rem;
+  position: relative; }
   footer a.nav-link {
     color: #8B4FD7;
-    font-size: 1.25rem; }
+    margin-top: 1.25rem;
+    font-size: 1.125rem; }
   footer img {
-    max-height: 1.333rem;
+    max-width: 20vw;
+    min-width: 5rem;
     margin: 0.5rem 1.25vw; }
   @media (max-width: 991.98px) {
     footer {
       min-height: 200px; } }
+.deislabs {
+  width: 5.5rem;
+  height: 75.3rem;
+  display: inline-block;
+  position: absolute;
+  margin-top: -7.5rem;
+  margin-left: 2vw;
+  bottom: 0; }
+  .deislabs span {
+    background: url(../images/deislabs.svg) no-repeat center bottom;
+    width: 100%;
+    height: 3rem;
+    background-size: contain;
+    display: inline-block;
+    text-indent: -999em;
+    position: absolute;
+    bottom: 0;
+    transition: all 0.2s ease-in-out; }
+    @media (prefers-reduced-motion: reduce) {
+      .deislabs span {
+        transition: none; } }
+  .deislabs em {
+    width: 3rem;
+    height: 3rem;
+    display: inline-block;
+    position: absolute;
+    background-blend-mode: multiply;
+    mix-blend-mode: multiply;
+    content: " ";
+    transition: all, 0.3s, ease-in-out; }
+    @media (prefers-reduced-motion: reduce) {
+      .deislabs em {
+        transition: none; } }
+    .deislabs em.dl-tr {
+      background: url(../images/deislabs-tr.svg) no-repeat 50% 50%;
+      background-size: contain;
+      left: 0;
+      top: 0; }
+    .deislabs em.dl-sq {
+      background: url(../images/deislabs-sq.svg) no-repeat 50% 50%;
+      background-size: contain;
+      right: 0;
+      bottom: 1.8rem; }
+    .deislabs em.dl-ci {
+      background: url(../images/deislabs-ci.svg) no-repeat 50% 50%;
+      background-size: contain;
+      left: 0;
+      bottom: 1.8rem; }
+  .deislabs .shapes {
+    position: absolute;
+    bottom: 2.25vw;
+    display: inline-block;
+    width: 5.5rem;
+    height: 7.3rem;
+    transition: all 0.2s ease-in-out; }
+    @media (prefers-reduced-motion: reduce) {
+      .deislabs .shapes {
+        transition: none; } }
+    .deislabs .shapes.bottom {
+      bottom: 0.667rem; }
+  .deislabs a {
+    display: inline-block;
+    width: 5.5rem;
+    height: 7.3rem; }
+    .deislabs a:hover em.dl-tr {
+      left: 2.2rem;
+      top: 2.5rem; }
+    .deislabs a:hover em.dl-sq {
+      right: 2.5rem; }
+    .deislabs a:hover em.dl-ci {
+      bottom: 4.2rem; }
+
 @media (min-width: 768px) {
   .td-offset-anchor:target {
     display: block;
@@ -13944,13 +14020,13 @@ body {
   padding: 0 1vw;
   border-bottom: 2px solid #dedee8; }
   .navbar.td-navbar a.navbar-brand {
-    margin: 0 0 0 4rem;
+    margin: 0 0 0 2rem;
     text-transform: uppercase;
     font-weight: 700;
     letter-spacing: 0.15em;
+    color: #6b2bbc;
     font-family: Poppins, Aharoni, sans-serif;
-    letter-spacing: 0.067em 1rem;
-    color: #444360; }
+    letter-spacing: 0.067em 1rem; }
     .navbar.td-navbar a.navbar-brand:before {
       display: inline-block;
       content: " ";
@@ -13961,63 +14037,15 @@ body {
       margin: 0.125em 0 0 -1.667em;
       position: absolute;
       transform: rotate(30deg); }
-  .navbar.td-navbar .deislabs {
-    width: 1.83rem;
-    height: 2.43rem;
-    display: inline-block;
-    position: absolute;
-    top: -0.43rem; }
-    .navbar.td-navbar .deislabs span {
-      position: absolute;
-      left: -999em; }
-    .navbar.td-navbar .deislabs em {
-      width: 1rem;
-      height: 1rem;
-      display: inline-block;
-      position: absolute;
-      background-blend-mode: multiply;
-      mix-blend-mode: multiply;
-      content: " ";
-      transition: all 0.3s ease-in-out; }
-      .navbar.td-navbar .deislabs em.dl-tr {
-        background: url(../images/deislabs-tr.svg) no-repeat 50% 50%;
-        background-size: contain;
-        left: 0;
-        top: 0; }
-      .navbar.td-navbar .deislabs em.dl-sq {
-        background: url(../images/deislabs-sq.svg) no-repeat 50% 50%;
-        background-size: contain;
-        right: 0;
-        bottom: 0.6rem; }
-      .navbar.td-navbar .deislabs em.dl-ci {
-        background: url(../images/deislabs-ci.svg) no-repeat 50% 50%;
-        background-size: contain;
-        left: 0;
-        bottom: 0.6rem; }
-    .navbar.td-navbar .deislabs .shapes {
-      position: fixed;
-      top: 0.925rem;
-      display: inline-block;
-      width: 1.83rem;
-      height: 2.43rem;
-      transition: all 0.3s ease-in-out; }
-    .navbar.td-navbar .deislabs a {
-      display: inline-block;
-      width: 1.83rem;
-      height: 2.43rem; }
-      .navbar.td-navbar .deislabs a:hover em.dl-tr {
-        left: 0.73rem;
-        top: 0.83rem; }
-      .navbar.td-navbar .deislabs a:hover em.dl-sq {
-        right: 0.83rem; }
-      .navbar.td-navbar .deislabs a:hover em.dl-ci {
-        bottom: 1.4rem; }
+  .navbar.td-navbar img {
+    max-height: 3rem;
+    margin: -0.25rem 0 0; }
   .navbar.td-navbar ul.navbar-nav {
     margin-right: 1rem; }
     .navbar.td-navbar ul.navbar-nav li.nav-item {
       margin-right: 0; }
       .navbar.td-navbar ul.navbar-nav li.nav-item a.nav-link {
-        color: #4A4A4A;
+        color: #6b2bbc;
         font-weight: 400;
         font-size: 1rem;
         display: inline-block;
@@ -14027,15 +14055,15 @@ body {
         text-transform: uppercase;
         font-weight: 700;
         letter-spacing: 0.15em;
-        font-family: Poppins, Aharoni, sans-serif;
-        color: #5f5d86; }
+        font-family: Poppins, Aharoni, sans-serif; }
         .navbar.td-navbar ul.navbar-nav li.nav-item a.nav-link:hover {
           color: #4A4A4A;
           background: white; }
 
 .td-sidebar {
   background: transparent;
-  border: 2px solid white; }
+  border-right: 2px solid white;
+  min-height: 110vh; }
   .td-sidebar .td-sidebar-nav {
     padding-right: 0; }
   .td-sidebar .td-sidebar-nav__section-title {
@@ -14081,7 +14109,7 @@ main > .td-content {
   margin-left: auto;
   width: 62vw;
   max-width: 1140px;
-  padding-bottom: 5rem; }
+  min-height: 120vh; }
   main > .td-content h1 {
     font-family: Poppins, Aharoni, sans-serif;
     margin: 4.5rem 0 1.67rem;

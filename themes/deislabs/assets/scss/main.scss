@@ -234,7 +234,7 @@ body {
     
       .shapes {
         position: fixed;
-        top: 0.925rem;
+        top: 0.875vw;
         display: inline-block;
         width: 1.83rem;
         height: 2.43rem;
@@ -293,7 +293,7 @@ body {
 
 .td-sidebar {
   background: transparent;
-  border: 2px solid white;
+  border-right: 2px solid white;
 
   .td-sidebar-nav {
     padding-right: 0;

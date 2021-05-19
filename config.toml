@@ -81,13 +81,15 @@ prism_syntax_highlighting = true
 
 [params.ui]
 navbar_logo = true
+navbar_logo_img = "logos/full.png"
 sidebar_menu_compact = false
 breadcrumb_disable = false
 sidebar_search_disable = false
 parent = "Deis Labs"
-parent_url = "https://deislabs.io"
+parent_url = "https://krustlet.dev"
 footer_logo = true
-footer_logo_img = "deislabs.svg"
+footer_logo_img = "logos/deislabs.png"
+footer_url = "ttps://docs.deislabs.io/krustlet"
 ul_show = 0
 
 [params.ui.feedback]
