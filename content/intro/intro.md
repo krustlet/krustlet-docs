@@ -4,6 +4,8 @@ description: ""
 type: docs
 ---
 
+![Krustlet](../../images/logos/horizontal.png)
+
 Krustlet is a tool to run WebAssembly workloads natively on Kubernetes. Krustlet
 acts like a node in your Kubernetes cluster. When a user schedules a Pod with
 certain node tolerations, the Kubernetes API will schedule that workload to a
