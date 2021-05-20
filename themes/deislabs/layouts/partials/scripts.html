@@ -8,10 +8,10 @@
 {{ end }}
 {{ $js := (slice $jsBase $jsAnchor $jsSearch) | resources.Concat "js/main.js" }}
 {{ if .Site.IsServer }}
-<script src="{{ $js.RelPermalink }}"></script>
+<script src="{{ $js.RelPermalink | absURL }}"></script>
 {{ else }}
 {{ $js := $js | minify | fingerprint }}
-<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" crossorigin="anonymous"></script>
+<script src="{{ $js.RelPermalink | absURL }}" integrity="{{ $js.Data.Integrity }}" crossorigin="anonymous"></script>
 {{ end }}
 {{ with .Site.Params.prism_syntax_highlighting }}
 <!-- scripts for prism -->
