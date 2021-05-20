@@ -1,10 +1,8 @@
 ---
-title: "Krustlet Docs"
+title: "Documentation"
 description: "Everything you need to know about how the documentation is organized."
 type: docs
 ---
-
-## How the documentation is organized
 
 Krustlet has a lot of documentation. A high-level overview of how it’s organized
 will help you know where to look for certain things:

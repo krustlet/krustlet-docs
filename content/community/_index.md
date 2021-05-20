@@ -1,7 +1,8 @@
 ---
-title: "Krustlet documentation"
-description: "Everything you need to know about how the documentation is organized."
+title: "Community"
+description: "Community"
 type: docs
+weight: 5
 ---
 
 Interested in contributing to Krustlet? Start here:

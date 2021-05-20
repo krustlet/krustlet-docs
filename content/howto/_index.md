@@ -2,6 +2,7 @@
 title: "How-To Guides"
 description: ""
 type: docs
+weight: 2
 ---
 
 Here you’ll find short answers to "How do I...?" types of questions. These

@@ -2,6 +2,7 @@
 title: "Topic Guides"
 description: ""
 type: docs
+weight: 4
 ---
 
 Introductions to all the key components of Krustlet in more detail:

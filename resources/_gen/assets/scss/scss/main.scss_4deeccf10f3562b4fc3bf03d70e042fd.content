@@ -14075,9 +14075,9 @@ body {
   .td-sidebar li {
     padding-bottom: 1.5rem; }
   .td-sidebar a.td-sidebar-link {
-    line-height: 1.425;
+    line-height: 1.5;
     font-weight: 400;
-    font-size: 1.125rem;
+    font-size: 1rem;
     padding-right: 1.5rem;
     padding-bottom: 0.425rem;
     color: #444360;
