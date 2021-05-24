@@ -16,6 +16,11 @@
   command = "hugo -b $DEPLOY_PRIME_URL/"
 
 [[redirects]]
+  from = "https://docs.deislabs.io/"
+  to = "https://docs.deislabs.io/krustlet/"
+  status = 301
+
+[[redirects]]
   from = "https://docs.krustlet.dev/"
   to = "https://docs.krustlet.dev/en/"
   status = 200
