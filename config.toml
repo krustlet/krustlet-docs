@@ -70,7 +70,7 @@ latexDashes = true
 # Add your release versions here
 [[params.versions]]
   version = "v0.7.0"
-  url = "https://docs.deislabs.io/krustlet"
+  url = "https://docs.deislabs.io/"
 
 
 # Theme Additional params
