@@ -9,8 +9,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="//fonts.googleapis.com/css2?family=Poppins:wght@700&family=Work+Sans&display=swap" rel="stylesheet">
 {{ if $serverMode }}
-<link rel="stylesheet" href="{{ $css.RelPermalink | absURL }}">
+<link rel="stylesheet" href="{{ $css.RelPermalink }}">
 {{ else }}
 {{ $prodCss := $css | postCSS | fingerprint }}
-<link rel="stylesheet" href="{{ $prodCss.RelPermalink | absURL }}" integrity="{{ $prodCss.Data.Integrity }}">
+<link rel="stylesheet" href="{{ $prodCss.RelPermalink }}" integrity="{{ $prodCss.Data.Integrity }}">
 {{ end }}
