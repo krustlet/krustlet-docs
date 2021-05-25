@@ -19,3 +19,11 @@
 [[redirects]]
   from = "https://docs.deislabs.io/"
   to = "https://docs.deislabs.io/krustlet/"
+  force = true
+  status = 301
+
+[[redirects]]
+  from = "/"
+  to = "/krustlet/"
+  force = true
+  status = 301
