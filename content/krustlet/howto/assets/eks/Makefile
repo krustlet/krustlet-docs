@@ -16,7 +16,7 @@ endif
 
 KRUSTLET_VERSION ?= 0.1.0
 krustlet_version ?= $(KRUSTLET_VERSION)
-KRUSTLET_SRC ?= https://github.com/deislabs/krustlet/archive/v$(krustlet_version).tar.gz
+KRUSTLET_SRC ?= https://github.com/krustlet/krustlet/archive/v$(krustlet_version).tar.gz
 krustlet_src ?= $(KRUSTLET_SRC)
 
 T_RED := \e[0;31m

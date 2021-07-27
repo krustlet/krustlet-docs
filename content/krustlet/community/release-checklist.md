@@ -18,7 +18,7 @@ project strictly follows [semantic versioning](https://semver.org/) so following
 this step is critical.
 
 It is important to note that this document assumes that the git remote in your
-repository that corresponds to <https://github.com/deislabs/krustlet> is named
+repository that corresponds to <https://github.com/krustlet/krustlet> is named
 `upstream`. If yours is not (for example, if you've chosen to name it `origin`
 or something similar instead), be sure to adjust the listed snippets for your
 local environment accordingly.
@@ -30,7 +30,7 @@ If you don't have an upstream remote, you can add one easily using the following
 command:
 
 ```console
-git remote add upstream git@github.com:deislabs/krustlet
+git remote add upstream git@github.com:krustlet/krustlet
 ```
 
 We are also going to be adding security and verification of the release process
@@ -86,13 +86,13 @@ release.
 Open a new pull request against krustlet, bumping the version fields in
 Cargo.toml:
 
-- <https://github.com/deislabs/krustlet/blob/master/Cargo.toml#L3>
+- <https://github.com/krustlet/krustlet/blob/master/Cargo.toml#L3>
 
 If applicable, in that same pull request, bump the version fields for the
 `kubelet` and `oci-distribution` crates:
 
-- <https://github.com/deislabs/krustlet/blob/master/crates/kubelet/Cargo.toml#L3>
-- <https://github.com/deislabs/krustlet/blob/master/crates/oci-distribution/Cargo.toml#L3>
+- <https://github.com/krustlet/krustlet/blob/master/crates/kubelet/Cargo.toml#L3>
+- <https://github.com/krustlet/krustlet/blob/master/crates/oci-distribution/Cargo.toml#L3>
 
 Use the following commands to create the commit:
 
@@ -206,13 +206,13 @@ project's Cargo.toml as well as any crates that have been updated this release.
 Open a new pull request against krustlet, bumping the version fields in
 Cargo.toml:
 
-- <https://github.com/deislabs/krustlet/blob/master/Cargo.toml#L3>
+- <https://github.com/krustlet/krustlet/blob/master/Cargo.toml#L3>
 
 If applicable, in that same pull request, bump the version fields for the
 `kubelet` and `oci-distribution` crates:
 
-- <https://github.com/deislabs/krustlet/blob/master/crates/kubelet/Cargo.toml#L3>
-- <https://github.com/deislabs/krustlet/blob/master/crates/oci-distribution/Cargo.toml#L3>
+- <https://github.com/krustlet/krustlet/blob/master/crates/kubelet/Cargo.toml#L3>
+- <https://github.com/krustlet/krustlet/blob/master/crates/oci-distribution/Cargo.toml#L3>
 
 Use the following commands to create the commit:
 

@@ -56,7 +56,7 @@ latexDashes = true
 [[menu.main]]
 	name = "Github"
 	weight = 30
-	url = "https://github.com/deislabs/krustlet/"
+	url = "https://github.com/krustlet/krustlet/"
 [[menu.main]]
 	name = "Slack"
 	weight = 50
