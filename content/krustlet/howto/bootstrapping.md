@@ -35,8 +35,8 @@ and can approve `CertificateSigningRequests`.
 
 ### Generating a token and kubeconfig
 
-We have a useful bootstrapping [bash script](assets/bootstrap.sh) or
-[Powershell script](assets/bootstrap.sh) that can be used for generating a
+We have a useful bootstrapping [bash script](https://github.com/deislabs/krustlet/blob/main/scripts/bootstrap.sh ) or
+[Powershell script](https://github.com/deislabs/krustlet/blob/main/scripts/bootstrap.sh ) that can be used for generating a
 token and creating a bootstrap kubeconfig file. If you have cloned the repo, you
 can run:
 
@@ -130,7 +130,7 @@ do so, you'll need several pieces of information:
 - The generated bootstrap token
 
 You can either assemble a kubeconfig by hand or use similar steps to what is
-found in the [bootstrap script](assets/bootstrap.sh)
+found in the [bootstrap script](https://github.com/deislabs/krustlet/blob/main/scripts/bootstrap.sh )
 
 ##### An example bootstrap config
 
