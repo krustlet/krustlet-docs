@@ -56,7 +56,7 @@ For testing/development environments:
 ## Step 3: Deploy your First Application
 
 If you just want to get started and see something running, go checkout any one
-of the [demos](https://github.com/deislabs/krustlet/blob/main/demos/wasi). Each of them has a prebuilt WebAssembly module
+of the [demos](https://github.com/krustlet/krustlet/blob/main/demos/wasi). Each of them has a prebuilt WebAssembly module
 stored in a registry and a Kubernetes manifest that you can `kubectl apply`.
 
 If you'd like to learn how to write your own simple module in Rust and deploy

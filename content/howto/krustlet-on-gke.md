@@ -162,7 +162,7 @@ krustlet                                 Ready    agent    8s    v1.17.0
 We may test that the Krustlet is working by running one of the demos:
 
 ```console
-$ kubectl apply --filename=https://raw.githubusercontent.com/deislabs/krustlet/master/demos/wasi/hello-world-rust/k8s.yaml
+$ kubectl apply --filename=https://raw.githubusercontent.com/krustlet/krustlet/main/demos/wasi/hello-world-rust/k8s.yaml
 $ # wait a few seconds for the pod to run
 $ kubectl logs pods/hello-world-wasi-rust
 hello from stdout!

@@ -11,7 +11,7 @@
     "aws_session_token": "{{env `AWS_SESSION_TOKEN`}}",
 
     "krustlet_version": "0.1.0",
-    "krustlet_src": "https://github.com/deislabs/krustlet/archive/v{{ user `krustlet_version`}}.tar.gz",
+    "krustlet_src": "https://github.com/krustlet/krustlet/archive/v{{ user `krustlet_version`}}.tar.gz",
 
     "source_ami_id": "",
     "source_ami_owners": "137112412989",

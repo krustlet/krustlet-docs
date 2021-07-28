@@ -34,8 +34,8 @@ and can approve `CertificateSigningRequests`.
 
 ### Generating a token and kubeconfig
 
-We have a useful bootstrapping [bash script](https://github.com/deislabs/krustlet/blob/main/scripts/bootstrap.sh ) or
-[Powershell script](https://github.com/deislabs/krustlet/blob/main/scripts/bootstrap.sh ) that can be used for generating a
+We have a useful bootstrapping [bash script](https://github.com/krustlet/krustlet/blob/main/scripts/bootstrap.sh ) or
+[Powershell script](https://github.com/krustlet/krustlet/blob/main/scripts/bootstrap.sh ) that can be used for generating a
 token and creating a bootstrap kubeconfig file. If you have cloned the repo, you
 can run:
 
@@ -52,13 +52,13 @@ $ .\docs\howto\assets\bootstrap.ps1
 If you are the trusting sort, you can pipe it in from the internet:
 
 ```console
-$ bash <(curl https://raw.githubusercontent.com/deislabs/krustlet/master/docs/howto/assets/bootstrap.sh)
+$ bash <(curl https://raw.githubusercontent.com/krustlet/krustlet/main/docs/howto/assets/bootstrap.sh)
 ```
 
 OR
 
 ```powershell
-(Invoke-WebRequest -UseBasicParsing https://raw.githubusercontent.com/deislabs/krustlet/master/docs/howto/assets/bootstrap.ps1).Content | Invoke-Expression
+(Invoke-WebRequest -UseBasicParsing https://raw.githubusercontent.com/krustlet/krustlet/main/docs/howto/assets/bootstrap.ps1).Content | Invoke-Expression
 ```
 
 This will output a ready-to-use bootstrap config to
@@ -129,7 +129,7 @@ do so, you'll need several pieces of information:
 - The generated bootstrap token
 
 You can either assemble a kubeconfig by hand or use similar steps to what is
-found in the [bootstrap script](https://github.com/deislabs/krustlet/blob/main/scripts/bootstrap.sh )
+found in the [bootstrap script](https://github.com/krustlet/krustlet/blob/main/scripts/bootstrap.sh )
 
 ##### An example bootstrap config
 
