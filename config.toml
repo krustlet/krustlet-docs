@@ -1,4 +1,4 @@
-baseURL = "https://docs.deislabs.io/"
+baseURL = "https://docs.krustlet.dev/"
 languageCode = "en-us"
 title = "Documentation for Krustlet"
 theme = "krustlet"
@@ -48,11 +48,11 @@ latexDashes = true
 [[menu.main]]
 	name = "Home"
 	weight = 10
-	url = "https://krustlet.dev"
+	url = "https://krustlet.dev/"
 [[menu.main]]
 	name = "Docs"
 	weight = 20
-	url = "https://docs.deislabs.io/krustlet"
+	url = "https://docs.krustlet.dev/"
 [[menu.main]]
 	name = "Github"
 	weight = 30
@@ -60,17 +60,17 @@ latexDashes = true
 [[menu.main]]
 	name = "Slack"
 	weight = 50
-	url = "https://kubernetes.slack.com/messages/krustlet"
+	url = "https://kubernetes.slack.com/messages/krustlet/"
 [[menu.main]]
 	name = "Twitter"
 	weight = 60
-	url = "https://twitter.com/krustlet"
+	url = "https://twitter.com/krustlet/"
 
 
 # Add your release versions here
 [[params.versions]]
   version = "v0.7.0"
-  url = "https://docs.deislabs.io/"
+  url = "https://docs.krustlet.dev/"
 
 
 # Theme Additional params
