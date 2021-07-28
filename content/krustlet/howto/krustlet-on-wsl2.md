@@ -68,7 +68,7 @@ flag to Krustlet.
 ## Step 2: Get a bootstrap config
 
 Krustlet requires a bootstrap token and config the first time it runs. Follow
-the guide [here](bootstrapping.md) to generate a bootstrap config and then
+the guide [here]({{< relref "bootstrapping.md" >}}) to generate a bootstrap config and then
 return to this document. This will If you already have a kubeconfig available
 that you generated through another process, you can proceed to the next step.
 However, the credentials Krustlet uses must be part of the `system:nodes` group
@@ -77,7 +77,7 @@ in order for things to function properly.
 ## Step 3: Install and run Krustlet
 
 First, install the latest release of Krustlet following [the install
-guide](../intro/install.md).
+guide]({{< relref "../intro/install.md" >}}).
 
 Second, ensure the Kubernetes context is correctly set to `docker-desktop`:
 
@@ -150,4 +150,4 @@ Docker Desktop's Kubernetes always provides a schedulable node called
 `docker-desktop`. This node uses Docker to run containers. If you want to run
 WASM workloads on Krustlet, you must prevent these pods from being scheduled to
 the `docker-desktop` node. You can do this using a nodeSelector in pod specs.
-See [Running WASM workloads](../howto/wasm.md) for details.
+See [Running WASM workloads]({{< relref "../howto/wasm.md" >}}) for details.

@@ -23,14 +23,13 @@ install Krustlet on your own Kubernetes cluster.
 
 For production use:
 
-- [Azure](../howto/krustlet-on-azure.md)
-- [Amazon Elastic Kubernetes Service (EKS)](../howto/kubernetes-on-eks.md)
+- [Azure]({{< relref "../howto/krustlet-on-azure.md" >}})
 
 For development and evaluation purposes, it may make sense to use a VM-based
 Kubernetes cluster for quick and easy setup and teardown:
 
-- [Kubernetes-in-Docker (KinD)](../howto/kubernetes-on-kind.md)
-- [Minikube](../howto/kubernetes-on-minikube.md)
+- [Kubernetes-in-Docker (KinD)]({{< relref "../howto/kubernetes-on-kind.md" >}})
+- [Minikube]({{< relref "../howto/kubernetes-on-minikube.md" >}})
 
 ## Step 2: Boot a Krustlet Node
 
@@ -44,23 +43,23 @@ infrastructure.
 For production use, you'll want to boot Krustlet on a device that can start a
 web server on an IP accessible from the Kubernetes control plane.
 
-- [Amazon Elastic Kubernetes Service (EKS)](../howto/krustlet-on-eks.md)
+- [Amazon Elastic Kubernetes Service (EKS)]({{< relref "../howto/krustlet-on-eks.md" >}})
 
 For testing/development environments:
 
-- [Kubernetes-in-Docker (KinD)](../howto/krustlet-on-kind.md)
-- [MicroK8s](../howto/krustlet-on-microk8s.md)
-- [Minikube](../howto/krustlet-on-minikube.md)
-- [Windows Subsystem for Linux (WSL2)](../howto/krustlet-on-wsl2.md)
+- [Kubernetes-in-Docker (KinD)]({{< relref "../howto/krustlet-on-kind.md" >}})
+- [MicroK8s]({{< relref "../howto/krustlet-on-microk8s.md" >}})
+- [Minikube]({{< relref "../howto/krustlet-on-minikube.md" >}})
+- [Windows Subsystem for Linux (WSL2)]({{< relref "../howto/krustlet-on-wsl2.md" >}})
 
 ## Step 3: Deploy your First Application
 
 If you just want to get started and see something running, go checkout any one
-of the [demos](../../demos). Each of them has a prebuilt WebAssembly module
+of the [demos](https://github.com/deislabs/krustlet/blob/main/demos/wasi). Each of them has a prebuilt WebAssembly module
 stored in a registry and a Kubernetes manifest that you can `kubectl apply`.
 
 If you'd like to learn how to write your own simple module in Rust and deploy
-it, [follow through the tutorial](tutorial01.md) to deploy your first
+it, [follow through the tutorial](tutorial01.md" >}}) to deploy your first
 application.
 
-[development guide]: ../community/developers.md
+[development guide]: {{< relref "../community/developers.md" >}}

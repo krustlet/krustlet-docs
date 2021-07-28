@@ -2,11 +2,7 @@
 title: "Community"
 description: "Community"
 type: docs
-weight: 5
+weight: 4
 ---
 
-Interested in contributing to Krustlet? Start here:
-
-- [Code of Conduct](code-of-conduct.md)
-- [Developer guide](developers.md)
-- [Release Checklist](release-checklist.md)
+Interested in contributing to Krustlet? Start here.

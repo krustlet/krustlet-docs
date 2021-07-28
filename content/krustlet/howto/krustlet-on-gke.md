@@ -9,13 +9,13 @@ These steps are for running a Krustlet node in a GKE cluster.
 ## Prerequisites
 
 You will require a GKE cluster. See the [how-to guide for running Kubernetes on
-GKE](kubernetes-on-gke.md) for more information.
+GKE]({{< relref "kubernetes-on-gke.md" >}}) for more information.
 
 This specific tutorial will be running Krustlet on a Compute Engine VM; however
 you may follow these steps from any device that can start a web server on an IP
 accessible from the Kubernetes control plane.
 
-In the [how-to guide for running Kubernetes on GKE](kubernetes-on-gke.md),
+In the [how-to guide for running Kubernetes on GKE]({{< relref "kubernetes-on-gke.md" >}}),
 several environment variables were used to define a Google Cloud Platform
 project, region and Kubernetes Engine cluster. Let's reuse those values:
 
@@ -82,7 +82,7 @@ $ IP=$(gcloud compute instances describe ${INSTANCE} \
 ## Step 2: Get a bootstrap config for your Krustlet node
 
 Krustlet requires a bootstrap token and config the first time it runs. Follow
-the guide [here](bootstrapping.md), setting the `CONFIG_DIR` variable to `./`,
+the guide [here]({{< relref "bootstrapping.md" >}}), setting the `CONFIG_DIR` variable to `./`,
 to generate a bootstrap config and then return to this document. If you already
 have a kubeconfig available that you generated through another process, you can
 proceed to the next step. However, the credentials Krustlet uses must be part of
@@ -111,7 +111,7 @@ $ gcloud compute ssh ${INSTANCE} --project=${PROJECT} --zone=${ZONE}
 ## Step 4: Install and configure Krustlet
 
 Install the latest release of krustlet following [the install
-guide](../intro/install.md).
+guide]({{< relref "../intro/install.md" >}}).
 
 Let's use the built-in `krustlet-wasi` provider:
 

@@ -32,11 +32,11 @@ PersistentVolumes (PV), and StorageClasses (SC).
 
 ## How do I deploy a CSI driver alongside a Krustlet Provider?
 
-Please see the [HOWTO guide](../howto/csi.md) for more information.
+Please see the [HOWTO guide]({{< relref "../howto/csi.md" >}}) for more information.
 
 ## How do I use a CSI Volume?
 
-Please see the [HOWTO guide](../howto/csi.md) for more information.
+Please see the [HOWTO guide]({{< relref "../howto/csi.md" >}}) for more information.
 
 ## Where can I find CSI Drivers?
 
