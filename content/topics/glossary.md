@@ -4,7 +4,7 @@ description: ""
 type: docs
 ---
 
-Here is where you will find definitions for commmon terminology used across
+Here is where you will find definitions for common terminology used across
 Krustlet.
 
 ## Kubelet
@@ -18,7 +18,7 @@ ensures the workloads in those pods are running and healthy.
 
 A pod is the simplest execution unit in Kubernetes that you can create and
 destroy using the Kubernetes API. Nearly every workload type available in
-Kubernetes (Deployments, StatfulSets, DaemonSets, Jobs, etc.) uses pods as the
+Kubernetes (Deployments, StatefulSets, DaemonSets, Jobs, etc.) uses pods as the
 basic unit of work. In other words, a pod represents a single unit of work in
 your cluster.
 

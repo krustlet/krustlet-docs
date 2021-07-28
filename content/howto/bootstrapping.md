@@ -4,9 +4,8 @@ description: ""
 type: docs
 ---
 
-As of version 0.3.0, Krustlet supports automatic bootstrapping of its
-authorization and serving certificates. This document describes how the
-functionality works.
+Krustlet supports automatic bootstrapping of its authorization and serving
+certificates. This document describes how the functionality works.
 
 ## Initialization
 
