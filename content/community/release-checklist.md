@@ -4,7 +4,6 @@ description: ""
 type: docs
 ---
 
-# Release Checklist
 
 > If your experience deviates from this document, please document the changes to
 > keep it up-to-date.
