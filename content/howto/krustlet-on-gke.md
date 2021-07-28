@@ -9,19 +9,18 @@ These steps are for running a Krustlet node in a GKE cluster.
 ## Prerequisites
 
 You will require a GKE cluster. See the [how-to guide for running Kubernetes on
-GKE]({{< relref "kubernetes-on-gke.md" >}}) for more information.
+GKE](https://cloud.google.com/kubernetes-engine/docs/how-to/) for more information.
 
 This specific tutorial will be running Krustlet on a Compute Engine VM; however
 you may follow these steps from any device that can start a web server on an IP
 accessible from the Kubernetes control plane.
 
-In the [how-to guide for running Kubernetes on GKE]({{< relref "kubernetes-on-gke.md" >}}),
-several environment variables were used to define a Google Cloud Platform
-project, region and Kubernetes Engine cluster. Let's reuse those values:
+You will need several environment variables defined using the same values you
+used to create the cluster:
 
 ```console
 $ PROJECT=[YOUR-PROJECT] # Perhaps $(whoami)-$(date +%y%m%d)-krustlet
-$ REGION="us-west1" # Use a region close to you `gcloud compute regions list --project=${PROJECT}`
+$ REGION="us-west1"
 $ CLUSTER="cluster"
 ```
 

@@ -10,16 +10,16 @@ Managed Kubernetes DigitalOcean cluster.
 ## Prerequisites
 
 You will require a Managed Kubernetes on DigitalOcean cluster. See the [how-to
-guide for running Managed Kubernetes on DigitalOcean]({{< relref "kubernetes-on-do.md" >}}) for
+guide for running Managed Kubernetes on
+DigitalOcean](https://docs.digitalocean.com/products/kubernetes/how-to/) for
 more information.
 
 This tutorial runs Krustlet on a DigitalOcean Droplet (VM); however you may
 follow these steps from any device that can start a web server on an IP
 accessible from the Kubernetes control plane.
 
-In the [how-to guide for running Managed Kubernetes on DigitalOcean]({{< relref "kubernetes-on-do.md" >}}),
-several environment variables were used to define the cluster. Let's reuse
-those values:
+You will need several environment variables defined using the same values you
+used to create the cluster:
 
 ```console
 $ CLUSTER=[[YOUR-CLUSTER-NAME]]

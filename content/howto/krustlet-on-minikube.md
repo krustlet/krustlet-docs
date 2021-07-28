@@ -14,7 +14,7 @@ assume that minikube was booted with the VirtualBox driver, though other drivers
 can be used with some changes. `kubectl` is also required.
 
 See the [how-to guide for running Kubernetes on
-Minikube]({{< relref "kubernetes-on-minikube.md" >}}) for more information.
+Minikube](https://minikube.sigs.k8s.io/docs/start/) for more information.
 
 This specific tutorial will be running Krustlet on your host Operating System;
 however, you can follow these steps from any device that can start a web server
@@ -33,11 +33,11 @@ in order for things to function properly.
 ## Step 2: Determine the default gateway
 
 The default gateway when you [set up minikube with the VirtualBox
-driver]({{< relref "kubernetes-on-minikube.md" >}}) is generally `10.0.2.2`. We can use this IP
-address from the guest Operating System (the minikube host) to connect to the
-host Operating System (where Krustlet is running). If this was changed, use
-`minikube ssh` and `ip addr show` from the guest OS to determine the default
-gateway.
+driver](https://minikube.sigs.k8s.io/docs/drivers/virtualbox/) is generally
+`10.0.2.2`. We can use this IP address from the guest Operating System (the
+minikube host) to connect to the host Operating System (where Krustlet is
+running). If this was changed, use `minikube ssh` and `ip addr show` from the
+guest OS to determine the default gateway.
 
 ## Step 3: Install and run Krustlet
 
