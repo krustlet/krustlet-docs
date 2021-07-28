@@ -14,7 +14,7 @@ Please note these instructions will work on Linux, MacOS, and Windows (in
 PowerShell)
 
 1. Download your desired version from [the releases
-   page](https://github.com/deislabs/krustlet/releases)
+   page](https://github.com/krustlet/krustlet/releases)
 1. Unpack it (`tar -xzf krustlet-v0.6.0-linux-amd64.tar.gz`)
 1. Find the desired Krustlet provider in the unpacked directory, and move it to
    its desired destination somewhere in your `$PATH` (e.g. `mv krustlet-wasi
@@ -42,7 +42,7 @@ cluster.
 
 ## From Canary Builds
 
-“Canary” builds are versions of Krustlet that are built from `master`. They are
+“Canary” builds are versions of Krustlet that are built from `main`. They are
 not official releases, and may not be stable. However, they offer the
 opportunity to test the cutting edge features before they are released.
 
@@ -67,7 +67,7 @@ If you want to compile Krustlet from source, you will need to follow the
 ## Next Steps
 
 After installing Krustlet, if you'd like to get started and see something
-running, go checkout any one of the [demos](https://github.com/deislabs/krustlet/blob/main/demos/wasi). Each of them has a
+running, go checkout any one of the [demos](https://github.com/krustlet/krustlet/blob/main/demos/wasi). Each of them has a
 prebuilt WebAssembly module stored in a registry and a Kubernetes manifest that
 you can `kubectl apply`.
 

@@ -39,7 +39,7 @@ guide]({{< relref "quickstart.md" >}}) for advice on how to boot a Kubernetes cl
 Krustlet.
 
 If you're having trouble going through this tutorial, please post an issue to
-[deislabs/krustlet](https://github.com/deislabs/krustlet) to chat with other
+[krustlet/krustlet](https://github.com/krustlet/krustlet) to chat with other
 Krustlet users who might be able to help.
 
 ## Creating your first application

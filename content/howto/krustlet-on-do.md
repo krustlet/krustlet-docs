@@ -197,7 +197,7 @@ ${CLUSTER}-default-pool-39yh5  Ready    <none>   10m   v1.19.3
 We may test that the Krustlet is working by running one of the demos:
 
 ```console
-$ kubectl apply --filename=https://raw.githubusercontent.com/deislabs/krustlet/master/demos/wasi/hello-world-rust/k8s.yaml
+$ kubectl apply --filename=https://raw.githubusercontent.com/krustlet/krustlet/main/demos/wasi/hello-world-rust/k8s.yaml
 $ kubectl get pods
 NAME                    READY   STATUS       RESTARTS   AGE
 hello-world-wasi-rust   0/1     ExitCode:0   0          12s

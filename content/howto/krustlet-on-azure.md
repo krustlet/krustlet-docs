@@ -51,7 +51,7 @@ key](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-gi
 Go ahead. Click the button.
 
 [![Deploy To
-Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fdeislabs%2Fkrustlet%2Fmaster%2Fcontrib%2Fazure%2Fazuredeploy.json)
+Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fdeislabs%2Fkrustlet%2Fmain%2Fcontrib%2Fazure%2Fazuredeploy.json)
 
 Copy the content of your public key and paste it into the "SSH Public Key"
 parameter. Also make sure to copy and paste the content of your Service

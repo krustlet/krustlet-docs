@@ -1,8 +1,8 @@
 # Krustlet Docs
 
-> :book: This repo contains the [Krustlet Docs](https://github.com/deislabs/krustlet/tree/main/docs)  
+> :book: This repo contains the [Krustlet Docs](https://github.com/krustlet/krustlet/tree/main/docs)  
 > :ship: Also the website config to generate [docs.krustlet.dev](https://docs.krustlet.dev/)  
-> :link: Looking for the main Krustlet.dev website? Visit [krustlet.dev](https://github.com/deislabs/krustlet.dev)  
+> :link: Looking for the main Krustlet.dev website? Visit [krustlet.dev](https://github.com/krustlet/krustlet.dev)  
 
 
 ## Editing Content
