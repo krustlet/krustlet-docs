@@ -2,14 +2,7 @@
 title: "Topic Guides"
 description: ""
 type: docs
-weight: 4
+weight: 3
 ---
 
-Introductions to all the key components of Krustlet in more detail:
-
-- [Krustlet architecture](./architecture/)
-- [Providers](./providers/)
-- [Configuration](./configuration/)
-- [The Container Storage Interface](./csi/)
-- [Glossary](./glossary/)
-- [Plugin system](./plugin_system/)
+Introductions to all the key components of Krustlet in more detail.

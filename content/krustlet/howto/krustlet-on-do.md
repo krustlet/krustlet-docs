@@ -10,14 +10,14 @@ Managed Kubernetes DigitalOcean cluster.
 ## Prerequisites
 
 You will require a Managed Kubernetes on DigitalOcean cluster. See the [how-to
-guide for running Managed Kubernetes on DigitalOcean](kubernetes-on-do.md) for
+guide for running Managed Kubernetes on DigitalOcean]({{< relref "kubernetes-on-do.md" >}}) for
 more information.
 
 This tutorial runs Krustlet on a DigitalOcean Droplet (VM); however you may
 follow these steps from any device that can start a web server on an IP
 accessible from the Kubernetes control plane.
 
-In the [how-to guide for running Managed Kubernetes on DigitalOcean](kubernetes-on-do.md),
+In the [how-to guide for running Managed Kubernetes on DigitalOcean]({{< relref "kubernetes-on-do.md" >}}),
 several environment variables were used to define the cluster. Let's reuse
 those values:
 
@@ -90,7 +90,7 @@ $ doctl compute droplet get ${INSTANCE} \
 ## Step 2: Get a bootstrap config for your Kustlet node
 
 Krustlet requires a bootstrap token and config the first time it runs. Follow
-the guide [here](bootstrapping.md), setting the `CONFIG_DIR` variable to `./`,
+the guide [here]({{< relref "bootstrapping.md" >}}), setting the `CONFIG_DIR` variable to `./`,
 to generate a bootstrap config and then return to this document. If you already
 have a kubeconfig available that you generated through another process, you can
 proceed to the next step. However, the credentials Krustlet uses must be part of
@@ -132,7 +132,7 @@ $ ssh -i ${PRIVATE_KEY} root@${IP}
 ## Step 4: Install and configure Kruslet
 
 Install the latest release of krustlet following [the install
-guide](../intro/install.md).
+guide]({{< relref "../intro/install.md" >}}).
 
 Let's use the built-in `krustlet-wasi` provider:
 

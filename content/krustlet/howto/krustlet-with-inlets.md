@@ -34,7 +34,7 @@ Move the binary to `/usr/local/bin`, or place it somewhere on your `$PATH`.
 ## Step 1: Get a bootstrap config
 
 Krustlet requires a bootstrap token and config the first time it runs. Follow
-the guide [here](bootstrapping.md) to generate a bootstrap config and then
+the guide [here]({{< relref "bootstrapping.md" >}}) to generate a bootstrap config and then
 return to this document. This will If you already have a kubeconfig available
 that you generated through another process, you can proceed to the next step.
 However, the credentials Krustlet uses must be part of the `system:nodes` group

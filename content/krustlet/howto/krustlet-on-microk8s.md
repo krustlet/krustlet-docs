@@ -40,7 +40,7 @@ $ systemctl restart snap.microk8s.daemon-apiserver
 ## Step 1: Get a bootstrap config
 
 Krustlet requires a bootstrap token and config the first time it runs. Follow
-the guide [here](bootstrapping.md) to generate a bootstrap config and then
+the guide [here]({{< relref "bootstrapping.md" >}}) to generate a bootstrap config and then
 return to this document. This will If you already have a kubeconfig available
 that you generated through another process, you can proceed to the next step.
 However, the credentials Krustlet uses must be part of the `system:nodes` group
@@ -51,7 +51,7 @@ in order for things to function properly.
 ## Step 2: Install and configure Krustlet
 
 Install the latest release of Krustlet following [the install
-guide](../intro/install.md).
+guide]({{< relref "../intro/install.md" >}}).
 
 Let's use the built in `krustlet-wasi` provider
 

@@ -5,7 +5,7 @@ type: docs
 ---
 
 For more information on what is the Container Storage Interface and how it
-relates to a CSI driver, see the [topic guide](../topics/csi.md) for more
+relates to a CSI driver, see the [topic guide]({{< relref "../topics/csi.md" >}}) for more
 information.
 
 A Krustlet Provider with CSI support will check for new drivers registered to

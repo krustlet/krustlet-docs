@@ -10,7 +10,7 @@ This how-to guide demonstrates how to boot a Krustlet node in a KinD cluster.
 
 You will require a running KinD cluster for this how-to. `kubectl` is also
 required. See the [how-to guide for running Kubernetes on
-KinD](kubernetes-on-kind.md) for more information.
+KinD]({{< relref "kubernetes-on-kind.md" >}}) for more information.
 
 This specific tutorial will be running Krustlet on your host Operating System;
 however, you can follow these steps from any device that can start a web server
@@ -19,7 +19,7 @@ on an IP accessible from the Kubernetes control plane, including KinD itself.
 ## Step 1: Get a bootstrap config
 
 Krustlet requires a bootstrap token and config the first time it runs. Follow
-the guide [here](bootstrapping.md) to generate a bootstrap config and then
+the guide [here]({{< relref "bootstrapping.md" >}}) to generate a bootstrap config and then
 return to this document. If you already have a kubeconfig available that you
 generated through another process, you can proceed to the next step. However,
 the credentials Krustlet uses must be part of the `system:nodes` group in order
@@ -71,7 +71,7 @@ gateway is usually `172.18.0.1`.
 ## Step 3: Install and run Krustlet
 
 First, install the latest release of Krustlet following [the install
-guide](../intro/install.md).
+guide]({{< relref "../intro/install.md" >}}).
 
 Once you have done that, run the following commands to run Krustlet's WASI
 provider:

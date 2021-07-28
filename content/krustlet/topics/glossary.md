@@ -32,4 +32,4 @@ The primary responsibility of a provider is to execute a workload (or schedule
 it on an external executor), monitor that workload, and expose important details
 back to Kubernetes using the Kubelet API.
 
-See also the topic guide on [providers](providers.md).
+See also the topic guide on [providers]({{< relref "providers.md" >}}).

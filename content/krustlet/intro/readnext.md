@@ -26,14 +26,15 @@ to write a document about how to read the document about documentation.)
 Krustlet's main documentation is broken up into “chunks” designed to fill
 different needs:
 
-The [introductory material][intro] is designed for people new to Krustlet – or
+The [introductory material][{{< relref "_index.md" >}}] is designed for people new to Krustlet – or
 to WebAssembly on Kubernetes in general. It doesn’t cover anything in depth, but
 instead gives a high-level overview of how running apps on Kubernetes“feels”.
 
-The [topic guides][topics], on the other hand, dive deep into individual parts
+The [topic guides][{{< relref "../topics" >}}], on the other hand, dive deep into individual parts
 of Krustlet. There are complete guides to the internals of Krustlet's
 architecture. This is probably where you’ll want to spend most of your time; if
 you work your way through these guides you should come out knowing pretty much
 everything there is to know about Krustlet.
 
-[intro]: README.md [topics]: ../topics/README.md
+[intro]: {{< relref "_index.md" >}}
+[topics]: {{< relref "../topics" >}}

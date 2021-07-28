@@ -4,7 +4,7 @@ description: ""
 type: docs
 ---
 
-This tutorial begins where [Tutorial 1](tutorial01.md) left off. We’ll walk
+This tutorial begins where [Tutorial 1]({{< relref "tutorial01.md" >}}) left off. We’ll walk
 through the process to set up your personal registry and publish your
 application to that registry.
 
@@ -208,6 +208,6 @@ using the default Kubernetes namespace.
 ## Next steps
 
 When you’re comfortable with publishing your application with wasm-to-oci, read
-[part 3 of this tutorial](tutorial03.md) to install your application.
+[part 3 of this tutorial]({{< relref "tutorial03.md" >}}) to install your application.
 
 [wasm-to-oci]: https://github.com/engineerd/wasm-to-oci

@@ -35,7 +35,7 @@ infrastructure](https://github.com/docker/distribution). You'll also need
 WebAssembly modules to a registry).
 
 We’ll assume you have Krustlet installed already. See [the quickstart
-guide](quickstart.md) for advice on how to boot a Kubernetes cluster and install
+guide]({{< relref "quickstart.md" >}}) for advice on how to boot a Kubernetes cluster and install
 Krustlet.
 
 If you're having trouble going through this tutorial, please post an issue to
@@ -151,6 +151,6 @@ To exit the program, enter CTRL+C with your keyboard.
 
 Great! Our program runs as expected!
 
-When you’re comfortable with the application, read [part 2](tutorial02.md) of
+When you’re comfortable with the application, read [part 2]({{< relref "tutorial02.md" >}}) of
 this tutorial to learn about publishing our application to a registry, where
 Krustlet will be able to find it and run it.

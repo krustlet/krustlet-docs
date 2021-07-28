@@ -4,7 +4,7 @@ description: ""
 type: docs
 ---
 
-This tutorial begins where [Tutorial 2](tutorial02.md) left off. We’ll walk
+This tutorial begins where [Tutorial 2]({{< relref "tutorial02.md" >}}) left off. We’ll walk
 through the process for installing your first application written in WebAssembly
 into your Kubernetes cluster, then test our application using `kubectl`.
 
@@ -103,6 +103,6 @@ $ az group delete --name myResourceGroup
 This concludes the basic tutorial. Congratulations!
 
 If you are familiar with Krustlet and are interested in more in-depth topics,
-check out the [Topic Guides](../topics/README.md).
+check out the [Topic Guides]({{< relref "../topics" >}}).
 
-You might also be scratching your head on what to [read next](readnext.md).
+You might also be scratching your head on what to [read next]({{< relref "readnext.md" >}}).

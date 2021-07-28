@@ -14,7 +14,7 @@ assume that minikube was booted with the VirtualBox driver, though other drivers
 can be used with some changes. `kubectl` is also required.
 
 See the [how-to guide for running Kubernetes on
-Minikube](kubernetes-on-minikube.md) for more information.
+Minikube]({{< relref "kubernetes-on-minikube.md" >}}) for more information.
 
 This specific tutorial will be running Krustlet on your host Operating System;
 however, you can follow these steps from any device that can start a web server
@@ -24,7 +24,7 @@ itself.
 ## Step 1: Get a bootstrap config
 
 Krustlet requires a bootstrap token and config the first time it runs. Follow
-the guide [here](bootstrapping.md) to generate a bootstrap config and then
+the guide [here]({{< relref "bootstrapping.md" >}}) to generate a bootstrap config and then
 return to this document. This will If you already have a kubeconfig available
 that you generated through another process, you can proceed to the next step.
 However, the credentials Krustlet uses must be part of the `system:nodes` group
@@ -33,7 +33,7 @@ in order for things to function properly.
 ## Step 2: Determine the default gateway
 
 The default gateway when you [set up minikube with the VirtualBox
-driver](kubernetes-on-minikube.md) is generally `10.0.2.2`. We can use this IP
+driver]({{< relref "kubernetes-on-minikube.md" >}}) is generally `10.0.2.2`. We can use this IP
 address from the guest Operating System (the minikube host) to connect to the
 host Operating System (where Krustlet is running). If this was changed, use
 `minikube ssh` and `ip addr show` from the guest OS to determine the default
@@ -42,7 +42,7 @@ gateway.
 ## Step 3: Install and run Krustlet
 
 First, install the latest release of Krustlet following [the install
-guide](../intro/install.md).
+guide]({{< relref "../intro/install.md" >}}).
 
 Once you have done that, run the following commands to run Krustlet's WASI
 provider:
