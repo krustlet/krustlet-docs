@@ -10,7 +10,7 @@ This how-to guide demonstrates how to boot a Krustlet node in a KinD cluster.
 
 You will require a running KinD cluster for this how-to. `kubectl` is also
 required. See the [how-to guide for running Kubernetes on
-KinD]({{< relref "kubernetes-on-kind.md" >}}) for more information.
+KinD](https://kind.sigs.k8s.io/docs/user/quick-start/) for more information.
 
 This specific tutorial will be running Krustlet on your host Operating System;
 however, you can follow these steps from any device that can start a web server

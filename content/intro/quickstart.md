@@ -27,10 +27,8 @@ For production use:
 - [Amazon Elastic Kubernetes Service (EKS)]({{< relref "../howto/krustlet-on-eks.md" >}})
 
 For development and evaluation purposes, it may make sense to use a VM-based
-Kubernetes cluster for quick and easy setup and teardown:
-
-- [Kubernetes-in-Docker (KinD)]({{< relref "../howto/kubernetes-on-kind.md" >}})
-- [Minikube]({{< relref "../howto/kubernetes-on-minikube.md" >}})
+Kubernetes cluster for quick and easy setup and teardown such as
+[Minikube](https://minikube.sigs.k8s.io) or [KinD](https://kind.sigs.k8s.io)
 
 ## Step 2: Boot a Krustlet Node
 
