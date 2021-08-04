@@ -40,25 +40,25 @@ token and creating a bootstrap kubeconfig file. If you have cloned the repo, you
 can run:
 
 ```console
-$ ./docs/howto/assets/bootstrap.sh
+$ ./scripts/bootstrap.sh
 ```
 
 OR
 
 ```console
-$ .\docs\howto\assets\bootstrap.ps1
+$ .\scripts\bootstrap.ps1
 ```
 
 If you are the trusting sort, you can pipe it in from the internet:
 
 ```console
-$ bash <(curl https://raw.githubusercontent.com/krustlet/krustlet/main/docs/howto/assets/bootstrap.sh)
+$ bash <(curl https://raw.githubusercontent.com/krustlet/krustlet/main/scripts/bootstrap.sh)
 ```
 
 OR
 
 ```powershell
-(Invoke-WebRequest -UseBasicParsing https://raw.githubusercontent.com/krustlet/krustlet/main/docs/howto/assets/bootstrap.ps1).Content | Invoke-Expression
+(Invoke-WebRequest -UseBasicParsing https://raw.githubusercontent.com/krustlet/krustlet/main/scripts/bootstrap.ps1).Content | Invoke-Expression
 ```
 
 This will output a ready-to-use bootstrap config to
