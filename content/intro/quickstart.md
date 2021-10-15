@@ -58,7 +58,7 @@ of the [demos](https://github.com/krustlet/krustlet/blob/main/demos/wasi). Each 
 stored in a registry and a Kubernetes manifest that you can `kubectl apply`.
 
 If you'd like to learn how to write your own simple module in Rust and deploy
-it, [follow through the tutorial](tutorial01.md" >}}) to deploy your first
+it, [follow through the tutorial]({{< relref "tutorial01.md" >}}) to deploy your first
 application.
 
 [development guide]: {{< relref "../community/developers.md" >}}
