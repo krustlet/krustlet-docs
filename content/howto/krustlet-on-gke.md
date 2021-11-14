@@ -280,7 +280,7 @@ When you are finished with the cluster, you can delete it by typing:
 
 ```console
 $ # If you created a regional cluster
-$ gcoud container clusters delete ${CLUSTER} --project=${PROJECT} --region=${REGION}
+$ gcloud container clusters delete ${CLUSTER} --project=${PROJECT} --region=${REGION}
 $ # If you created a zonal cluster
-$ gcoud container clusters delete ${CLUSTER} --project=${PROJECT} --zone=${ZONE}
+$ gcloud container clusters delete ${CLUSTER} --project=${PROJECT} --zone=${ZONE}
 ```
