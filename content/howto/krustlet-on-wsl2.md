@@ -72,7 +72,7 @@ the guide [here]({{< relref "bootstrapping.md" >}}) to generate a bootstrap conf
 return to this document. This will If you already have a kubeconfig available
 that you generated through another process, you can proceed to the next step.
 However, the credentials Krustlet uses must be part of the `system:nodes` group
-in order for things to function properly.
+in order for things to function properly. You can set this up using [this]({{< relref "../howto/csi.md#addendum-role-based-access-control" >}}) config.
 
 ## Step 3: Install and run Krustlet
 
@@ -95,10 +95,11 @@ Once you have done that, run the following commands to run Krustlet's WASI
 provider:
 
 ```console
-# Since you are running locally, this step is important. Otherwise krustlet will pick up on your
-# local config and not be able to update the node status properly
-$ export KUBECONFIG=~/.krustlet/config/kubeconfig
-$ krustlet-wasi --node-ip $mainIP --node-name krustlet --bootstrap-file=~/.krustlet/config/bootstrap.conf
+$ KUBECONFIG=~/.krustlet/config/kubeconfig \
+  krustlet-wasi \
+  --node-ip $mainIP \
+  --node-name=krustlet \
+  --bootstrap-file=~/.krustlet/config/bootstrap.conf
 ```
 
 ### Step 3a: Approving the serving CSR

@@ -85,7 +85,7 @@ the guide [here]({{< relref "bootstrapping.md" >}}), setting the `CONFIG_DIR` va
 to generate a bootstrap config and then return to this document. If you already
 have a kubeconfig available that you generated through another process, you can
 proceed to the next step. However, the credentials Krustlet uses must be part of
-the `system:nodes` group in order for things to function properly.
+the `system:nodes` group in order for things to function properly. You can set this up using [this]({{< relref "../howto/csi.md#addendum-role-based-access-control" >}}) config.
 
 NOTE: You may be wondering why you can't run this on the VM you just
 provisioned. We need access to the Kubernetes API in order to create the

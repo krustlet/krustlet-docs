@@ -44,7 +44,7 @@ the guide [here]({{< relref "bootstrapping.md" >}}) to generate a bootstrap conf
 return to this document. This will If you already have a kubeconfig available
 that you generated through another process, you can proceed to the next step.
 However, the credentials Krustlet uses must be part of the `system:nodes` group
-in order for things to function properly.
+in order for things to function properly. You can set this up using [this]({{< relref "../howto/csi.md#addendum-role-based-access-control" >}}) config.
 
 > **NOTE** You should now have a file `bootstrap.conf` in `${HOME}/.krustlet/config`
 
@@ -56,7 +56,7 @@ guide]({{< relref "../intro/install.md" >}}).
 Let's use the built in `krustlet-wasi` provider
 
 ```console
-$ ./KUBECONFIG=${PWD}/krustlet-config \
+$ KUBECONFIG=~/.krustlet/config/kubeconfig \
   krustlet-wasi \
   --node-ip=127.0.0.1 \
   --node-name=krustlet \
