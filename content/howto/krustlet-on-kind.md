@@ -81,7 +81,7 @@ $ KUBECONFIG=~/.krustlet/config/kubeconfig \
   krustlet-wasi \
   --node-ip 172.17.0.1 \
   --node-name=krustlet \
-  --bootstrap-file=~/.krustlet/config/bootstrap.conf
+  --bootstrap-file=${HOME}/.krustlet/config/bootstrap.conf
 ```
 
 ### Step 3a: Approving the serving CSR

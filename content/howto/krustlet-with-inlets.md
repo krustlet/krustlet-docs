@@ -86,7 +86,7 @@ $ KUBECONFIG=~/.krustlet/config/kubeconfig \
   krustlet-wasi \
   --node-ip $NODE_IP \
   --node-name=krustlet \
-  --bootstrap-file=~/.krustlet/config/bootstrap.conf
+  --bootstrap-file=${HOME}/.krustlet/config/bootstrap.conf
 ```
 
 Then open another terminal for the next steps.
