@@ -25,6 +25,8 @@ For production use:
 
 - [Azure]({{< relref "../howto/krustlet-on-azure.md" >}})
 - [Amazon Elastic Kubernetes Service (EKS)]({{< relref "../howto/krustlet-on-eks.md" >}})
+- [Google Kubernetes Engine (GKE)]({{< relref "../howto/krustlet-on-gke.md" >}})
+- [Managed Kubernetes on DigitalOcean]({{< relref "../howto/krustlet-on-do.md" >}})
 
 For development and evaluation purposes, it may make sense to use a VM-based
 Kubernetes cluster for quick and easy setup and teardown such as

@@ -56,7 +56,7 @@ guide]({{< relref "../intro/install.md" >}}).
 Let's use the built in `krustlet-wasi` provider
 
 ```console
-$ ./KUBECONFIG=${PWD}/krustlet-config \
+$ KUBECONFIG=~/.krustlet/config/kubeconfig \
   krustlet-wasi \
   --node-ip=127.0.0.1 \
   --node-name=krustlet \

@@ -160,10 +160,12 @@ users:
 
 ### Running Krustlet
 
+> If you came here from a how-to guide for a specific platform, you can skip this section and return to that guide to continue.
+
 Once you have the bootstrap config in place, you can run Krustlet:
 
 ```console
-$ KUBECONFIG=~/.krustlet/config/kubeconfig krustlet-wasi --port 3000 --bootstrap-file /path/to/your/bootstrap.conf
+$ KUBECONFIG=~/.krustlet/config/kubeconfig krustlet-wasi --port 3000 --bootstrap-file=/path/to/your/bootstrap.conf
 ```
 
 Krustlet will begin the bootstrapping process, and then **await manual

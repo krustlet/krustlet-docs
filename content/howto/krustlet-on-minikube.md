@@ -48,10 +48,11 @@ Once you have done that, run the following commands to run Krustlet's WASI
 provider:
 
 ```console
-# Since you are running locally, this step is important. Otherwise krustlet will pick up on your
-# local config and not be able to update the node status properly
-$ export KUBECONFIG=~/.krustlet/config/kubeconfig
-$ krustlet-wasi --node-ip 10.0.2.2 --bootstrap-file=~/.krustlet/config/bootstrap.conf
+$ KUBECONFIG=~/.krustlet/config/kubeconfig \
+  krustlet-wasi \
+  --node-ip 10.0.2.2 \
+  --node-name=krustlet \
+  --bootstrap-file=${HOME}/.krustlet/config/bootstrap.conf
 ```
 
 ### Step 3a: Approving the serving CSR

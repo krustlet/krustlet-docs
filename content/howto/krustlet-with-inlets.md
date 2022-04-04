@@ -82,10 +82,11 @@ You'll need the certificates generated from the bootstrap process for our next
 steps, so go ahead and start krustlet:
 
 ```console
-# Since you are running locally, this step is important. Otherwise krustlet will pick up on your
-# local config and not be able to update the node status properly
-export KUBECONFIG=~/.krustlet/config/kubeconfig
-krustlet-wasi --node-ip $NODE_IP --bootstrap-file=~/.krustlet/config/bootstrap.conf
+$ KUBECONFIG=~/.krustlet/config/kubeconfig \
+  krustlet-wasi \
+  --node-ip $NODE_IP \
+  --node-name=krustlet \
+  --bootstrap-file=${HOME}/.krustlet/config/bootstrap.conf
 ```
 
 Then open another terminal for the next steps.
