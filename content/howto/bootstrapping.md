@@ -10,7 +10,7 @@ certificates. This document describes how the functionality works.
 ## Initialization
 
 Krustlet follows the same [initialization
-flow](https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet-tls-bootstrapping/#initialization-process)
+flow](https://kubernetes.io/docs/reference/access-authn-authz/kubelet-tls-bootstrapping/#initialization-process)
 as Kubelet (with the exception of automatic renewal of certs that are close to
 expiry).
 
